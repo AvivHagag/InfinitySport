@@ -1,0 +1,85 @@
+"use client";
+import React from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../../src/components/ui/navigation-menu";
+import Link from "next/link";
+import { ThemeSwitcher } from "../ThemeSwitcher";
+const SigninButton = () => {
+  const { data: session } = useSession();
+
+  if (session && session.user) {
+    console.log(session);
+    return (
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="flex items-center space-x-3">
+              <p className="text-gray-600">{session.user.name}</p>
+              <Image
+                src={session.user.image ?? ""}
+                alt={session.user.name ?? ""}
+                className="rounded-full"
+                width={32}
+                height={32}
+              />
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className="shadow-lg rounded-lg p-4">
+              <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
+                <li>
+                  <Link href="/profile">My Profile</Link>
+                </li>
+                <li>
+                  <Link href="/settings">Settings</Link>
+                </li>
+                <li>
+                  <ThemeSwitcher />
+                </li>
+                <Button variant="destructive" onClick={() => signOut()}>
+                  Sign Out
+                </Button>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    );
+  }
+  return (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className="flex items-center space-x-3">
+            <p className="text-gray-600">"Hello, guest!</p>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent className="shadow-lg rounded-lg p-4">
+            <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
+              <li>
+                <ThemeSwitcher />
+              </li>
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={() => signIn()}
+              >
+                Sign In
+              </Button>
+              <Button variant="outline" onClick={() => signIn()}>
+                Sign Up
+              </Button>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+};
+
+export default SigninButton;
