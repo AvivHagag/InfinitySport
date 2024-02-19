@@ -2,6 +2,11 @@ import React from "react";
 import Link from "next/link";
 import SigninButton from "./SignInButton";
 import LogoChoose from "./LogoChoose";
+import {
+  MagnifyingGlassIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
+import SearchButton from "./SearchButton";
 
 const NavBar = () => {
   return (
@@ -19,7 +24,9 @@ const NavBar = () => {
             Admin Dashboard
           </Link>
         </div>
-        <div className="">
+        <div className="flex flex-row items-center">
+          <SearchButton />
+          <ShoppingCartIcon className="h-5 w-5 m-1 cursor-pointer" />
           <SigninButton />
         </div>
       </div>
