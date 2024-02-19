@@ -40,10 +40,13 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String   @unique
   emailVerified DateTime?
   image         String?
-  role          String? 
+  role          String  @default("user")
+  cart          Cart?   
+  address Address?
+  createdAt     DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
 }
@@ -54,4 +57,55 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Cart {
+  id        Int       @id @default(autoincrement())
+  user User     @relation(fields: [userId], references: [id])
+  userId String @unique
+  products  CartItem[]
+}
+
+model CartItem {
+  cartId    Int
+  productId Int
+  quantity  Int
+  product   Product  @relation(fields: [productId], references: [id])
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  
+  @@id([cartId, productId])
+}
+
+model Product {
+  id        Int       @id @default(autoincrement())
+  name      String
+  manufacturer String?
+  price     Float
+  image         String?
+  description String?
+  color String?
+  categoryId Int
+  size String?
+  category  Category @relation(fields: [categoryId], references: [id])
+  carts     CartItem[]
+  quantity Int
+  onSale Boolean
+  salePercent Int
+  createdAt     DateTime  @default(now())
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  products  Product[]
+}
+
+model Address {
+  id  String    @id @default(uuid())
+  user User     @relation(fields: [userId], references: [id])
+  userId String @unique
+  city String
+  street String
+  homeNumber Int
+  apartmentNumber Int
 }
