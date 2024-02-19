@@ -8,30 +8,30 @@ import LogoWhite from "../../Logos/LogoWhite.png";
 
 export default function LogoChoose() {
   const { theme } = useTheme();
-  return (
-    <>
-      {" "}
-      {theme === "dark" ? (
+  console.log(theme);
+  if (theme) {
+    return (
+      <>
         <Link href={"/"}>
-          <Image
-            src={LogoWhite}
-            alt={"logo"}
-            className="rounded-full"
-            width={100}
-            height={100}
-          />
+          {theme === "dark" ? (
+            <Image
+              src={LogoWhite}
+              alt={"LogoWhite"}
+              priority={true}
+              width={90}
+              height={90}
+            />
+          ) : (
+            <Image
+              src={LogoBlack}
+              alt={"LogoBlack"}
+              priority={true}
+              width={100}
+              height={100}
+            />
+          )}
         </Link>
-      ) : (
-        <Link href={"/"}>
-          <Image
-            src={LogoBlack}
-            alt={"logo"}
-            className="rounded-full"
-            width={100}
-            height={100}
-          />
-        </Link>
-      )}
-    </>
-  );
+      </>
+    );
+  }
 }
