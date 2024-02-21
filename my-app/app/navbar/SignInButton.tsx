@@ -14,9 +14,7 @@ import Link from "next/link";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 const SigninButton = () => {
   const { data: session } = useSession();
-
   if (session && session.user) {
-    console.log(session);
     return (
       <NavigationMenu>
         <NavigationMenuList>
@@ -34,8 +32,13 @@ const SigninButton = () => {
               />
             </NavigationMenuTrigger>
             <NavigationMenuContent className="shadow-lg rounded-lg p-4">
-              <div className="w-[160px]">
+              <div className="w-32">
                 <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
+                  {session.user.role === "admin" ? (
+                    <li>
+                      <Link href="/admin">Admin Panel</Link>
+                    </li>
+                  ) : null}
                   <li>
                     <Link href="/profile">My Profile</Link>
                   </li>
