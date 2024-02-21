@@ -37,7 +37,7 @@ const SearchButton = () => {
     <>
       <DropdownMenu onOpenChange={handleDropdownChange}>
         <DropdownMenuTrigger asChild>
-          <MagnifyingGlassIcon className="h-5 w-5 m-1 cursor-pointer" />
+          <MagnifyingGlassIcon className="h-5 w-5 m-1 cursor-pointer hover:animate-spin-once" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56 sm:w-80 mt-1">
           <DropdownMenuLabel>

@@ -11,7 +11,7 @@ const NavBar = () => {
         <Navbarcontent />
         <div className="flex flex-row items-center">
           <SearchButton />
-          <ShoppingCartIcon className="h-5 w-5 m-1 cursor-pointer" />
+          <ShoppingCartIcon className="h-5 w-5 m-1 cursor-pointer hover:animate-spin-once" />
           <SigninButton />
         </div>
       </div>

@@ -8,7 +8,6 @@ import LogoWhite from "../../Logos/LogoWhite.png";
 
 export default function LogoChoose() {
   const { theme } = useTheme();
-  console.log(theme);
   if (theme) {
     return (
       <>

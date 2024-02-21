@@ -22,7 +22,9 @@ const SigninButton = () => {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className="flex items-center space-x-3">
-              <p className="text-gray-600">{session.user.name}</p>
+              <p className="text-gray-600" dir="rtl">
+                {session.user.name}
+              </p>
               <Image
                 src={session.user.image ?? ""}
                 alt={session.user.name ?? ""}
@@ -57,7 +59,7 @@ const SigninButton = () => {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="flex items-center space-x-3">
-            <p className="text-gray-600">"Hello, guest!</p>
+            <p className="text-gray-600 dark:text-gray-400">Hello, guest!</p>
           </NavigationMenuTrigger>
           <NavigationMenuContent className="shadow-lg rounded-lg p-4">
             <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
