@@ -34,20 +34,22 @@ const SigninButton = () => {
               />
             </NavigationMenuTrigger>
             <NavigationMenuContent className="shadow-lg rounded-lg p-4">
-              <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
-                <li>
-                  <Link href="/profile">My Profile</Link>
-                </li>
-                <li>
-                  <Link href="/settings">Settings</Link>
-                </li>
-                <li>
-                  <ThemeSwitcher />
-                </li>
-                <Button variant="destructive" onClick={() => signOut()}>
-                  Sign Out
-                </Button>
-              </ul>
+              <div className="w-[160px]">
+                <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
+                  <li>
+                    <Link href="/profile">My Profile</Link>
+                  </li>
+                  <li>
+                    <Link href="/settings">Settings</Link>
+                  </li>
+                  <li>
+                    <ThemeSwitcher />
+                  </li>
+                  <Button variant="destructive" onClick={() => signOut()}>
+                    Sign Out
+                  </Button>
+                </ul>
+              </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>

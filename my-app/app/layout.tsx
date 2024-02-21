@@ -27,11 +27,11 @@ export default async function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Providers>
+            <Navbar />
             <main className="flex flex-col w-full text-xl">
-              <Navbar />
-              <Footer />
               <div className="flex-grow">{children}</div>
             </main>
+            <Footer />
           </Providers>
         </ThemeProvider>
       </body>
