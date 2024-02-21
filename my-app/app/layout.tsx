@@ -6,6 +6,7 @@ import Providers from "./Providers";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { ThemeProvider } from "./theme-provider";
+import Footer from "./footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default async function RootLayout({
           <Providers>
             <main className="flex flex-col w-full text-xl">
               <Navbar />
+              <Footer />
               <div className="flex-grow">{children}</div>
             </main>
           </Providers>
