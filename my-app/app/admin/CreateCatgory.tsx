@@ -29,9 +29,9 @@ export default function CreateCatgory() {
           <p className="text-lg mt-4 text-gray-600">Loading ...</p>
         </div>
       ) : (
-        <div className="max-w-sm rounded shadow-lg p-5 dark:shadow-gray-700">
+        <div className="max-w-sm rounded shadow-lg p-5 pt-10 dark:shadow-gray-700">
           <div className="mb-4 space-y-2">
-            <Label className="text-base">Name</Label>
+            <Label className="text-base">Catgory Name</Label>
             <Input
               id="name"
               type="text"
@@ -40,7 +40,7 @@ export default function CreateCatgory() {
             />
             <div className="flex items-center justify-center pt-4">
               <Button variant={"outline"} onClick={createCatgoryFunction}>
-                Add Product
+                Add Catgory
               </Button>
             </div>
           </div>

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import LogoBlack from "../../Logos/LogoBlack.png";
 import LogoWhite from "../../Logos/LogoWhite.png";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -86,34 +87,34 @@ export default function Footer() {
 
       {/* <!-- Main container div: holds the entire content of the footer --> */}
       <div className="mx-6 py-10 text-center md:text-left">
-        <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid-1 grid gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Products
             </h6>
             <p className="mb-4">
-              <a
+              <Link
                 href="/homefitnessequipment/"
                 className="text-slate-200 dark:text-neutral-200"
               >
                 Home Fitness Equipment
-              </a>
+              </Link>
             </p>
             <p className="mb-4">
-              <a
+              <Link
                 href="/dumbbells&bars/"
                 className="text-slate-200 dark:text-neutral-200"
               >
                 Dumbbells & Bars
-              </a>
+              </Link>
             </p>
             <p className="mb-4">
-              <a
+              <Link
                 href="/stand&facilities/"
                 className="text-slate-200 dark:text-neutral-200"
               >
                 Stands & Facilities
-              </a>
+              </Link>
             </p>
           </div>
           {/* <!-- Useful links section --> */}
@@ -176,19 +177,23 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* <!--Copyright section--> */}
       <div className="bg-slate-800 text-slate-200 p-6 text-center dark:bg-neutral-700">
         <span>© 2024 Copyright </span>
-        <a className="font-semibold text-slate-200 dark:text-neutral-400">
+        <Link
+          href="/"
+          className="font-semibold text-slate-200 dark:text-neutral-400"
+        >
           INFINITY SPORT
-        </a>
+        </Link>
         <div className="flex flex-col items-center mt-4">
-          <Image
-            src={LogoWhite}
-            alt="Infinty sport company logo"
-            width={140}
-            height={140}
-          />
+          <Link href="/">
+            <Image
+              src={LogoWhite}
+              alt="Infinty sport company logo"
+              width={140}
+              height={140}
+            />
+          </Link>
         </div>
       </div>
     </footer>

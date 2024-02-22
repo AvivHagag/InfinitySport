@@ -122,8 +122,48 @@ export default function AddProduct() {
           value={product.price}
           onChange={handleChange}
         />
-        <Label className="text-base">Catgory </Label>
+        <Label className="text-base">Image Url</Label>
+        <Input
+          id="image"
+          type="text"
+          name="image"
+          value={product.image}
+          onChange={handleChange}
+        />
+        <Label className="text-base">Description</Label>
+        <Input
+          id="Description"
+          type="text"
+          name="Description"
+          value={product.description}
+          onChange={handleChange}
+        />
+        <Label className="text-base">Color</Label>
+        <Input
+          id="color"
+          type="text"
+          name="color"
+          value={product.color}
+          onChange={handleChange}
+        />
+        <Label className="text-base">Size</Label>
+        <Input
+          id="size"
+          type="text"
+          name="size"
+          value={product.size}
+          onChange={handleChange}
+        />
+        <Label className="text-base">Quantity</Label>
+        <Input
+          id="quantity"
+          type="text"
+          name="quantity"
+          value={product.quantity}
+          onChange={handleChange}
+        />
 
+        <Label className="text-base">Catgory </Label>
         {categories ? (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -133,17 +173,14 @@ export default function AddProduct() {
                 aria-expanded={open}
                 className="w-[200px] justify-between"
               >
-                {value ? value : "Select framework..."}
+                {value ? value : "Select Catgory..."}
                 <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
               <Command>
-                <CommandInput
-                  placeholder="Search framework..."
-                  className="h-9"
-                />
-                <CommandEmpty>No framework found.</CommandEmpty>
+                <CommandInput placeholder="Search Catgory..." className="h-9" />
+                <CommandEmpty>No Catgory found.</CommandEmpty>
                 <CommandGroup>
                   {categories.map((category) => (
                     <CommandItem
@@ -167,59 +204,7 @@ export default function AddProduct() {
               </Command>
             </PopoverContent>
           </Popover>
-        ) : //   <Popover open={open} onOpenChange={setOpen}>
-        //     <PopoverTrigger asChild>
-        //       <Button
-        //         variant="outline"
-        //         role="combobox"
-        //         aria-expanded={open}
-        //         className="w-[200px] justify-between"
-        //       >
-        //         {value
-        //           ? categories.find((category) => category.name === value)?.name
-        //           : "Select a category..."}
-        //         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        //       </Button>
-        //     </PopoverTrigger>
-        //     <PopoverContent className="w-[200px] p-0">
-        //       <Command>
-        //         <CommandInput
-        //           placeholder="Search category..."
-        //           className="h-9"
-        //         />
-        //         <CommandEmpty>No category found.</CommandEmpty>
-        //         <CommandGroup>
-        //           {categories &&
-        //             categories.map((category) => (
-        //               <CommandItem
-        //                 key={category.id}
-        //                 value={category.name}
-        //                 onSelect={(currentValue) => {
-        //                   console.log("Selected value before update:", value);
-        //                   setValue(currentValue === value ? "" : currentValue);
-        //                   console.log(
-        //                     "Selected value after update:",
-        //                     currentValue
-        //                   );
-        //                   setOpen(false);
-        //                 }}
-        //               >
-        //                 {category.name}
-        //                 <CheckIcon
-        //                   className={cn(
-        //                     "ml-auto h-4 w-4",
-        //                     value === category.name
-        //                       ? "opacity-100"
-        //                       : "opacity-0"
-        //                   )}
-        //                 />
-        //               </CommandItem>
-        //             ))}
-        //         </CommandGroup>
-        //       </Command>
-        //     </PopoverContent>
-        //   </Popover>
-        null}
+        ) : null}
         <div className="flex items-center justify-center pt-4">
           <Button variant={"outline"} type="submit">
             Add Product
