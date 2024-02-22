@@ -29,8 +29,8 @@ export default async function RootLayout({
           <Providers>
             <main className="flex flex-col w-full text-xl">
               <Navbar />
-              <Footer />
               <div className="flex-grow">{children}</div>
+              <Footer />
             </main>
           </Providers>
         </ThemeProvider>
