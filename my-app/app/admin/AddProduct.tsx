@@ -81,10 +81,6 @@ const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
         setErrorColor(false);
         setColor(value);
         break;
-      case "size":
-        setErrorSize(false);
-        setSize(value);
-        break;
       case "quantity":
         setErrorQuantity(false);
         setQuantity(parseInt(value, 10));
@@ -105,6 +101,12 @@ const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
   ) => {
     setErrorDescription(false);
     setDescription(event.target.value);
+  };
+  const handleChangeSizeTextArea = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setErrorSize(false);
+    setSize(event.target.value);
   };
 
   function isValidUrl(urlString: string) {
@@ -144,13 +146,14 @@ const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
       setIsLoading(false);
       return;
     }
-    if (color == null || color === "") {
-      setErrorColor(true);
+    console.log(size);
+    if (size == null || size === "") {
+      setErrorSize(true);
       setIsLoading(false);
       return;
     }
-    if (size == null || size === "") {
-      setErrorSize(true);
+    if (color == null || color === "") {
+      setErrorColor(true);
       setIsLoading(false);
       return;
     }
@@ -298,6 +301,20 @@ const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
                       ) : null}
                     </div>
                   </div>
+                  <div className="flex flex-col">
+                    <Label className="text-base">Size</Label>
+                    <Textarea
+                      id="size"
+                      name="size"
+                      value={size}
+                      onChange={handleChangeSizeTextArea}
+                    />
+                    {ErrorSize ? (
+                      <p className="text-sm text-red-600">
+                        Insert currect size
+                      </p>
+                    ) : null}
+                  </div>
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:space-x-2">
                     <div className="flex flex-col">
                       <Label className="text-base">Color</Label>
@@ -311,21 +328,6 @@ const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
                       {ErrorColor ? (
                         <p className="text-sm text-red-600">
                           Insert currect color
-                        </p>
-                      ) : null}
-                    </div>
-                    <div className="flex flex-col">
-                      <Label className="text-base">Size</Label>
-                      <Input
-                        id="size"
-                        type="text"
-                        name="size"
-                        value={size}
-                        onChange={handleChange}
-                      />
-                      {ErrorSize ? (
-                        <p className="text-sm text-red-600">
-                          Insert currect size
                         </p>
                       ) : null}
                     </div>
