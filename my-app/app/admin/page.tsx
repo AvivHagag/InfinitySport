@@ -1,13 +1,14 @@
+import { Label } from "@/components/ui/label";
 import AddProduct from "./AddProduct";
 import CreateCatgory from "./CreateCatgory";
+import AdminMenu from "./AdminMenu";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-between p-24">
-      <h1>Welcome Admin</h1>
-      <div className="mt-4">
-        <AddProduct />
-        <CreateCatgory />
+    <main className="flex flex-col pt-8 pb-16 px-2 sm:px-4">
+      <h1 className="mx-2">Welcome Admin</h1>
+      <div className="flex items-center justify-center mt-4">
+        <AdminMenu />
       </div>
     </main>
   );
