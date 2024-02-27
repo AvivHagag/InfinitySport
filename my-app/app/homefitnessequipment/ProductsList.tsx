@@ -13,13 +13,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { id, image, name, price, onSale, salePercent } = product;
 
   return (
-    <div className="rounded-lg shadow-lg border w-52 m-2">
-      <div className="relative" style={{ width: "206px", height: "235px" }}>
+    <div className="flex flex-col justify-between rounded-lg shadow-lg border w-32 sm:w-52 m-1 sm:m-2">
+      <div className="relative w-[126px] h-[155px] sm:w-[206px] sm:h-[235px]">
         {image && (
           <Image
             src={image}
             fill
-            objectFit="conatin"
+            style={{ objectFit: "fill" }}
             alt={`${id}'s picture`}
             className="rounded-t-lg"
           />
@@ -30,8 +30,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {salePercent}% OFF
         </div>
       )}
-      <div className="px-6 pt-4">
-        <div className="text-center font-bold text-base mb-2">{name}</div>
+      <div className="px-1 sm:px-2 pt-1 sm:pt-4">
+        <div className="text-center font-bold text-base sm:text-lg mb-2">
+          {name}
+        </div>
         <p className="text-center text-naivyBlue dark:text-glowGreen text-sm">
           ${price}
         </p>
@@ -41,20 +43,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </p>
         )}
       </div>
-      <div className="flex justify-between py-2 px-1">
+      <div className="flex flex-col sm:flex-row space-y-1 sm:space-y-0 justify-between py-2 px-2">
         <Button
           variant="outline"
-          className="text-xs border-naivyBlue dark:border-glowGreen text-naivyBlue dark:text-glowGreen p-1"
+          className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
         >
           Add to Cart
           <span>
-            <ShoppingCartIcon className="ml-1 h-4 w-4" />
+            <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
           </span>
         </Button>
-        <Button variant="outline" className="text-xs p-1">
+        <Button variant="outline" className="text-xxs sm:text-xs p-1">
           Buy it Now
           <span>
-            <CreditCardIcon className="ml-1 h-4 w-4" />
+            <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
           </span>
         </Button>
       </div>
