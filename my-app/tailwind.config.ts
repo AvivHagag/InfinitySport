@@ -19,6 +19,9 @@ const config = {
     },
     extend: {
       colors: {
+        glowGreen: "#9ffd32",
+        naivySky: "#7395AE",
+        naivyBlue: "#557A95",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

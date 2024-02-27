@@ -1,17 +1,15 @@
 import React from "react";
 import Image from "next/image";
-import LogoBlack from "../../Logos/LogoBlack.png";
 import LogoWhite from "../../Logos/LogoWhite.png";
 import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-600 text-slate-200 dark:bg-black dark:text-neutral-200 lg:text-left">
-      <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
+    <footer className="bg-naivyBlue dark:bg-slate-950 dark:border-t text-slate-200 dark:text-neutral-200 lg:text-left">
+      <div className="flex items-center justify-center border-b p-3 lg:justify-between">
         <div className="mr-12 hidden lg:block">
           <span>Get connected with us on social networks:</span>
         </div>
-        {/* <!-- Social network icons container --> */}
         <div className="flex justify-center">
           <a className="mr-6 text-slate-200 dark:text-neutral-200">
             <svg
@@ -85,8 +83,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* <!-- Main container div: holds the entire content of the footer --> */}
-      <div className="mx-6 py-10 text-center md:text-left">
+      <div className="mx-6 py-6 text-center md:text-left">
         <div className="grid-1 grid gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
@@ -117,7 +114,7 @@ export default function Footer() {
               </Link>
             </p>
           </div>
-          {/* <!-- Useful links section --> */}
+
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Useful links
@@ -129,7 +126,7 @@ export default function Footer() {
               <a className="text-slate-200 dark:text-neutral-200">Orders</a>
             </p>
           </div>
-          {/* <!-- Contact section --> */}
+
           <div>
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Contact
@@ -177,7 +174,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="bg-slate-800 text-slate-200 p-6 text-center dark:bg-neutral-700">
+      <div className="bg-naivySky dark:bg-slate-800 text-slate-200 p-3 text-center">
         <span>© 2024 Copyright </span>
         <Link
           href="/"
@@ -185,7 +182,7 @@ export default function Footer() {
         >
           INFINITY SPORT
         </Link>
-        <div className="flex flex-col items-center mt-4">
+        <div className="flex flex-col justify-center items-center mt-2">
           <Link href="/">
             <Image
               src={LogoWhite}

@@ -57,3 +57,18 @@ export const CreateNewProduct = async (
     console.error("Error creating a product - ", error);
   }
 };
+
+export const getAllHomeFitnessProducts = async () => {
+  try {
+    const Products = await db.product.findMany({
+      where: {
+        categoryId: {
+          in: [1, 2, 3, 4, 5],
+        },
+      },
+    });
+    return Products;
+  } catch (error) {
+    console.error("Error fetching Products", error);
+  }
+};
