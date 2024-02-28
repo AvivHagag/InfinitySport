@@ -1,6 +1,3 @@
-import { Label } from "@/components/ui/label";
-import AddProduct from "./AddProduct";
-import CreateCatgory from "./CreateCatgory";
 import AdminMenu from "./AdminMenu";
 
 export default function Home() {

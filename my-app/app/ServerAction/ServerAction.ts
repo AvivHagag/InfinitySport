@@ -58,12 +58,12 @@ export const CreateNewProduct = async (
   }
 };
 
-export const getAllHomeFitnessProducts = async () => {
+export const getAllProducts = async (CategoriesID: Array<number>) => {
   try {
     const Products = await db.product.findMany({
       where: {
         categoryId: {
-          in: [1, 2, 3, 4, 5],
+          in: CategoriesID,
         },
       },
     });
