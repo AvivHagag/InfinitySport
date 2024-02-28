@@ -1,8 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React, { useEffect, useState } from "react";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
+import React, { useState } from "react";
 import { CreateNewCatgory } from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
