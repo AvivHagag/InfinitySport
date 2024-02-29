@@ -17,7 +17,7 @@ export default function HomeFitnessComponent({
     useState<Product[]>(HomeFitnessProducts);
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between">
         <div className="p-2 flex text-sm sm:text-base text-gray-500 space-x-1">
           <Link href="/" className="hover:scale-105">
             Home Page
@@ -30,10 +30,12 @@ export default function HomeFitnessComponent({
             Home Fitness Equipment
           </Link>
         </div>
-        <ComboBoxSort
-          sortedProducts={sortedProducts}
-          setSortedProducts={setSortedProducts}
-        />
+        <div className="flex justify-end">
+          <ComboBoxSort
+            sortedProducts={sortedProducts}
+            setSortedProducts={setSortedProducts}
+          />
+        </div>
       </div>
       <div className="flex flex-row w-full">
         <FilterComponent />

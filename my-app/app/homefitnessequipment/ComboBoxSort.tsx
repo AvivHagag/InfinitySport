@@ -84,7 +84,7 @@ export default function ComboBoxSort({
           aria-expanded={open}
           className="w-[180px] justify-between text-sm font-normal"
         >
-          {value ? value : "Select category..."}
+          {value ? value : "Sort By..."}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
