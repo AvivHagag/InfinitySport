@@ -89,8 +89,8 @@ model Product {
   category  Category @relation(fields: [categoryId], references: [id])
   carts     CartItem[]
   quantity Int
-  onSale Boolean
-  salePercent Int
+  onSale Boolean  @default(false)
+  salePercent Int?
   createdAt     DateTime  @default(now())
 }
 

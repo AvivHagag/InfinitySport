@@ -2,7 +2,7 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,9 +14,7 @@ import Link from "next/link";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 const SigninButton = () => {
   const { data: session } = useSession();
-
   if (session && session.user) {
-    console.log(session);
     return (
       <NavigationMenu>
         <NavigationMenuList>
@@ -34,18 +32,27 @@ const SigninButton = () => {
               />
             </NavigationMenuTrigger>
             <NavigationMenuContent className="shadow-lg rounded-lg p-4">
-              <div className="w-[160px]">
+              <div className="w-32">
                 <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
-                  <li>
+                  {session.user.role === "admin" ? (
+                    <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
+                      <Link href="/admin">Admin Panel</Link>
+                    </li>
+                  ) : null}
+                  <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
                     <Link href="/profile">My Profile</Link>
                   </li>
-                  <li>
+                  <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
                     <Link href="/settings">Settings</Link>
                   </li>
-                  <li>
+                  <li className="hover:scale-105">
                     <ThemeSwitcher />
                   </li>
-                  <Button variant="destructive" onClick={() => signOut()}>
+                  <Button
+                    variant="destructive"
+                    className="hover:scale-105"
+                    onClick={() => signOut()}
+                  >
                     Sign Out
                   </Button>
                 </ul>
@@ -65,7 +72,7 @@ const SigninButton = () => {
           </NavigationMenuTrigger>
           <NavigationMenuContent className="shadow-lg rounded-lg p-4">
             <ul className="flex flex-col items-center space-y-2 text-sm sm:text-base">
-              <li>
+              <li className="hover:text-naivyBlue dark:hover:text-glowGreen">
                 <ThemeSwitcher />
               </li>
               <Button

@@ -25,6 +25,15 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      if (user && user.email) {
+        const additionalUserInfo = await db.user.findUnique({
+          where: { email: user.email },
+        });
+        token.role = additionalUserInfo ? additionalUserInfo.role : "user";
+      }
+      return token;
+    },
     async session({ session, token }) {
       session.user.role = token.role;
       return session;

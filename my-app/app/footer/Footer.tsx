@@ -1,16 +1,15 @@
 import React from "react";
 import Image from "next/image";
-import LogoBlack from "../../Logos/LogoBlack.png";
 import LogoWhite from "../../Logos/LogoWhite.png";
+import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-600 text-slate-200 dark:bg-black dark:text-neutral-200 lg:text-left">
-      <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
+    <footer className="bg-naivyBlue dark:bg-slate-950 dark:border-t text-slate-200 dark:text-neutral-200 lg:text-left">
+      <div className="flex items-center justify-center border-b p-3 lg:justify-between">
         <div className="mr-12 hidden lg:block">
           <span>Get connected with us on social networks:</span>
         </div>
-        {/* <!-- Social network icons container --> */}
         <div className="flex justify-center">
           <a className="mr-6 text-slate-200 dark:text-neutral-200">
             <svg
@@ -84,65 +83,50 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* <!-- Main container div: holds the entire content of the footer, including four sections (TW Elements, Products, Useful links, and Contact), with responsive styling and appropriate padding/margins. --> */}
-      <div className="mx-6 py-10 text-center md:text-left">
-        <div className="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {/* <!-- TW Elements section --> */}
-
-          {/* <div className="">
-            <h6 className="mb-4 flex items-center justify-center font-semibold uppercase md:justify-start">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="mr-3 h-4 w-4"
-              >
-                <path d="M12.378 1.602a.75.75 0 00-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03zM21.75 7.93l-9 5.25v9l8.628-5.032a.75.75 0 00.372-.648V7.93zM11.25 22.18v-9l-9-5.25v8.57a.75.75 0 00.372.648l8.628 5.033z" />
-              </svg>
-              TW Elements
-            </h6>
-            <p>
-              Here you can use rows and columns to organize your footer content.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            </p>
-          </div> */}
-          {/* <!-- Products section --> */}
+      <div className="mx-6 py-6 text-center md:text-left">
+        <div className="grid-1 grid gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Products
             </h6>
             <p className="mb-4">
-              <a className="text-slate-200 dark:text-neutral-200">Angular</a>
+              <Link
+                href="/homefitnessequipment/"
+                className="text-slate-200 dark:text-neutral-200"
+              >
+                Home Fitness Equipment
+              </Link>
             </p>
             <p className="mb-4">
-              <a className="text-slate-200 dark:text-neutral-200">React</a>
+              <Link
+                href="/dumbbells&bars/"
+                className="text-slate-200 dark:text-neutral-200"
+              >
+                Dumbbells & Bars
+              </Link>
             </p>
             <p className="mb-4">
-              <a className="text-slate-200 dark:text-neutral-200">Vue</a>
-            </p>
-            <p>
-              <a className="text-slate-200 dark:text-neutral-200">Laravel</a>
+              <Link
+                href="/stand&facilities/"
+                className="text-slate-200 dark:text-neutral-200"
+              >
+                Stands & Facilities
+              </Link>
             </p>
           </div>
-          {/* <!-- Useful links section --> */}
+
           <div className="">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Useful links
             </h6>
             <p className="mb-4">
-              <a className="text-slate-200 dark:text-neutral-200">Pricing</a>
-            </p>
-            <p className="mb-4">
-              <a className="text-slate-200 dark:text-neutral-200">Settings</a>
+              <a className="text-slate-200 dark:text-neutral-200">About us</a>
             </p>
             <p className="mb-4">
               <a className="text-slate-200 dark:text-neutral-200">Orders</a>
             </p>
-            <p>
-              <a className="text-slate-200 dark:text-neutral-200">Help</a>
-            </p>
           </div>
-          {/* <!-- Contact section --> */}
+
           <div>
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Contact
@@ -190,19 +174,23 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* <!--Copyright section--> */}
-      <div className="bg-slate-800 text-slate-200 p-6 text-center dark:bg-neutral-700">
+      <div className="bg-naivySky dark:bg-slate-800 text-slate-200 p-3 text-center">
         <span>© 2024 Copyright </span>
-        <a className="font-semibold text-slate-200 dark:text-neutral-400">
+        <Link
+          href="/"
+          className="font-semibold text-slate-200 dark:text-neutral-400"
+        >
           INFINITY SPORT
-        </a>
-        <div className="flex flex-col items-center mt-4">
-          <Image
-            src={LogoWhite}
-            alt="Infinty sport company logo"
-            width={140}
-            height={140}
-          />
+        </Link>
+        <div className="flex flex-col justify-center items-center mt-2">
+          <Link href="/">
+            <Image
+              src={LogoWhite}
+              alt="Infinty sport company logo"
+              width={140}
+              height={140}
+            />
+          </Link>
         </div>
       </div>
     </footer>
