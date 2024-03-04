@@ -94,7 +94,7 @@ type ProductsListProps = {
 
 const ProductsList: React.FC<ProductsListProps> = ({ HomeFitnessProducts }) => {
   return (
-    <div className="flex flex-wrap justify-center px-2">
+    <div className="flex flex-wrap justify-center px-1">
       {HomeFitnessProducts.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

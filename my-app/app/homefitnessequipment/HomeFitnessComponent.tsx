@@ -38,7 +38,10 @@ export default function HomeFitnessComponent({
         </div>
       </div>
       <div className="flex flex-row w-full">
-        <FilterComponent />
+        <FilterComponent
+          sortedProducts={sortedProducts}
+          setSortedProducts={setSortedProducts}
+        />
         <div className="flex flex-grow">
           {sortedProducts ? (
             <ProductsList HomeFitnessProducts={sortedProducts} />
