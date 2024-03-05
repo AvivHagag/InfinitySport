@@ -89,13 +89,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 };
 
 type ProductsListProps = {
-  HomeFitnessProducts: Product[];
+  MultitrainerProducts: Product[];
 };
 
-const ProductsList: React.FC<ProductsListProps> = ({ HomeFitnessProducts }) => {
+const ProductsList: React.FC<ProductsListProps> = ({
+  MultitrainerProducts,
+}) => {
   return (
     <div className="flex flex-wrap justify-center px-1">
-      {HomeFitnessProducts.map((product) => (
+      {MultitrainerProducts.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>

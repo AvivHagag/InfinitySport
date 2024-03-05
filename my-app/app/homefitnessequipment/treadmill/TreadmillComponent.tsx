@@ -6,15 +6,15 @@ import Link from "next/link";
 import { Product } from "@prisma/client";
 import ComboBoxSort from "./ComboBoxSort";
 
-interface HomeFitnessComponentProps {
-  HomeFitnessProducts: Product[];
+interface TreadmillComponentProps {
+  TreadmillProducts: Product[];
 }
 
-export default function HomeFitnessComponent({
-  HomeFitnessProducts,
-}: HomeFitnessComponentProps) {
+export default function TreadmillComponent({
+  TreadmillProducts,
+}: TreadmillComponentProps) {
   const [sortedProducts, setSortedProducts] =
-    useState<Product[]>(HomeFitnessProducts);
+    useState<Product[]>(TreadmillProducts);
   return (
     <>
       <div className="flex flex-col sm:flex-row justify-between">
@@ -23,11 +23,15 @@ export default function HomeFitnessComponent({
             Home Page
           </Link>
           <p>/</p>
+          <Link href="/homefitnessequipment" className="hover:scale-105">
+            Home Fitness Equipment
+          </Link>
+          <p>/</p>
           <Link
-            href="/homefitnessequipment"
+            href="/homefitnessequipment/treadmill"
             className="hover:scale-105 text-gray-800 dark:text-gray-200 font-medium"
           >
-            Home Fitness Equipment
+            Treadmill
           </Link>
         </div>
         <div className="flex justify-end">
@@ -44,7 +48,7 @@ export default function HomeFitnessComponent({
         />
         <div className="flex flex-grow">
           {sortedProducts ? (
-            <ProductsList HomeFitnessProducts={sortedProducts} />
+            <ProductsList TreadmillProducts={sortedProducts} />
           ) : (
             <div className="text-base text-center">
               There are currently no products in the selected category

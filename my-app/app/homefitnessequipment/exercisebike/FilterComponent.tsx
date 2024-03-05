@@ -16,12 +16,6 @@ export default function FilterComponent({
   setSortedProducts,
 }: FilterComponentProps) {
   const [sortDefault, setSortDefault] = useState<Product[]>(sortedProducts);
-  const [SelectTreadmill, setSelectTreadmill] = useState<boolean>(false);
-  const [SelectRowingMachine, setSelectRowingMachine] =
-    useState<boolean>(false);
-  const [SelectCrossOver, setSelectCrossOver] = useState<boolean>(false);
-  const [SelectExerciseBike, setSelectExerciseBike] = useState<boolean>(false);
-  const [SelectMultiTrainer, setSelectMultiTrainer] = useState<boolean>(false);
   const minPrice = Math.min(...sortedProducts.map((product) => product.price));
   const maxPrice = Math.max(...sortedProducts.map((product) => product.price));
   const [MinPrice, setMinPrice] = useState<number>(minPrice);
@@ -30,20 +24,14 @@ export default function FilterComponent({
   const [tempMaxPrice, setTempMaxPrice] = useState<number>(maxPrice);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [allColors, setAllColors] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [onSale, setOnSale] = useState<boolean>(false);
   const [ismobileMenuOpen, setSsmobileMenuOpen] = useState(false);
   useEffect(() => {
     filterProducts();
-  }, [selectedCategories, selectedColors, tempMinPrice, tempMaxPrice, onSale]);
+  }, [selectedColors, tempMinPrice, tempMaxPrice, onSale]);
 
   const filterProducts = () => {
     let filteredProducts = [...sortDefault];
-    if (selectedCategories.length > 0) {
-      filteredProducts = filteredProducts.filter((product) =>
-        selectedCategories.includes(product.categoryId)
-      );
-    }
     if (selectedColors.length > 0) {
       filteredProducts = filteredProducts.filter((product) =>
         selectedColors.some(
@@ -60,14 +48,6 @@ export default function FilterComponent({
       filteredProducts = filteredProducts.filter((product) => product.onSale);
     }
     setSortedProducts(filteredProducts);
-  };
-
-  const handleCategoriesChange = (categoryId: number, flag: boolean) => {
-    setSelectedCategories((prevCategories) =>
-      flag
-        ? [...prevCategories, categoryId]
-        : prevCategories.filter((id) => id !== categoryId)
-    );
   };
 
   const handleColorChange = (color: string) => {
@@ -159,18 +139,6 @@ export default function FilterComponent({
           allColors={allColors}
           selectedColors={selectedColors}
           handleColorChange={handleColorChange}
-          selectedCategories={selectedCategories}
-          handleCategoriesChange={handleCategoriesChange}
-          SelectTreadmill={SelectTreadmill}
-          setSelectTreadmill={setSelectTreadmill}
-          SelectCrossOver={SelectCrossOver}
-          setSelectCrossOver={setSelectCrossOver}
-          SelectRowingMachine={SelectRowingMachine}
-          setSelectRowingMachine={setSelectRowingMachine}
-          SelectMultiTrainer={SelectMultiTrainer}
-          setSelectMultiTrainer={setSelectMultiTrainer}
-          SelectExerciseBike={SelectExerciseBike}
-          setSelectExerciseBike={setSelectExerciseBike}
           onSale={onSale}
           handleOnSaleChange={handleOnSaleChange}
           tempMinPrice={tempMinPrice}
@@ -187,18 +155,6 @@ export default function FilterComponent({
           allColors={allColors}
           selectedColors={selectedColors}
           handleColorChange={handleColorChange}
-          selectedCategories={selectedCategories}
-          handleCategoriesChange={handleCategoriesChange}
-          SelectTreadmill={SelectTreadmill}
-          setSelectTreadmill={setSelectTreadmill}
-          SelectCrossOver={SelectCrossOver}
-          setSelectCrossOver={setSelectCrossOver}
-          SelectRowingMachine={SelectRowingMachine}
-          setSelectRowingMachine={setSelectRowingMachine}
-          SelectMultiTrainer={SelectMultiTrainer}
-          setSelectMultiTrainer={setSelectMultiTrainer}
-          SelectExerciseBike={SelectExerciseBike}
-          setSelectExerciseBike={setSelectExerciseBike}
           onSale={onSale}
           handleOnSaleChange={handleOnSaleChange}
           tempMinPrice={tempMinPrice}
