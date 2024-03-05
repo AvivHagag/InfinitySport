@@ -168,7 +168,7 @@ export default function FilterComponent({
         <Accordion type="single" collapsible className="px-1">
           <AccordionItem value="item-1">
             <AccordionTrigger>Categories :</AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectTreadmill"
                 type="checkbox"
@@ -182,7 +182,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Treadmill</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectCrossOver"
                 type="checkbox"
@@ -196,7 +196,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Cross Over</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectRowingMachine"
                 type="checkbox"
@@ -210,7 +210,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Rowing Machine</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectMultiTrainer"
                 type="checkbox"
@@ -224,7 +224,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Multi Trainer</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectExerciseBike"
                 type="checkbox"
@@ -312,7 +312,7 @@ export default function FilterComponent({
         <Accordion type="single" collapsible className="px-1">
           <AccordionItem value="item-1">
             <AccordionTrigger>Categories :</AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectTreadmill"
                 type="checkbox"
@@ -326,7 +326,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Treadmill</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectCrossOver"
                 type="checkbox"
@@ -340,7 +340,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Cross Over</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectRowingMachine"
                 type="checkbox"
@@ -354,7 +354,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Rowing Machine</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectMultiTrainer"
                 type="checkbox"
@@ -368,7 +368,7 @@ export default function FilterComponent({
               />
               <Label className="text-sm">Multi Trainer</Label>
             </AccordionContent>
-            <AccordionContent>
+            <AccordionContent className="pb-0">
               <input
                 id="SelectExerciseBike"
                 type="checkbox"
@@ -422,7 +422,7 @@ export default function FilterComponent({
           <div className="flex flex-col w-full m-1">
             <label className="text-sm">Price Range:</label>
             <div className="flex items-center w-full px-2">
-              <span className="mr-2 text-sm">${tempMinPrice}</span>
+              <span className="mr-2 text-base">${tempMinPrice}</span>
               <Slider
                 range={true}
                 min={MinPrice}
