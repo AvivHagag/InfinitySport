@@ -17,7 +17,7 @@ const Navbarcontent = () => {
       <div className="flex items-center">
         <button
           onClick={() => setImdobileMenuOpen(!imdobileMenuOpen)}
-          className="md:hidden mr-2 z-50"
+          className="md:hidden mr-2 z-40"
         >
           {imdobileMenuOpen ? (
             <XMarkIcon className="h-7 w-7" />

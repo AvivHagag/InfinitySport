@@ -37,7 +37,7 @@ export default function HomeFitnessComponent({
           />
         </div>
       </div>
-      <div className="flex flex-row w-full">
+      <div className="flex flex-col sm:flex-row w-full">
         <FilterComponent
           sortedProducts={sortedProducts}
           setSortedProducts={setSortedProducts}
