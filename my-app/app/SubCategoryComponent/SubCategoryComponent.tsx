@@ -6,16 +6,22 @@ import Link from "next/link";
 import { Product } from "@prisma/client";
 import ComboBoxSort from "./ComboBoxSort";
 
-interface StandAndRacksComponentProps {
-  StandAndRacksProducts: Product[];
+interface SubCategoryComponentProps {
+  Products: Product[];
+  PageName: string;
+  MainPageName: string;
+  PageUrl: string;
+  MainPageUrl: string;
 }
 
-export default function StandAndRacksComponent({
-  StandAndRacksProducts,
-}: StandAndRacksComponentProps) {
-  const [sortedProducts, setSortedProducts] = useState<Product[]>(
-    StandAndRacksProducts
-  );
+export default function SubCategoryComponent({
+  Products,
+  PageName,
+  MainPageName,
+  PageUrl,
+  MainPageUrl,
+}: SubCategoryComponentProps) {
+  const [sortedProducts, setSortedProducts] = useState<Product[]>(Products);
   return (
     <>
       <div className="flex flex-col sm:flex-row justify-between">
@@ -24,15 +30,15 @@ export default function StandAndRacksComponent({
             Home Page
           </Link>
           <p>/</p>
-          <Link href="/stand&facilities" className="hover:scale-105">
-            Stand & Facilities
+          <Link href={MainPageUrl} className="hover:scale-105">
+            {MainPageName}
           </Link>
           <p>/</p>
           <Link
-            href="/stand&facilities/stands&racks"
+            href={PageUrl}
             className="hover:scale-105 text-gray-800 dark:text-gray-200 font-medium"
           >
-            Stand & Racks
+            {PageName}
           </Link>
         </div>
         <div className="flex justify-end">
@@ -49,7 +55,7 @@ export default function StandAndRacksComponent({
         />
         <div className="flex flex-grow">
           {sortedProducts ? (
-            <ProductsList StandAndRacksProducts={sortedProducts} />
+            <ProductsList Products={sortedProducts} />
           ) : (
             <div className="text-base text-center">
               There are currently no products in the selected category

@@ -1,5 +1,5 @@
+import SubCategoryComponent from "@/app/SubCategoryComponent/SubCategoryComponent";
 import { getAllProducts } from "../../ServerAction/ServerAction";
-import RowingMachineComponent from "./RowingMachineComponent";
 
 export default async function Home() {
   const categoriesIDs = [3];
@@ -8,7 +8,13 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col py-12 px-2">
       <h1 className="text-center">Rowing Machine</h1>
       {RowingmachineProducts && (
-        <RowingMachineComponent RowingmachineProducts={RowingmachineProducts} />
+        <SubCategoryComponent
+          Products={RowingmachineProducts}
+          PageName={"Rowing Machine"}
+          MainPageName={"Home Fitness Equipment"}
+          PageUrl="/homefitnessequipment/rowingmachine"
+          MainPageUrl="/homefitnessequipment"
+        />
       )}
     </main>
   );
