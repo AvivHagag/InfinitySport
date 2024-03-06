@@ -72,7 +72,6 @@ export default function ComboBoxSort({
         sortedProductsCopy = sortDefault;
         break;
     }
-    console.log(sortedProductsCopy);
     setSortedProducts(sortedProductsCopy);
   };
   return (

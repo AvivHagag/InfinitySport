@@ -17,6 +17,16 @@ const nextConfig = {
         hostname: "sportstock.co.il",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "www.fitbander.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "bashgal.co.il",
+        pathname: "**",
+      },
     ],
   },
 };
