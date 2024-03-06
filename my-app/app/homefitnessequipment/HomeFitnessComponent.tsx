@@ -25,7 +25,7 @@ export default function HomeFitnessComponent({
           <p>/</p>
           <Link
             href="/homefitnessequipment"
-            className="hover:scale-105 text-gray-800 dark:text-text-gray-200 font-medium"
+            className="hover:scale-105 text-gray-800 dark:text-gray-200 font-medium"
           >
             Home Fitness Equipment
           </Link>
@@ -37,8 +37,11 @@ export default function HomeFitnessComponent({
           />
         </div>
       </div>
-      <div className="flex flex-row w-full">
-        <FilterComponent />
+      <div className="flex flex-col sm:flex-row w-full">
+        <FilterComponent
+          sortedProducts={sortedProducts}
+          setSortedProducts={setSortedProducts}
+        />
         <div className="flex flex-grow">
           {sortedProducts ? (
             <ProductsList HomeFitnessProducts={sortedProducts} />

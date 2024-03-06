@@ -52,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="text-center font-bold text-base sm:text-lg mb-2">
           {name}
         </div>
-        <div className="flex justify-center">
+        <div className="flex flex-col sm:flex-row justify-center items-center">
           <p
             className={`text-naivyBlue dark:text-glowGreen text-sm ${
               onSale ? "line-through" : ""
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             ${price.toFixed(2)}
           </p>
           {onSale && salePercent && (
-            <p className="text-gray-700 dark:text-white text-sm ml-2">
+            <p className="text-gray-700 dark:text-white text-sm sm:ml-2">
               ${((price * (100 - salePercent)) / 100).toFixed(2)}
             </p>
           )}
@@ -94,7 +94,7 @@ type ProductsListProps = {
 
 const ProductsList: React.FC<ProductsListProps> = ({ HomeFitnessProducts }) => {
   return (
-    <div className="flex flex-wrap justify-center px-2">
+    <div className="flex flex-wrap justify-center px-1">
       {HomeFitnessProducts.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
