@@ -1,15 +1,23 @@
 import { getAllProducts } from "../ServerAction/ServerAction";
-import StandAndFacilitiesComponent from "./StandAndFacilitiesComponent";
+import CategoryComponent from "../CategoryComponent/CategoryComponent";
 
 export default async function Home() {
   const categoriesIDs = [11, 12, 13];
   const StandAndFacilitiesProducts = await getAllProducts(categoriesIDs);
+  const categories = [
+    { id: "SelectDumbbellRack", name: "Dumbbell Rack", value: 11 },
+    { id: "SelectStorageFacilities", name: "Storage Facilities", value: 12 },
+    { id: "SelectStandsAndRacks", name: "Stands & Racks", value: 13 },
+  ];
   return (
     <main className="flex min-h-screen flex-col py-12 px-2">
-      <h1 className="text-center">Stand & Facilities</h1>
+      <h1 className="text-center">Stands & Facilities</h1>
       {StandAndFacilitiesProducts && (
-        <StandAndFacilitiesComponent
-          StandAndFacilitiesProducts={StandAndFacilitiesProducts}
+        <CategoryComponent
+          Products={StandAndFacilitiesProducts}
+          PageName={"Stands & Facilities"}
+          PageUrl="/stand&facilities"
+          categories={categories}
         />
       )}
     </main>

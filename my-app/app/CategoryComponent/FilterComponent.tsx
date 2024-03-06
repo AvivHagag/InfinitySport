@@ -6,14 +6,22 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/src/components/ui/button";
 import FilterByComponent from "./FilterByComponent";
 
+interface Category {
+  id: string;
+  name: string;
+  value: number;
+}
+
 type FilterComponentProps = {
   sortedProducts: Product[];
   setSortedProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  categories: Category[];
 };
 
 export default function FilterComponent({
   sortedProducts,
   setSortedProducts,
+  categories,
 }: FilterComponentProps) {
   const [sortDefault, setSortDefault] = useState<Product[]>(sortedProducts);
   const [SelectTreadmill, setSelectTreadmill] = useState<boolean>(false);
@@ -156,21 +164,12 @@ export default function FilterComponent({
         }`}
       >
         <FilterByComponent
+          categories={categories}
           allColors={allColors}
           selectedColors={selectedColors}
           handleColorChange={handleColorChange}
           selectedCategories={selectedCategories}
           handleCategoriesChange={handleCategoriesChange}
-          SelectTreadmill={SelectTreadmill}
-          setSelectTreadmill={setSelectTreadmill}
-          SelectCrossOver={SelectCrossOver}
-          setSelectCrossOver={setSelectCrossOver}
-          SelectRowingMachine={SelectRowingMachine}
-          setSelectRowingMachine={setSelectRowingMachine}
-          SelectMultiTrainer={SelectMultiTrainer}
-          setSelectMultiTrainer={setSelectMultiTrainer}
-          SelectExerciseBike={SelectExerciseBike}
-          setSelectExerciseBike={setSelectExerciseBike}
           onSale={onSale}
           handleOnSaleChange={handleOnSaleChange}
           tempMinPrice={tempMinPrice}
@@ -184,21 +183,12 @@ export default function FilterComponent({
       </div>
       <div className="flex border shadow-xl dark:shadow-slate-800 w-auto rounded my-2 hidden md:block">
         <FilterByComponent
+          categories={categories}
           allColors={allColors}
           selectedColors={selectedColors}
           handleColorChange={handleColorChange}
           selectedCategories={selectedCategories}
           handleCategoriesChange={handleCategoriesChange}
-          SelectTreadmill={SelectTreadmill}
-          setSelectTreadmill={setSelectTreadmill}
-          SelectCrossOver={SelectCrossOver}
-          setSelectCrossOver={setSelectCrossOver}
-          SelectRowingMachine={SelectRowingMachine}
-          setSelectRowingMachine={setSelectRowingMachine}
-          SelectMultiTrainer={SelectMultiTrainer}
-          setSelectMultiTrainer={setSelectMultiTrainer}
-          SelectExerciseBike={SelectExerciseBike}
-          setSelectExerciseBike={setSelectExerciseBike}
           onSale={onSale}
           handleOnSaleChange={handleOnSaleChange}
           tempMinPrice={tempMinPrice}

@@ -10,18 +10,19 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useTheme } from "next-themes";
 
+interface Category {
+  id: string;
+  name: string;
+  value: number;
+}
+
 type FilterByComponentProps = {
+  categories: Category[];
   allColors: string[];
   selectedColors: string[];
   handleColorChange: (color: string) => void;
   selectedCategories: number[];
   handleCategoriesChange: (categoryId: number, flag: boolean) => void;
-  SelectDumbbellRack: boolean;
-  setSelectDumbbellRack: (value: boolean) => void;
-  SelectStorageFacilities: boolean;
-  setSelectStorageFacilities: (value: boolean) => void;
-  SelectStandsAndRacks: boolean;
-  setSelectStandsAndRacks: (value: boolean) => void;
   onSale: boolean;
   handleOnSaleChange: () => void;
   tempMinPrice: number;
@@ -34,17 +35,12 @@ type FilterByComponentProps = {
 };
 
 const FilterByComponent: React.FC<FilterByComponentProps> = ({
+  categories,
   allColors,
   selectedColors,
   handleColorChange,
   selectedCategories,
   handleCategoriesChange,
-  SelectDumbbellRack,
-  setSelectDumbbellRack,
-  SelectStorageFacilities,
-  setSelectStorageFacilities,
-  SelectStandsAndRacks,
-  setSelectStandsAndRacks,
   onSale,
   handleOnSaleChange,
   tempMinPrice,
@@ -65,49 +61,26 @@ const FilterByComponent: React.FC<FilterByComponentProps> = ({
       <Accordion type="single" collapsible className="px-1 mx-1">
         <AccordionItem value="item-1">
           <AccordionTrigger>Categories :</AccordionTrigger>
-          <AccordionContent className="pb-0">
-            <input
-              id="SelectDumbbellRack"
-              type="checkbox"
-              name="SelectDumbbellRack"
-              checked={SelectDumbbellRack || false}
-              onChange={() => {
-                setSelectDumbbellRack(!SelectDumbbellRack);
-                handleCategoriesChange(11, !SelectDumbbellRack);
-              }}
-              className="w-3 h-3 m-1"
-            />
-            <Label className="text-sm">Dumbbell Rack</Label>
-          </AccordionContent>
-          <AccordionContent className="pb-0">
-            <input
-              id="SelectStorageFacilities"
-              type="checkbox"
-              name="SelectStorageFacilities"
-              checked={SelectStorageFacilities || false}
-              onChange={() => {
-                setSelectStorageFacilities(!SelectStorageFacilities);
-                handleCategoriesChange(12, !SelectStorageFacilities);
-              }}
-              className="w-3 h-3 m-1"
-            />
-            <Label className="text-sm">Storage Facilities</Label>
-          </AccordionContent>
-          <AccordionContent className="pb-0">
-            <input
-              id="SelectStandsAndRacks"
-              type="checkbox"
-              name="SelectStandsAndRacks"
-              checked={SelectStandsAndRacks || false}
-              onChange={() => {
-                setSelectStandsAndRacks(!SelectStandsAndRacks);
-                handleCategoriesChange(13, !SelectStandsAndRacks);
-              }}
-              className="w-3 h-3 m-1"
-            />
-            <Label className="text-sm">Stands & Racks</Label>
-          </AccordionContent>
+          {categories.map((category, index) => (
+            <AccordionContent className="pb-0" key={category.id}>
+              <input
+                id={category.id}
+                type="checkbox"
+                name={category.id}
+                checked={selectedCategories.includes(category.value)}
+                onChange={() =>
+                  handleCategoriesChange(
+                    category.value,
+                    !selectedCategories.includes(category.value)
+                  )
+                }
+                className="w-3 h-3 m-1"
+              />
+              <Label className="text-sm">{category.name}</Label>
+            </AccordionContent>
+          ))}
         </AccordionItem>
+
         <AccordionItem value="item-2">
           <AccordionTrigger>Colors :</AccordionTrigger>
           <AccordionContent>
