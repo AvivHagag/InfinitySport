@@ -9,6 +9,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import ProductModal from "../ProductModal";
+import { getSession } from "../ServerAction/ServerAction";
 
 type ProductCardProps = {
   product: Product;
@@ -20,6 +21,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
+  };
+
+  const handleAddToCart = (ProductID: number) => {
+    console.log("Attempting to add to cart:", ProductID);
+    console.log(getSession());
   };
 
   return (
@@ -81,6 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button
             variant="outline"
             className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+            onClick={() => handleAddToCart(product.id)}
           >
             Add to Cart
             <span>

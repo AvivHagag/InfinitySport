@@ -27,6 +27,11 @@ const nextConfig = {
         hostname: "bashgal.co.il",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "komodosports.co.uk",
+        pathname: "**",
+      },
     ],
   },
 };

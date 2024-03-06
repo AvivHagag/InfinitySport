@@ -1,5 +1,12 @@
 "use server";
+import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+
+export const getSession = async () => {
+  const session = await getServerSession(authOptions);
+  return session?.user.id;
+};
 
 export const CreateNewCatgory = async (Name: string) => {
   try {
