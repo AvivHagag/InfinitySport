@@ -53,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             />
           </div>
         </div>,
-        {}
+        { duration: 1250 }
       );
       setIsLoading(false);
     } else {

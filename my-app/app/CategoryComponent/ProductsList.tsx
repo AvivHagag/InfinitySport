@@ -53,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             />
           </div>
         </div>,
-        {}
+        { duration: 1250 }
       );
       setIsLoading(false);
     } else {
@@ -132,8 +132,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           >
             {isLoading ? (
               <>
-                Adding ..
-                <ClipLoader color="naivyBlue dark:glowGreen" size={20} />
+                <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                  Adding ..{" "}
+                </p>
+                <ClipLoader
+                  color="#FFFFFF dark:#9ffd32"
+                  className="text-naivyBlue dark:text-glowGreen"
+                  size={20}
+                />
               </>
             ) : (
               <>
