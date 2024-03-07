@@ -5,7 +5,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);
-  return session?.user.id;
+  return session ? session?.user.id : null;
 };
 
 export const CreateNewCatgory = async (Name: string) => {
@@ -77,5 +77,65 @@ export const getAllProducts = async (CategoriesID: Array<number>) => {
     return Products;
   } catch (error) {
     console.error("Error fetching Products", error);
+  }
+};
+
+export const addToCartNewProduct = async (
+  ProductID: number,
+  Quantity: number
+) => {
+  try {
+    const user = await getSession();
+    if (user) {
+      const CurrentCart = await db.cart.findUnique({
+        where: {
+          userId: user,
+        },
+        include: { products: true },
+      });
+      if (CurrentCart && CurrentCart.id) {
+        const existingProduct = CurrentCart.products.find(
+          (product) => product.productId === ProductID
+        );
+        if (existingProduct) {
+          const updatedItem = await db.cartItem.update({
+            where: {
+              cartId_productId: {
+                cartId: CurrentCart.id,
+                productId: ProductID,
+              },
+            },
+            data: { quantity: existingProduct.quantity + Quantity },
+          });
+          console.log(updatedItem);
+        } else {
+          const NewCartItem = await db.cartItem.create({
+            data: {
+              cartId: CurrentCart?.id,
+              productId: ProductID,
+              quantity: Quantity,
+            },
+          });
+          console.log(NewCartItem);
+        }
+      } else {
+        const NewCart = await db.cart.create({
+          data: {
+            userId: user,
+          },
+        });
+        console.log("NewCart - ", NewCart);
+        const NewCartItem = await db.cartItem.create({
+          data: {
+            cartId: NewCart?.id,
+            productId: ProductID,
+            quantity: Quantity,
+          },
+        });
+        console.log("NewCartItem - ", NewCartItem);
+      }
+    }
+  } catch (error) {
+    console.error("Error Adding New Product To Cart", error);
   }
 };

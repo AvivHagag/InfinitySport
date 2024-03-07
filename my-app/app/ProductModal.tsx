@@ -37,7 +37,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               />
             )}
           </div>
-          <div className="flex flex-grow flex-col mt-3 px-1">
+          <div className="flex flex-grow flex-col mt-3 px-2">
             <div className="hidden md:block">
               <h2 className="text-lg font-medium capitalize text-naivyBlue dark:text-glowGreen">
                 {product.name}, {product.manufacturer}
@@ -110,9 +110,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               </div>
             </div>
             <div className="mt-1 text-sm ">
-              <span className="text-base">Description :</span>{" "}
-              <ScrollArea className="h-40 border border-naivyBlue dark:border-glowGreen">
-                <p className="text-sm px-1">{product.description}</p>
+              <span className="text-base text-naivyBlue dark:text-glowGreen">
+                Description:
+              </span>{" "}
+              <ScrollArea className="h-40 border">
+                <p className="text-sm pl-1 pr-2">{product.description}</p>
               </ScrollArea>
             </div>
             <div className="mt-1 text-sm ">

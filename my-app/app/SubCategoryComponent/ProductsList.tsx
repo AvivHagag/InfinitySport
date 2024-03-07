@@ -9,6 +9,9 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import ProductModal from "../ProductModal";
+import ClipLoader from "react-spinners/ClipLoader";
+import { addToCartNewProduct, getSession } from "../ServerAction/ServerAction";
+import { toast } from "sonner";
 
 type ProductCardProps = {
   product: Product;
@@ -17,9 +20,45 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { id, image, name, price, onSale, salePercent } = product;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
+  };
+
+  const handleAddToCart = async (
+    ProductID: number,
+    productImage: string,
+    ProductName: string
+  ) => {
+    if (await getSession()) {
+      setIsLoading(true);
+      await addToCartNewProduct(ProductID, 1);
+      toast(
+        <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-col">
+            <p className="text-sm font-medium text-naivyBlue dark:text-glowGreen">
+              Added to the cart !
+            </p>
+
+            <p className="text-xs text-naivyBlue dark:text-glowGreen">
+              {ProductName}
+            </p>
+          </div>
+          <div>
+            <img
+              src={productImage}
+              alt={ProductName}
+              style={{ width: "50px", height: "auto" }}
+            />
+          </div>
+        </div>,
+        {}
+      );
+      setIsLoading(false);
+    } else {
+      console.log(false);
+    }
   };
 
   return (
@@ -81,11 +120,35 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button
             variant="outline"
             className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+            onClick={() => {
+              isLoading
+                ? null
+                : handleAddToCart(
+                    product.id,
+                    product.image ? product.image : "null",
+                    product.name
+                  );
+            }}
           >
-            Add to Cart
-            <span>
-              <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
-            </span>
+            {isLoading ? (
+              <>
+                <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                  Adding ..{" "}
+                </p>
+                <ClipLoader
+                  color="#FFFFFF dark:#9ffd32"
+                  className="text-naivyBlue dark:text-glowGreen"
+                  size={20}
+                />
+              </>
+            ) : (
+              <>
+                Add to Cart
+                <span>
+                  <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                </span>
+              </>
+            )}
           </Button>
           <Button variant="outline" className="text-xxs sm:text-xs p-1">
             Buy it Now
