@@ -5,7 +5,6 @@ import ProductsList from "./ProductsList";
 import Link from "next/link";
 import { Product } from "@prisma/client";
 import ComboBoxSort from "../../SubCategoryComponent/ComboBoxSort";
-import { useSession } from "next-auth/react";
 
 interface SubCategoryComponentProps {
   Products: Product[];

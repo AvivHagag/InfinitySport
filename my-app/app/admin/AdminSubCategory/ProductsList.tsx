@@ -3,11 +3,6 @@ import { Product } from "@prisma/client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import {
-  addToCartNewProduct,
-  getSession,
-} from "../../ServerAction/ServerAction";
-import { toast } from "sonner";
 import ProductEditModal from "../../ProductEditModal";
 
 type ProductCardProps = {
