@@ -1,10 +1,10 @@
-import { useSession } from "next-auth/react";
 import CategoryComponent from "../CategoryComponent/CategoryComponent";
-import { getAllProducts } from "../ServerAction/ServerAction";
+import { getAllProducts, getUserCart } from "../ServerAction/ServerAction";
 
 export default async function Home() {
   const categoriesIDs = [1, 2, 3, 4, 5];
   const HomeFitnessProducts = await getAllProducts(categoriesIDs);
+  const CartItems = await getUserCart();
   const categories = [
     { id: "SelectTreadmill", name: "Treadmill", value: 1 },
     { id: "SelectCrossOver", name: "Cross Over", value: 2 },
@@ -15,12 +15,13 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col py-12 px-2">
       <h1 className="text-center">Home Fitness Equipment</h1>
-      {HomeFitnessProducts && (
+      {HomeFitnessProducts && CartItems && (
         <CategoryComponent
           Products={HomeFitnessProducts}
           PageName={"Home Fitness Equipment"}
           PageUrl="/homefitnessequipment"
           categories={categories}
+          CartItems={CartItems}
         />
       )}
     </main>

@@ -178,3 +178,18 @@ export const addToCartNewProduct = async (
     console.error("Error Adding New Product To Cart", error);
   }
 };
+
+export const getUserCart = async () => {
+  try {
+    const user = await getSession();
+    if (user) {
+      const Usercart = await db.user.findUnique({
+        where: { id: user },
+        include: { cart: { include: { products: true } } },
+      });
+      return Usercart?.cart?.products;
+    }
+  } catch (error) {
+    console.error("Error Fetching Products From Cart", error);
+  }
+};

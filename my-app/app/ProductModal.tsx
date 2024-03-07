@@ -1,5 +1,5 @@
 import { Product } from "@prisma/client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -8,12 +8,54 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "@/src/components/ui/button";
+import { getSession } from "next-auth/react";
+import { addToCartNewProduct } from "./ServerAction/ServerAction";
+import { toast } from "sonner";
+import ClipLoader from "react-spinners/ClipLoader";
+
 interface ProductModalProps {
   product: Product;
   onClose: () => void;
 }
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const handleAddToCart = async (
+    ProductID: number,
+    productImage: string,
+    ProductName: string
+  ) => {
+    if (await getSession()) {
+      setIsLoading(true);
+      await addToCartNewProduct(ProductID, 1);
+      toast(
+        <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-col">
+            <p className="text-sm font-medium text-naivyBlue dark:text-glowGreen">
+              Added to the cart !
+            </p>
+
+            <p className="text-xs text-naivyBlue dark:text-glowGreen">
+              {ProductName}
+            </p>
+          </div>
+          <div>
+            <img
+              src={productImage}
+              alt={ProductName}
+              style={{ width: "50px", height: "auto" }}
+            />
+          </div>
+        </div>,
+        { duration: 1250 }
+      );
+      setIsLoading(false);
+      onClose();
+    } else {
+      console.log(false);
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 bg-gray-600 dark:bg-slate-900 bg-opacity-80 dark:bg-opacity-80 w-full overflow-y-auto h-full w-full"
@@ -133,11 +175,35 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               <Button
                 variant="outline"
                 className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                onClick={() => {
+                  isLoading
+                    ? null
+                    : handleAddToCart(
+                        product.id,
+                        product.image ? product.image : "null",
+                        product.name
+                      );
+                }}
               >
-                Add to Cart
-                <span>
-                  <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
-                </span>
+                {isLoading ? (
+                  <>
+                    <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                      Adding ..{" "}
+                    </p>
+                    <ClipLoader
+                      color="#FFFFFF dark:#9ffd32"
+                      className="text-naivyBlue dark:text-glowGreen"
+                      size={20}
+                    />
+                  </>
+                ) : (
+                  <>
+                    Add to Cart
+                    <span>
+                      <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                    </span>
+                  </>
+                )}
               </Button>
               <Button variant="outline" className="text-xxs sm:text-xs p-1">
                 Buy it Now

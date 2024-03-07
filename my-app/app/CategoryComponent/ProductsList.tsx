@@ -6,6 +6,8 @@ import { Button } from "@/src/components/ui/button";
 import {
   CreditCardIcon,
   InformationCircleIcon,
+  MinusIcon,
+  PlusIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import ProductModal from "../ProductModal";
@@ -15,12 +17,21 @@ import { toast } from "sonner";
 
 type ProductCardProps = {
   product: Product;
+  CartItems: CartItemType[];
 };
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+interface CartItemType {
+  cartId: number;
+  productId: number;
+  quantity: number;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
   const { id, image, name, price, onSale, salePercent } = product;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const cartItem = CartItems.find((item) => item.productId === product.id);
+  const isInCart = cartItem !== undefined;
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -117,45 +128,76 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
         <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0 justify-between py-2 px-1">
-          <Button
-            variant="outline"
-            className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
-            onClick={() => {
-              isLoading
-                ? null
-                : handleAddToCart(
-                    product.id,
-                    product.image ? product.image : "null",
-                    product.name
-                  );
-            }}
-          >
-            {isLoading ? (
-              <>
-                <p className="text-naivyBlue dark:text-glowGreen text-xxs">
-                  Adding ..{" "}
-                </p>
-                <ClipLoader
-                  color="#FFFFFF dark:#9ffd32"
-                  className="text-naivyBlue dark:text-glowGreen"
-                  size={20}
-                />
-              </>
-            ) : (
-              <>
-                Add to Cart
+          {isInCart ? (
+            <>
+              <div className="flex space-x-1 justify-center mx-auto">
+                <Button
+                  variant="outline"
+                  className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                >
+                  <span>
+                    <MinusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </span>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-4 py-1 border border-naivyBlue dark:border-glowGreen"
+                >
+                  {cartItem.quantity}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                >
+                  <span>
+                    <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </span>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                onClick={() => {
+                  isLoading
+                    ? null
+                    : handleAddToCart(
+                        product.id,
+                        product.image ? product.image : "null",
+                        product.name
+                      );
+                }}
+              >
+                {isLoading ? (
+                  <>
+                    <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                      Adding ..{" "}
+                    </p>
+                    <ClipLoader
+                      color="#FFFFFF dark:#9ffd32"
+                      className="text-naivyBlue dark:text-glowGreen"
+                      size={20}
+                    />
+                  </>
+                ) : (
+                  <>
+                    Add to Cart
+                    <span>
+                      <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                    </span>
+                  </>
+                )}
+              </Button>
+              <Button variant="outline" className="text-xxs sm:text-xs p-1">
+                Buy it Now
                 <span>
-                  <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                  <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
                 </span>
-              </>
-            )}
-          </Button>
-          <Button variant="outline" className="text-xxs sm:text-xs p-1">
-            Buy it Now
-            <span>
-              <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
-            </span>
-          </Button>
+              </Button>
+            </>
+          )}
         </div>
       </div>
       {isModalOpen && (
@@ -167,13 +209,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
 type ProductsListProps = {
   Products: Product[];
+  CartItems: CartItemType[];
 };
 
-const ProductsList: React.FC<ProductsListProps> = ({ Products }) => {
+const ProductsList: React.FC<ProductsListProps> = ({ Products, CartItems }) => {
   return (
     <div className="flex flex-wrap justify-center px-1">
       {Products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard key={product.id} product={product} CartItems={CartItems} />
       ))}
     </div>
   );
