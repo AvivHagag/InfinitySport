@@ -1,6 +1,5 @@
-import { useSession } from "next-auth/react";
-import CategoryComponent from "../CategoryComponent/CategoryComponent";
-import { getAllProducts } from "../ServerAction/ServerAction";
+import CategoryComponent from "../AdminCategory/CategoryComponent";
+import { getAllProducts } from "../../ServerAction/ServerAction";
 
 export default async function Home() {
   const categoriesIDs = [1, 2, 3, 4, 5];

@@ -65,6 +65,45 @@ export const CreateNewProduct = async (
   }
 };
 
+export const UpdateExistProduct = async (
+  ProductId: number,
+  Name: string,
+  Manufacturer: string,
+  Price: number,
+  ImageUrl: string,
+  Description: string,
+  Color: string,
+  CategoryId: number,
+  Size: string,
+  Quantity: number,
+  OnSale: boolean,
+  SalePercent: number
+) => {
+  try {
+    if (ProductId) {
+      const UpdatedProduct = await db.product.update({
+        where: { id: ProductId },
+        data: {
+          name: Name,
+          manufacturer: Manufacturer,
+          price: Price,
+          image: ImageUrl,
+          description: Description,
+          color: Color,
+          categoryId: CategoryId,
+          size: Size,
+          quantity: Quantity,
+          onSale: OnSale || false,
+          salePercent: SalePercent,
+        },
+      });
+      console.log("Updated Product: ", UpdatedProduct);
+    }
+  } catch (error) {
+    console.error("Error saving a product - ", error);
+  }
+};
+
 export const getAllProducts = async (CategoriesID: Array<number>) => {
   try {
     const Products = await db.product.findMany({

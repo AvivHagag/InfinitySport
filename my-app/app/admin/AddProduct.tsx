@@ -146,7 +146,6 @@ const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
       setIsLoading(false);
       return;
     }
-    console.log(size);
     if (size == null || size === "") {
       setErrorSize(true);
       setIsLoading(false);

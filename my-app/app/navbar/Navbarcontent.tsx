@@ -5,6 +5,7 @@ import NavigationComponent from "./NavigationComponent";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import NavigationAccordion from "./NavigationAccordion";
+import { useSession } from "next-auth/react";
 
 const LogoChooseNoSSR = dynamic(() => import("./LogoChoose"), {
   ssr: false,
@@ -12,6 +13,13 @@ const LogoChooseNoSSR = dynamic(() => import("./LogoChoose"), {
 
 const Navbarcontent = () => {
   const [imdobileMenuOpen, setImdobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
+  let url;
+  if (session && session.user.role === "admin") {
+    url = "/admin/";
+  } else {
+    url = "/";
+  }
   return (
     <>
       <div className="flex items-center">
@@ -27,7 +35,7 @@ const Navbarcontent = () => {
         </button>
         <div className="hidden md:flex flex-row items-center space-x-1">
           <LogoChooseNoSSR />
-          <NavigationComponent />
+          <NavigationComponent url={url} />
         </div>
       </div>
       <div
@@ -42,7 +50,10 @@ const Navbarcontent = () => {
           >
             <LogoChooseNoSSR />
           </div>{" "}
-          <NavigationAccordion setImdobileMenuOpen={setImdobileMenuOpen} />
+          <NavigationAccordion
+            setImdobileMenuOpen={setImdobileMenuOpen}
+            url={url}
+          />
         </div>
       </div>
     </>
