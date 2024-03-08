@@ -179,6 +179,44 @@ export const addToCartNewProduct = async (
   }
 };
 
+export const UpdateQuantityItemInCart = async (
+  newQuantity: number,
+  productId: number,
+  cartId: number
+) => {
+  try {
+    if (newQuantity == 0) {
+      const DeleteCartItem = await db.cartItem.delete({
+        where: {
+          cartId_productId: {
+            cartId: cartId,
+            productId: productId,
+          },
+        },
+      });
+      console.log(
+        "DeleteCartItem CartID - ",
+        DeleteCartItem.cartId,
+        " ProductID - ",
+        DeleteCartItem.productId
+      );
+    } else {
+      const updatedItem = await db.cartItem.update({
+        where: {
+          cartId_productId: {
+            cartId: cartId,
+            productId: productId,
+          },
+        },
+        data: { quantity: newQuantity },
+      });
+      console.log("updatedItem ", updatedItem);
+    }
+  } catch (error) {
+    console.error("Error Updating Products In Cart", error);
+  }
+};
+
 export const getUserCart = async () => {
   try {
     const user = await getSession();

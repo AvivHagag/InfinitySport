@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@prisma/client";
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -9,11 +9,18 @@ import {
   MinusIcon,
   PlusIcon,
   ShoppingCartIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import ProductModal from "../ProductModal";
-import { addToCartNewProduct, getSession } from "../ServerAction/ServerAction";
+import {
+  UpdateQuantityItemInCart,
+  addToCartNewProduct,
+  getSession,
+} from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "sonner";
+import { Input } from "@/src/components/ui/input";
+import { useRouter } from "next/navigation";
 
 type ProductCardProps = {
   product: Product;
@@ -30,8 +37,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
   const { id, image, name, price, onSale, salePercent } = product;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(false);
   const cartItem = CartItems.find((item) => item.productId === product.id);
   const isInCart = cartItem !== undefined;
+  const [newValue, setNewValue] = useState<number>(
+    cartItem?.quantity ? cartItem?.quantity : 1
+  );
+  const [quantityError, setQuantityError] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -67,9 +80,41 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
         { duration: 1250 }
       );
       setIsLoading(false);
+      router.refresh();
     } else {
       console.log(false);
     }
+  };
+
+  const handleQuantityUpdate = (
+    action: "increase" | "decrease" | ChangeEvent<HTMLInputElement>
+  ) => {
+    setQuantityError(false);
+    let newQuantity = newValue;
+    if (action === "increase") {
+      if (newValue == product.quantity) {
+        setQuantityError(true);
+        return;
+      }
+      newQuantity = Math.min(newValue + 1, product.quantity);
+    } else if (action === "decrease") {
+      newQuantity = newValue - 1;
+    } else if (action && typeof action !== "string") {
+      const inputVal = Number(action.target.value);
+      newQuantity = Math.min(product.quantity, inputVal);
+    }
+    setNewValue(newQuantity);
+    UpdateFunction(newQuantity);
+  };
+
+  const UpdateFunction = async (newQuantity: number) => {
+    if (cartItem?.cartId) {
+      setIsLoadingUpdate(true);
+      await UpdateQuantityItemInCart(newQuantity, product.id, cartItem?.cartId);
+      router.refresh();
+      setIsLoadingUpdate(false);
+    }
+    return;
   };
 
   return (
@@ -127,81 +172,118 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
             )}
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0 justify-between py-2 px-1">
-          {isInCart ? (
-            <>
-              <div className="flex space-x-1 justify-center mx-auto">
-                <Button
-                  variant="outline"
-                  className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
-                >
-                  <span>
-                    <MinusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-4 py-1 border border-naivyBlue dark:border-glowGreen"
-                >
-                  {cartItem.quantity}
-                </Button>
-                <Button
-                  variant="outline"
-                  className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
-                >
-                  <span>
-                    <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </span>
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="outline"
-                className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
-                onClick={() => {
-                  isLoading
-                    ? null
-                    : handleAddToCart(
-                        product.id,
-                        product.image ? product.image : "null",
-                        product.name
-                      );
-                }}
-              >
-                {isLoading ? (
-                  <>
-                    <p className="text-naivyBlue dark:text-glowGreen text-xxs">
-                      Adding ..{" "}
-                    </p>
-                    <ClipLoader
-                      color="#FFFFFF dark:#9ffd32"
-                      className="text-naivyBlue dark:text-glowGreen"
-                      size={20}
-                    />
-                  </>
-                ) : (
-                  <>
-                    Add to Cart
+        {isLoadingUpdate ? (
+          <div className="flex items-center justify-center pb-2 space-x-2">
+            <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+              Updating ..
+            </p>
+            <ClipLoader
+              color="#FFFFFF dark:#9ffd32"
+              className="text-naivyBlue dark:text-glowGreen"
+              size={20}
+            />
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0 justify-between py-2 px-1">
+              {isInCart ? (
+                <>
+                  <div className="flex flex-col mx-auto">
+                    <div className="flex space-x-1 justify-center">
+                      <Button
+                        variant="outline"
+                        className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-1 sm:p-1 border border-naivyBlue dark:border-glowGreen"
+                      >
+                        <div onClick={() => handleQuantityUpdate("decrease")}>
+                          {cartItem.quantity == 1 ? (
+                            <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                          ) : (
+                            <MinusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                          )}
+                        </div>
+                      </Button>
+                      <Input
+                        type="number"
+                        min="1"
+                        max={product.quantity}
+                        value={newValue}
+                        step={1}
+                        onChange={(e) => handleQuantityUpdate(e)}
+                        className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-4 sm:py-1 border border-naivyBlue dark:border-glowGreen"
+                        placeholder={cartItem.quantity.toString()}
+                      />
+
+                      <Button
+                        variant="outline"
+                        className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-1 sm:p-1 border border-naivyBlue dark:border-glowGreen"
+                      >
+                        <div onClick={() => handleQuantityUpdate("increase")}>
+                          <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                        </div>
+                      </Button>
+                    </div>
+                    {quantityError ? (
+                      <p className="text-sm text-red-600">Limit of the stock</p>
+                    ) : null}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                    onClick={() => {
+                      isLoading
+                        ? null
+                        : handleAddToCart(
+                            product.id,
+                            product.image ? product.image : "null",
+                            product.name
+                          );
+                    }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                          Adding ..{" "}
+                        </p>
+                        <ClipLoader
+                          color="#FFFFFF dark:#9ffd32"
+                          className="text-naivyBlue dark:text-glowGreen"
+                          size={20}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        Add to Cart
+                        <span>
+                          <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                        </span>
+                      </>
+                    )}
+                  </Button>
+                  <Button variant="outline" className="text-xxs sm:text-xs p-1">
+                    Buy it Now
                     <span>
-                      <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                      <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
                     </span>
-                  </>
-                )}
-              </Button>
-              <Button variant="outline" className="text-xxs sm:text-xs p-1">
-                Buy it Now
-                <span>
-                  <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
-                </span>
-              </Button>
-            </>
-          )}
-        </div>
+                  </Button>
+                </>
+              )}
+            </div>
+          </>
+        )}
       </div>
       {isModalOpen && (
-        <ProductModal product={product} onClose={() => setIsModalOpen(false)} />
+        <ProductModal
+          product={product}
+          CartItems={CartItems}
+          newValue={newValue}
+          setNewValue={setNewValue}
+          quantityError={quantityError}
+          setQuantityError={setQuantityError}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
     </>
   );
