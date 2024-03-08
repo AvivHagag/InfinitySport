@@ -124,7 +124,7 @@ export default function Contactus() {
         </div>
         <ul className="text-sm space-y-2 text-white dark:">
           <li>InfintySport@gmail.com</li>
-          <li>03-914-2400</li>
+          <li>1-800-207-777</li>
         </ul>
       </div>
     </div>
