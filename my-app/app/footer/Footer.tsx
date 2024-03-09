@@ -84,9 +84,9 @@ export default function Footer() {
       </div>
 
       <div className="mx-6 py-6 text-center md:text-left">
-        <div className="grid-1 grid gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
+        <div className="grid-1 grid gap-4 sm:gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
           <div className="">
-            <h6 className="mb-1 sm:mb-1 sm:mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 sm:mb-1 sm:mb-4 text-base sm:text-lg flex justify-center font-semibold uppercase md:justify-start">
               Products
             </h6>
             <p className="mb-1 sm:mb-4">
@@ -116,7 +116,7 @@ export default function Footer() {
           </div>
 
           <div className="">
-            <h6 className="mb-1 sm:mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 sm:mb-4 flex justify-center text-base sm:text-lg font-semibold uppercase md:justify-start">
               Useful links
             </h6>
             <p className="mb-1 sm:mb-4">
@@ -128,7 +128,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h6 className="mb-1 sm:mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 sm:mb-4 flex justify-center text-base sm:text-lg font-semibold uppercase md:justify-start">
               Contact
             </h6>
             <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">

@@ -90,16 +90,25 @@ const ShoppingCartDetails = () => {
                   </div>
                   <div className="h-[0.5px] bg-black dark:bg-current" />
                   <div className="flex justify-between mx-2">
-                    <div className="text-base font-medium">Total</div>
+                    <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                      Total
+                    </div>
                     {totalPrice && totalPrice >= 250 ? (
-                      <div className="text-base font-medium">{totalPrice}$</div>
+                      <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                        {totalPrice}$
+                      </div>
                     ) : (
-                      <div className="text-base font-medium">
+                      <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
                         {totalPrice && totalPrice + 15}$
                       </div>
                     )}
                   </div>
-                  <Button variant="outline">Checkout</Button>
+                  <Button
+                    variant="outline"
+                    className="text-naivyBlue dark:text-glowGreen hover:text-naivyBlue hover:dark:text-glowGreen"
+                  >
+                    Checkout
+                  </Button>
                 </div>
               </div>
             </>

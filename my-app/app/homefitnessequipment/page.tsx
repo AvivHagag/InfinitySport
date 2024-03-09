@@ -4,7 +4,6 @@ import { getAllProducts, getUserCart } from "../ServerAction/ServerAction";
 export default async function Home() {
   const categoriesIDs = [1, 2, 3, 4, 5];
   const HomeFitnessProducts = await getAllProducts(categoriesIDs);
-  console.log("HomeFitnessProducts", HomeFitnessProducts);
   const CartItems = await getUserCart();
   const categories = [
     { id: "SelectTreadmill", name: "Treadmill", value: 1 },

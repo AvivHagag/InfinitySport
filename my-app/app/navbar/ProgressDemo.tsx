@@ -22,7 +22,7 @@ const ProgressDemo: React.FC<ProgressDemoProps> = ({ totalPrice }) => {
         }
         return newProgress;
       });
-    }, 25);
+    }, 20);
     setShowTextFlag(true);
     return () => clearInterval(timer);
   }, [percentage]);
