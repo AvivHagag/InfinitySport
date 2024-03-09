@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col py-12 px-2">
       <h1 className="text-center">Hand Weights</h1>
-      {HandWeightsProducts && CartItems && (
+      {HandWeightsProducts && (
         <SubCategoryComponent
           Products={HandWeightsProducts}
           PageName={"Hand Weights"}

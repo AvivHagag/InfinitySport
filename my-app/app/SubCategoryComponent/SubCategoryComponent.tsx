@@ -18,7 +18,7 @@ interface SubCategoryComponentProps {
   MainPageName: string;
   PageUrl: string;
   MainPageUrl: string;
-  CartItems: CartItemType[];
+  CartItems?: CartItemType[];
 }
 
 export default function SubCategoryComponent({

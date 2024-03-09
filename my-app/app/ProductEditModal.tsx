@@ -26,6 +26,7 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { cn } from "@/src/lib/utils";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface ProductModalProps {
   product: Product;
@@ -133,7 +134,6 @@ export default function ProductEditModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Start");
     const hasChanges =
       name !== product.name ||
       manufacturer !== product.manufacturer ||
@@ -245,12 +245,18 @@ export default function ProductEditModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-gray-600 dark:bg-slate-900 bg-opacity-80 dark:bg-opacity-80 w-full overflow-y-auto h-full"
+      className="fixed inset-0 z-50 bg-gray-600 dark:bg-slate-950 bg-opacity-80 dark:bg-opacity-80 w-full overflow-y-auto h-full"
       id="my-modal"
     >
       <div className="relative top-20 mx-auto p-1 border shadow-lg w-4/5 sm:w-3/4 rounded-xl bg-white dark:bg-slate-950">
-        <div className="absolute right-5 top-5 z-10">
-          <XMarkIcon className="h-6 w-6 cursor-pointer" onClick={onClose} />
+        <div className="flex justify-between p-2">
+          <div className="z-10 text-naivyBlue dark:text-glowGreen">Edit:</div>
+          <div className="z-10">
+            <XMarkIcon
+              className="h-6 w-6 cursor-pointer text-naivyBlue dark:text-glowGreen"
+              onClick={onClose}
+            />
+          </div>
         </div>
         {isLoading ? (
           <div className="flex flex-col justify-center items-center py-8">
@@ -261,12 +267,25 @@ export default function ProductEditModal({
           <div>
             <form
               onSubmit={handleSubmit}
-              className="flex rounded w-full sm:w-3/5 mx-auto justify-center px-2"
+              className="flex flex-col rounded w-full sm:w-3/5 mx-auto justify-center px-2"
             >
+              {product.image && (
+                <>
+                  <Image
+                    src={product.image}
+                    alt={`${product.id}'s picture`}
+                    className="rounded-lg mx-auto"
+                    width={180}
+                    height={180}
+                  />{" "}
+                </>
+              )}
               <div className="flex flex-col mb-4 space-y-2">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:space-x-2">
                   <div className="flex flex-col">
-                    <Label className="text-base">Name</Label>
+                    <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                      Name
+                    </Label>
                     <Input
                       id="name"
                       type="text"
@@ -281,7 +300,9 @@ export default function ProductEditModal({
                     ) : null}
                   </div>
                   <div className="flex flex-col">
-                    <Label className="text-base">Manufacturer</Label>
+                    <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                      Manufacturer
+                    </Label>
                     <Input
                       id="manufacturer"
                       type="text"
@@ -298,7 +319,9 @@ export default function ProductEditModal({
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:space-x-2">
                   <div className="flex flex-col">
-                    <Label className="text-base">Price</Label>
+                    <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                      Price
+                    </Label>
                     <Input
                       id="price"
                       type="number"
@@ -314,7 +337,9 @@ export default function ProductEditModal({
                     ) : null}
                   </div>
                   <div className="flex flex-col">
-                    <Label className="text-base">Image Url</Label>
+                    <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                      Image Url
+                    </Label>
                     <Input
                       id="image"
                       type="text"
@@ -330,7 +355,9 @@ export default function ProductEditModal({
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <Label className="text-base">Size</Label>
+                  <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                    Size
+                  </Label>
                   <Textarea
                     id="size"
                     name="size"
@@ -343,7 +370,9 @@ export default function ProductEditModal({
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:space-x-2">
                   <div className="flex flex-col">
-                    <Label className="text-base">Color</Label>
+                    <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                      Color
+                    </Label>
                     <Input
                       id="color"
                       type="text"
@@ -358,7 +387,9 @@ export default function ProductEditModal({
                     ) : null}
                   </div>
                   <div className="flex flex-col">
-                    <Label className="text-base">Quantity</Label>
+                    <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                      Quantity
+                    </Label>
                     <Input
                       id="quantity"
                       type="number"
@@ -374,7 +405,9 @@ export default function ProductEditModal({
                     ) : null}
                   </div>
                 </div>
-                <Label className="text-base">category </Label>
+                <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                  category{" "}
+                </Label>
                 {categories ? (
                   <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -437,7 +470,9 @@ export default function ProductEditModal({
                     onChange={handleChange}
                     className="w-4 h-4"
                   />
-                  <Label className="text-base">On Sale ?</Label>
+                  <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                    On Sale ?
+                  </Label>
                 </div>
                 {onSale && (
                   <>
@@ -459,7 +494,9 @@ export default function ProductEditModal({
                     ) : null}
                   </>
                 )}
-                <Label className="text-base">Description</Label>
+                <Label className="text-base text-naivyBlue dark:text-glowGreen">
+                  Description
+                </Label>
                 <Textarea
                   id="description"
                   name="description"
@@ -472,8 +509,12 @@ export default function ProductEditModal({
                   </p>
                 ) : null}
                 <div className="flex items-center justify-center pt-4">
-                  <Button variant={"outline"} type="submit">
-                    Add Product
+                  <Button
+                    variant={"outline"}
+                    type="submit"
+                    className="text-naivyBlue dark:text-glowGreen border-naivyBlue dark:border-glowGreen"
+                  >
+                    Update Product
                   </Button>
                 </div>
               </div>

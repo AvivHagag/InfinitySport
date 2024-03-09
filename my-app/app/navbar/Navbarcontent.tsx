@@ -5,17 +5,19 @@ import NavigationComponent from "./NavigationComponent";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import NavigationAccordion from "./NavigationAccordion";
-import { useSession } from "next-auth/react";
 
 const LogoChooseNoSSR = dynamic(() => import("./LogoChoose"), {
   ssr: false,
 });
 
-const Navbarcontent = () => {
+interface NavbarcontentProps {
+  Rule: string;
+}
+
+const Navbarcontent: React.FC<NavbarcontentProps> = ({ Rule }) => {
   const [imdobileMenuOpen, setImdobileMenuOpen] = useState(false);
-  const { data: session } = useSession();
   let url;
-  if (session && session.user.role === "admin") {
+  if (Rule === "admin") {
     url = "/admin/";
   } else {
     url = "/";

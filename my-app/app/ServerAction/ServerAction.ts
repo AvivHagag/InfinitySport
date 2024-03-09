@@ -8,6 +8,11 @@ export const getSession = async () => {
   return session ? session?.user.id : null;
 };
 
+export const getRule = async () => {
+  const session = await getServerSession(authOptions);
+  return session ? session.user.role : "";
+};
+
 export const CreateNewCatgory = async (Name: string) => {
   try {
     const NewCatgory = await db.category.create({
@@ -229,5 +234,20 @@ export const getUserCart = async () => {
     }
   } catch (error) {
     console.error("Error Fetching Products From Cart", error);
+  }
+};
+
+export const getProductsDetails = async (ProductIDs: Array<number>) => {
+  try {
+    const Products = await db.product.findMany({
+      where: {
+        id: {
+          in: ProductIDs,
+        },
+      },
+    });
+    return Products;
+  } catch (error) {
+    console.error("Error fetching Products", error);
   }
 };

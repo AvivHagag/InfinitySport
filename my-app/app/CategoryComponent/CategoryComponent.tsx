@@ -23,7 +23,7 @@ interface CategoryComponentProps {
   PageName: string;
   PageUrl: string;
   categories: Category[];
-  CartItems: CartItemType[];
+  CartItems: CartItemType[] | undefined;
 }
 
 export default function CategoryComponent({
@@ -64,7 +64,10 @@ export default function CategoryComponent({
         />
         <div className="flex flex-grow">
           {sortedProducts ? (
-            <ProductsList Products={sortedProducts} CartItems={CartItems} />
+            <ProductsList
+              Products={sortedProducts}
+              CartItems={CartItems || []}
+            />
           ) : (
             <div className="text-base text-center">
               There are currently no products in the selected category

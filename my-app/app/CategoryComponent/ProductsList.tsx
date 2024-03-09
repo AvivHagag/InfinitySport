@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 
 type ProductCardProps = {
   product: Product;
-  CartItems: CartItemType[];
+  CartItems?: CartItemType[];
 };
 
 interface CartItemType {
@@ -38,7 +38,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(false);
-  const cartItem = CartItems.find((item) => item.productId === product.id);
+  const cartItem = CartItems
+    ? CartItems.find((item) => item.productId === product.id)
+    : null;
   const isInCart = cartItem !== undefined;
   const [newValue, setNewValue] = useState<number>(
     cartItem?.quantity ? cartItem?.quantity : 1
@@ -186,7 +188,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
         ) : (
           <>
             <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0 justify-between py-2 px-1">
-              {isInCart ? (
+              {isInCart && cartItem ? (
                 <>
                   <div className="flex flex-col mx-auto">
                     <div className="flex space-x-1 justify-center">
@@ -291,7 +293,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
 
 type ProductsListProps = {
   Products: Product[];
-  CartItems: CartItemType[];
+  CartItems?: CartItemType[];
 };
 
 const ProductsList: React.FC<ProductsListProps> = ({ Products, CartItems }) => {

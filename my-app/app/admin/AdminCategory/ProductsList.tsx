@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@prisma/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import ProductEditModal from "../../ProductEditModal";

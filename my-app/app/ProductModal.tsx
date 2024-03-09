@@ -29,7 +29,7 @@ interface CartItemType {
 
 interface ProductModalProps {
   product: Product;
-  CartItems: CartItemType[];
+  CartItems?: CartItemType[];
   newValue: number;
   setNewValue: React.Dispatch<React.SetStateAction<number>>;
   quantityError: boolean;
@@ -48,7 +48,9 @@ export default function ProductModal({
 }: ProductModalProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(false);
-  const cartItem = CartItems.find((item) => item.productId === product.id);
+  const cartItem = CartItems
+    ? CartItems.find((item) => item.productId === product.id)
+    : null;
   const isInCart = cartItem !== undefined;
   const router = useRouter();
 
@@ -91,7 +93,6 @@ export default function ProductModal({
   const handleQuantityUpdate = (
     action: "increase" | "decrease" | ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("Start handleQuantityUpdate");
     setQuantityError(false);
     let newQuantity = newValue;
     if (action === "increase") {
@@ -111,9 +112,7 @@ export default function ProductModal({
   };
 
   const UpdateFunction = async (newQuantity: number) => {
-    console.log("Start UpdateFunction");
     if (cartItem?.cartId) {
-      console.log("Start UpdateFunction ifffffff");
       setIsLoadingUpdate(true);
       await UpdateQuantityItemInCart(newQuantity, product.id, cartItem?.cartId);
       router.refresh();
@@ -251,7 +250,7 @@ export default function ProductModal({
             ) : (
               <>
                 <div className="flex justify-center space-x-4 py-1">
-                  {isInCart ? (
+                  {isInCart && cartItem ? (
                     <>
                       <div className="flex flex-col mx-auto p-1">
                         <div className="flex space-x-1 justify-center">

@@ -5,12 +5,12 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-naivyBlue dark:bg-slate-950 dark:border-t text-slate-200 dark:text-neutral-200 lg:text-left">
+    <footer className="bg-naivyBlue dark:bg-slate-950 dark:border-t text-slate-200 dark:text-neutral-200 lg:text-left text-sm sm:text-base">
       <div className="flex items-center justify-center border-b p-3 lg:justify-between">
         <div className="mr-12 hidden lg:block">
           <span>Get connected with us on social networks:</span>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center">
           <a className="mr-6 text-slate-200 dark:text-neutral-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,10 +86,10 @@ export default function Footer() {
       <div className="mx-6 py-6 text-center md:text-left">
         <div className="grid-1 grid gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
           <div className="">
-            <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 sm:mb-1 sm:mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Products
             </h6>
-            <p className="mb-4">
+            <p className="mb-1 sm:mb-4">
               <Link
                 href="/homefitnessequipment/"
                 className="text-slate-200 dark:text-neutral-200"
@@ -97,7 +97,7 @@ export default function Footer() {
                 Home Fitness Equipment
               </Link>
             </p>
-            <p className="mb-4">
+            <p className="mb-1 sm:mb-4">
               <Link
                 href="/dumbbells&bars/"
                 className="text-slate-200 dark:text-neutral-200"
@@ -105,7 +105,7 @@ export default function Footer() {
                 Dumbbells & Bars
               </Link>
             </p>
-            <p className="mb-4">
+            <p className="mb-1 sm:mb-4">
               <Link
                 href="/stand&facilities/"
                 className="text-slate-200 dark:text-neutral-200"
@@ -116,22 +116,22 @@ export default function Footer() {
           </div>
 
           <div className="">
-            <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 sm:mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Useful links
             </h6>
-            <p className="mb-4">
+            <p className="mb-1 sm:mb-4">
               <a className="text-slate-200 dark:text-neutral-200">About us</a>
             </p>
-            <p className="mb-4">
+            <p className="mb-1 sm:mb-4">
               <a className="text-slate-200 dark:text-neutral-200">Orders</a>
             </p>
           </div>
 
           <div>
-            <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 sm:mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Contact
             </h6>
-            <p className="mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -143,7 +143,7 @@ export default function Footer() {
               </svg>
               56 Bialik St., Beer Sheva
             </p>
-            <p className="mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -155,7 +155,7 @@ export default function Footer() {
               </svg>
               info@example.com
             </p>
-            <p className="mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

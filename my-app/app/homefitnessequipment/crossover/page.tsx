@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col py-12 px-2">
       <h1 className="text-center">Cross Over</h1>
-      {CrossoverProducts && CartItems && (
+      {CrossoverProducts && (
         <SubCategoryComponent
           Products={CrossoverProducts}
           PageName={"Cross Over"}
