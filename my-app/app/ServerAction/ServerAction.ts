@@ -13,6 +13,50 @@ export const getRule = async () => {
   return session ? session.user.role : "";
 };
 
+export const getAddress = async () => {
+  const session = await getServerSession(authOptions);
+  try {
+    const Address = await db.address.findUnique({
+      where: {
+        userId: session?.user.id,
+      },
+    });
+    return Address;
+  } catch (error) {
+    console.error("Error creating a catgory - ", error);
+  }
+};
+
+interface AddressFormValues {
+  city: string;
+  street: string;
+  homeNumber: string;
+  apartmentNumber: string;
+  state: string;
+}
+
+export const setAddress = async (values: AddressFormValues) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("Not authenticated");
+  }
+  try {
+    const Address = await db.address.create({
+      data: {
+        city: values.city,
+        street: values.street,
+        homeNumber: parseInt(values.homeNumber, 10),
+        apartmentNumber: parseInt(values.apartmentNumber, 10),
+        state: values.state,
+        userId: session.user.id,
+      },
+    });
+    console.log(Address);
+  } catch (error) {
+    console.error("Error creating a catgory - ", error);
+  }
+};
+
 export const CreateNewCatgory = async (Name: string) => {
   try {
     const NewCatgory = await db.category.create({

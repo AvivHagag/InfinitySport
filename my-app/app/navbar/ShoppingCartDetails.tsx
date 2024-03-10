@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { getProductsDetails, getUserCart } from "../ServerAction/ServerAction";
+import {
+  getAddress,
+  getProductsDetails,
+  getUserCart,
+} from "../ServerAction/ServerAction";
 import { CartItem, Product } from "@prisma/client";
 import ProgressDemo from "./ProgressDemo";
 import ProductList from "./ProductList";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/src/components/ui/button";
+import InsertAddress from "./InsertAddress";
 
 const ShoppingCartDetails = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>();
   const [ProductDetails, setProductDetails] = useState<Product[]>();
   const [totalPrice, setTotalPrice] = useState<number>();
   const [FlagNoItems, setFlagNoItems] = useState<boolean>(false);
+  const [FlagEditAddress, setFlagEditAddress] = useState<boolean>(false);
+  const [AddressComponentOpen, setAddressComponentOpen] =
+    useState<boolean>(false);
+
   const fetchCartItems = async () => {
     const items = await getUserCart();
     if (!items) {
@@ -39,6 +48,19 @@ const ShoppingCartDetails = () => {
     }
   };
 
+  const Checkout = async () => {
+    const Address = await getAddress();
+    if (Address) {
+      console.log(Address);
+      console.log(cartItems);
+      console.log(ProductDetails);
+      console.log(totalPrice);
+    } else {
+      setFlagEditAddress(true);
+      setAddressComponentOpen(true);
+    }
+  };
+
   useEffect(() => {
     fetchCartItems();
   }, []);
@@ -60,7 +82,7 @@ const ShoppingCartDetails = () => {
       {cartItems.length > 0 ? (
         <>
           {totalPrice && <ProgressDemo totalPrice={totalPrice} />}
-          {ProductDetails && (
+          {ProductDetails && !AddressComponentOpen && (
             <>
               <ScrollArea className="h-4/5 sm:h-[400px] w-full border-t pr-1 mb-1">
                 <div className="flex flex-col flex- justify-center px-1">
@@ -74,45 +96,54 @@ const ShoppingCartDetails = () => {
                   ))}
                 </div>
               </ScrollArea>
-              <div className="fixed bottom-[-2px] left-1/2 transform -translate-x-1/2 w-[24.5rem] h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
-                <div className="flex flex-col space-y-1 mx-8 my-2">
-                  <div className="flex justify-between mx-2">
-                    <div className="text-sm">Sub-Total</div>
-                    <div className="text-sm">{totalPrice}$</div>
-                  </div>
-                  <div className="flex justify-between mx-2">
-                    <div className="text-sm">Shipping</div>
-                    {totalPrice && totalPrice >= 250 ? (
-                      <div className="text-sm">Free Shipping !</div>
-                    ) : (
-                      <div className="text-sm">{15}$</div>
-                    )}
-                  </div>
-                  <div className="h-[0.5px] bg-black dark:bg-current" />
-                  <div className="flex justify-between mx-2">
-                    <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
-                      Total
-                    </div>
-                    {totalPrice && totalPrice >= 250 ? (
-                      <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
-                        {totalPrice}$
-                      </div>
-                    ) : (
-                      <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
-                        {totalPrice && totalPrice + 15}$
-                      </div>
-                    )}
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="text-naivyBlue dark:text-glowGreen hover:text-naivyBlue hover:dark:text-glowGreen"
-                  >
-                    Checkout
-                  </Button>
-                </div>
-              </div>
             </>
           )}
+          {AddressComponentOpen && (
+            <InsertAddress
+              setAddressComponentOpen={setAddressComponentOpen}
+              setFlagEditAddress={setFlagEditAddress}
+            />
+          )}
+          <div className="fixed bottom-[-2px] left-1/2 transform -translate-x-1/2 w-[24.5rem] h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
+            <div className="flex flex-col space-y-1 mx-8 my-2">
+              <div className="flex justify-between mx-2">
+                <div className="text-sm">Sub-Total</div>
+                <div className="text-sm">{totalPrice}$</div>
+              </div>
+              <div className="flex justify-between mx-2">
+                <div className="text-sm">Shipping</div>
+                {totalPrice && totalPrice >= 250 ? (
+                  <div className="text-sm">Free Shipping !</div>
+                ) : (
+                  <div className="text-sm">{15}$</div>
+                )}
+              </div>
+              <div className="h-[0.5px] bg-black dark:bg-current" />
+              <div className="flex justify-between mx-2">
+                <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                  Total
+                </div>
+                {totalPrice && totalPrice >= 250 ? (
+                  <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                    {totalPrice}$
+                  </div>
+                ) : (
+                  <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                    {totalPrice && totalPrice + 15}$
+                  </div>
+                )}
+              </div>
+              <Button
+                variant="outline"
+                className={`text-naivyBlue dark:text-glowGreen hover:text-naivyBlue hover:dark:text-glowGreen ${
+                  FlagEditAddress ? "hidden" : ""
+                }`}
+                onClick={Checkout}
+              >
+                Checkout
+              </Button>
+            </div>
+          </div>
         </>
       ) : (
         <div className="text-sm text-center">The Cart Is Empty ..</div>
