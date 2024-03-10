@@ -62,7 +62,7 @@ const ShoppingCartDetails = () => {
           {totalPrice && <ProgressDemo totalPrice={totalPrice} />}
           {ProductDetails && (
             <>
-              <ScrollArea className="h-4/5 sm:h-[400px] w-full border-t pr-2 mb-1">
+              <ScrollArea className="h-4/5 sm:h-[400px] w-full border-t pr-1 mb-1">
                 <div className="flex flex-col flex- justify-center px-1">
                   {ProductDetails.map((product) => (
                     <ProductList

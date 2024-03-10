@@ -73,7 +73,10 @@ const ProductList: React.FC<ProductListProps> = ({
   return (
     <>
       <div key={product.id} className="flex flex-row items-center my-2">
-        <XMarkIcon className="h-6 w-6 text-naivyBlue dark:text-glowGreen" />
+        <XMarkIcon
+          className="h-6 w-6 text-naivyBlue dark:text-glowGreen hover:cursor-pointer hover:scale-110"
+          onClick={() => UpdateFunction(0)}
+        />
         <div className="relative w-20 h-20 sm:w-24 sm:h-24">
           {product.image && (
             <>
@@ -89,12 +92,12 @@ const ProductList: React.FC<ProductListProps> = ({
             </>
           )}
           {product.onSale && (
-            <div className="absolute top-0 text-sm rounded-tr-lg right-0 bg-naivyBlue dark:bg-glowGreen text-black p-1">
+            <div className="absolute top-0 text-sm rounded-tr-lg right-0 bg-naivyBlue dark:bg-glowGreen text-black py-0 px-0.5">
               Sale!
             </div>
           )}
         </div>
-        <div className="flex flex-col text-sm mx-1 w-1/3 sm:w-32">
+        <div className="flex flex-col text-sm mx-1 w-1/3 sm:w-36">
           <div>{product.name}</div>
           <div className="text-sm text-naivyBlue dark:text-glowGreen">
             {totalPrice}$
@@ -112,7 +115,7 @@ const ProductList: React.FC<ProductListProps> = ({
           <>
             {cartItem ? (
               <div className="flex flex-col mx-auto">
-                <div className="flex justify-center">
+                <div className="flex justify-end">
                   <Button
                     variant="outline"
                     className="text-naivyBlue dark:text-glowGreen text-xxs px-1 rounded-l-lg rounded-r-none sm:p-1 border border-naivyBlue dark:border-glowGreen"
@@ -132,7 +135,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     value={newValue}
                     step={1}
                     onChange={(e) => handleQuantityUpdate(e)}
-                    className="rounded-none text-naivyBlue dark:text-glowGreen text-xxs w-12 sm:py-1 border-t border-b border-naivyBlue dark:border-glowGreen"
+                    className="rounded-none text-naivyBlue dark:text-glowGreen text-xxs w-12 px-2 sm:py-1 border-t border-b border-naivyBlue dark:border-glowGreen"
                     placeholder={cartItem.quantity.toString()}
                   />
 

@@ -81,6 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
         </div>,
         { duration: 1250 }
       );
+      setNewValue(1);
       setIsLoading(false);
       router.refresh();
     } else {
@@ -208,7 +209,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
                         type="number"
                         min="1"
                         max={product.quantity}
-                        value={newValue}
+                        value={cartItem.quantity}
                         step={1}
                         onChange={(e) => handleQuantityUpdate(e)}
                         className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-4 sm:py-1 border border-naivyBlue dark:border-glowGreen"

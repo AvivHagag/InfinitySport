@@ -83,6 +83,7 @@ export default function ProductModal({
         </div>,
         { duration: 1250 }
       );
+      setNewValue(1);
       setIsLoading(false);
       router.refresh();
     } else {
@@ -94,7 +95,7 @@ export default function ProductModal({
     action: "increase" | "decrease" | ChangeEvent<HTMLInputElement>
   ) => {
     setQuantityError(false);
-    let newQuantity = newValue;
+    let newQuantity = cartItem ? cartItem.quantity : newValue;
     if (action === "increase") {
       if (newValue == product.quantity) {
         setQuantityError(true);
@@ -272,7 +273,7 @@ export default function ProductModal({
                             type="number"
                             min="1"
                             max={product.quantity}
-                            value={newValue}
+                            value={cartItem.quantity}
                             step={1}
                             onChange={(e) => handleQuantityUpdate(e)}
                             className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs px-4 sm:py-1 border border-naivyBlue dark:border-glowGreen"
