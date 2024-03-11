@@ -10,8 +10,18 @@ const LogoChooseNoSSR = dynamic(() => import("./LogoChoose"), {
   ssr: false,
 });
 
-const Navbarcontent = () => {
+interface NavbarcontentProps {
+  Rule: string;
+}
+
+const Navbarcontent: React.FC<NavbarcontentProps> = ({ Rule }) => {
   const [imdobileMenuOpen, setImdobileMenuOpen] = useState(false);
+  let url;
+  if (Rule === "admin") {
+    url = "/admin/";
+  } else {
+    url = "/";
+  }
   return (
     <>
       <div className="flex items-center">
@@ -27,7 +37,7 @@ const Navbarcontent = () => {
         </button>
         <div className="hidden md:flex flex-row items-center space-x-1">
           <LogoChooseNoSSR />
-          <NavigationComponent />
+          <NavigationComponent url={url} />
         </div>
       </div>
       <div
@@ -42,7 +52,10 @@ const Navbarcontent = () => {
           >
             <LogoChooseNoSSR />
           </div>{" "}
-          <NavigationAccordion setImdobileMenuOpen={setImdobileMenuOpen} />
+          <NavigationAccordion
+            setImdobileMenuOpen={setImdobileMenuOpen}
+            url={url}
+          />
         </div>
       </div>
     </>

@@ -12,11 +12,18 @@ interface Category {
   value: number;
 }
 
+interface CartItemType {
+  cartId: number;
+  productId: number;
+  quantity: number;
+}
+
 interface CategoryComponentProps {
   Products: Product[];
   PageName: string;
   PageUrl: string;
   categories: Category[];
+  CartItems: CartItemType[] | undefined;
 }
 
 export default function CategoryComponent({
@@ -24,6 +31,7 @@ export default function CategoryComponent({
   PageName,
   PageUrl,
   categories,
+  CartItems,
 }: CategoryComponentProps) {
   const [sortedProducts, setSortedProducts] = useState<Product[]>(Products);
   return (
@@ -56,7 +64,10 @@ export default function CategoryComponent({
         />
         <div className="flex flex-grow">
           {sortedProducts ? (
-            <ProductsList Products={sortedProducts} />
+            <ProductsList
+              Products={sortedProducts}
+              CartItems={CartItems || []}
+            />
           ) : (
             <div className="text-base text-center">
               There are currently no products in the selected category

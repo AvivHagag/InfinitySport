@@ -6,12 +6,19 @@ import Link from "next/link";
 import { Product } from "@prisma/client";
 import ComboBoxSort from "./ComboBoxSort";
 
+interface CartItemType {
+  cartId: number;
+  productId: number;
+  quantity: number;
+}
+
 interface SubCategoryComponentProps {
   Products: Product[];
   PageName: string;
   MainPageName: string;
   PageUrl: string;
   MainPageUrl: string;
+  CartItems?: CartItemType[];
 }
 
 export default function SubCategoryComponent({
@@ -20,6 +27,7 @@ export default function SubCategoryComponent({
   MainPageName,
   PageUrl,
   MainPageUrl,
+  CartItems,
 }: SubCategoryComponentProps) {
   const [sortedProducts, setSortedProducts] = useState<Product[]>(Products);
   return (
@@ -55,7 +63,7 @@ export default function SubCategoryComponent({
         />
         <div className="flex flex-grow">
           {sortedProducts ? (
-            <ProductsList Products={sortedProducts} />
+            <ProductsList Products={sortedProducts} CartItems={CartItems} />
           ) : (
             <div className="text-base text-center">
               There are currently no products in the selected category

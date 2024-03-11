@@ -30,11 +30,13 @@ export const authOptions: AuthOptions = {
         const additionalUserInfo = await db.user.findUnique({
           where: { email: user.email },
         });
+        token.id = additionalUserInfo ? additionalUserInfo.id : "UserID";
         token.role = additionalUserInfo ? additionalUserInfo.role : "user";
       }
       return token;
     },
     async session({ session, token }) {
+      session.user.id = token.id;
       session.user.role = token.role;
       return session;
     },

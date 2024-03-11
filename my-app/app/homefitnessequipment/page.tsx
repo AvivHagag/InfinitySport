@@ -1,9 +1,10 @@
 import CategoryComponent from "../CategoryComponent/CategoryComponent";
-import { getAllProducts } from "../ServerAction/ServerAction";
+import { getAllProducts, getUserCart } from "../ServerAction/ServerAction";
 
 export default async function Home() {
   const categoriesIDs = [1, 2, 3, 4, 5];
   const HomeFitnessProducts = await getAllProducts(categoriesIDs);
+  const CartItems = await getUserCart();
   const categories = [
     { id: "SelectTreadmill", name: "Treadmill", value: 1 },
     { id: "SelectCrossOver", name: "Cross Over", value: 2 },
@@ -20,6 +21,7 @@ export default async function Home() {
           PageName={"Home Fitness Equipment"}
           PageUrl="/homefitnessequipment"
           categories={categories}
+          CartItems={CartItems}
         />
       )}
     </main>
