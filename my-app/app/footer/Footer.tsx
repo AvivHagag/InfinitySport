@@ -120,7 +120,12 @@ export default function Footer() {
               Useful links
             </h6>
             <p className="mb-4">
-              <a className="text-slate-200 dark:text-neutral-200">About us</a>
+              <Link
+                href="/Aboutus/"
+                className="text-slate-200 dark:text-neutral-200"
+              >
+                About us
+              </Link>
             </p>
             <p className="mb-4">
               <a className="text-slate-200 dark:text-neutral-200">Orders</a>
