@@ -1,17 +1,19 @@
 import React from "react";
 import SigninButton from "./SignInButton";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import SearchButton from "./SearchButton";
 import Navbarcontent from "./Navbarcontent";
+import { getRule } from "../ServerAction/ServerAction";
+import ShoppingCartDropdown from "./ShoppingCartDropdown";
 
-const NavBar = () => {
+const NavBar = async () => {
+  const Rule = await getRule();
   return (
     <header className="flex px-2">
       <div className="flex justify-between items-center w-full">
-        <Navbarcontent />
+        <Navbarcontent Rule={Rule} />
         <div className="flex flex-row items-center">
           <SearchButton />
-          <ShoppingCartIcon className="h-5 w-5 m-1 cursor-pointer hover:animate-spin-once" />
+          {Rule === "admin" ? null : <ShoppingCartDropdown />}
           <SigninButton />
         </div>
       </div>
