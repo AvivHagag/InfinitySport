@@ -3,14 +3,14 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { StateOption } from "@/src/lib/usa";
 import { Button } from "@/src/components/ui/button";
 
-interface CustomSelectProps {
+interface StateSelectProps {
   label: string;
   options: StateOption[];
   value: string;
   onChange: (newValue: string) => void;
 }
 
-const CustomSelect: FC<CustomSelectProps> = ({
+const StateSelect: FC<StateSelectProps> = ({
   label,
   options,
   value,
@@ -70,4 +70,4 @@ const CustomSelect: FC<CustomSelectProps> = ({
   );
 };
 
-export default CustomSelect;
+export default StateSelect;

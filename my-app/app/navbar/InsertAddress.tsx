@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import CustomSelect from "./CustomSelect";
+import StateSelect from "./StateSelect";
 import { US_STATES_WITH_FLAGS } from "@/src/lib/usa";
 import ClipLoader from "react-spinners/ClipLoader";
 import { setAddress } from "../ServerAction/ServerAction";
@@ -94,11 +94,11 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
           </div>
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col rounded w-full sm:w-4/5 mx-auto justify-center px-2 space-y-4"
+            className="flex flex-col rounded w-4/5 mx-auto justify-center px-2 space-y-4"
           >
             <div className="flex flex-col sm:justify-between space-y-2">
               <div className="">
-                <CustomSelect
+                <StateSelect
                   label="State"
                   options={US_STATES_WITH_FLAGS}
                   value={values.state || ""}

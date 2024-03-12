@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@amcharts/amcharts5": "^5.8.4",
+    "@amcharts/amcharts5-geodata": "^5.1.2",
     "@auth/prisma-adapter": "^1.4.0",
     "@emotion/react": "^11.11.4",
     "@heroicons/react": "^2.1.1",
@@ -38,6 +40,7 @@
     "react-awesome-reveal": "^4.2.8",
     "react-dom": "^18",
     "react-spinners": "^0.13.8",
+    "resend": "^3.2.0",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.1",
     "tailwind-scrollbar": "^3.1.0",

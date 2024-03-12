@@ -11,7 +11,6 @@ interface FormErrors {
 }
 
 export default function Contactus() {
-  // State for form inputs
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,13 +18,34 @@ export default function Contactus() {
   const [isMessageSent, setIsMessageSent] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      console.log("Form submitted:", { firstName, lastName, email, message });
+      // const formData = new FormData();
+      // formData.append("firstname", firstName);
+      // formData.append("lastName", lastName);
+      // formData.append("email", email);
+      // formData.append("message", message);
+      // const response = await fetch("http://localhost:3000/api/send", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     firstName,
+      //     lastName,
+      //     email,
+      //     message,
+      //   }),
+      // });
+      // const result = await response.json();
+      // if (response.ok) {
       setIsMessageSent(true);
       setFormErrors({});
+      // } else {
+      //   console.error("Failed to send message:", result);
+      // }
     } else {
       setFormErrors(errors);
     }
@@ -48,12 +68,12 @@ export default function Contactus() {
   };
 
   return (
-    <div className="p-8 rounded-lg shadow-md flex dark:shadow-gray-600">
-      <div className="w-1/2 pr-6">
+    <div className="py-4 px-1 sm:p-4 rounded-lg shadow-md flex dark:shadow-gray-800 dark:shadow-xl w-full">
+      <div className="w-1/2 sm:pr-6">
         <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="text-sm text-naivyBlue dark:text-glowGreen">
+            <label className="text-xs sm:text-sm text-naivyBlue dark:text-gray-400">
               First Name:
             </label>
             <Input
@@ -63,13 +83,13 @@ export default function Contactus() {
               className="w-full p-2 border rounded-md"
             />
             {formErrors.firstName && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-red-500 text-xs sm:text-sm mt-1">
                 {formErrors.firstName}
               </p>
             )}
           </div>
           <div className="mb-4">
-            <label className="text-sm text-naivyBlue dark:text-glowGreen">
+            <label className="text-xs sm:text-sm text-naivyBlue dark:text-gray-400">
               Last Name:
             </label>
             <Input
@@ -79,11 +99,13 @@ export default function Contactus() {
               className="w-full p-2 border rounded-md"
             />
             {formErrors.lastName && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.lastName}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">
+                {formErrors.lastName}
+              </p>
             )}
           </div>
           <div className="mb-4">
-            <label className="text-sm text-naivyBlue dark:text-glowGreen">
+            <label className="text-xs sm:text-sm text-naivyBlue dark:text-gray-400">
               Email:
             </label>
             <Input
@@ -93,18 +115,20 @@ export default function Contactus() {
               className="w-full p-2 border rounded-md"
             />
             {formErrors.email && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">
+                {formErrors.email}
+              </p>
             )}
           </div>
           <div className="mb-4">
-            <label className="text-sm text-naivyBlue dark:text-glowGreen">
+            <label className="text-xs sm:text-sm text-naivyBlue dark:text-gray-400">
               Your message...
             </label>
             <Textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full p-2 border rounded-md"
-              rows="4"
+              rows={4}
             />
           </div>
           <Button type="submit" variant={"outline"}>
@@ -116,15 +140,19 @@ export default function Contactus() {
         )}
       </div>
 
-      <div className="w-px bg-gray-300 mx-2" />
+      <div className="w-px bg-gray-300 sm:mx-2 mx-1" />
 
-      <div className="w-1/2 px-2 bg-naivySky dark:bg-slate-950 rounded-lg">
-        <div className="text-lg font-medium mb-4 text-white">
+      <div className="w-1/2 pl-2 bg-contact-us bg-cover dark:grayscale rounded-r-md text-naivyBlue ">
+        <div className="text-md text-center sm:text-lg font-medium mb-4 dark:text-black">
           Ways of Contact us
         </div>
-        <ul className="text-sm space-y-2 text-white dark:">
-          <li>InfintySport@gmail.com</li>
-          <li>1-800-207-777</li>
+        <ul className="text-xs sm:text-sm text-center space-y-2 dark:text-gray-700">
+          <li>
+            <a href="mailto:InfinitySport@gmail.com">InfinitySport@gmail.com</a>
+          </li>
+          <li>
+            <a href="tel:1-800-207-777">1-800-207-777</a>
+          </li>
         </ul>
       </div>
     </div>
