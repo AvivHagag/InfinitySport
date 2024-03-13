@@ -163,6 +163,32 @@ const NavigationAccordion: React.FC<NavigationAccordionProps> = ({
             </Link>
           </AccordionContent>
         </AccordionItem>
+        <AccordionItem value="item-4">
+          <AccordionTrigger>Company</AccordionTrigger>
+          <AccordionContent>
+            <Link className="underline font-medium text-md" href={`/Aboutus`}>
+              <div className="my-1" onClick={() => setImdobileMenuOpen(false)}>
+                Company
+              </div>
+            </Link>
+            <Link href={`/Aboutus`}>
+              <div
+                className="my-1 text-sm"
+                onClick={() => setImdobileMenuOpen(false)}
+              >
+                About us
+              </div>
+            </Link>
+            <Link href={`contactus`}>
+              <div
+                className="my-1 text-sm"
+                onClick={() => setImdobileMenuOpen(false)}
+              >
+                Contact us
+              </div>
+            </Link>
+          </AccordionContent>
+        </AccordionItem>
       </Accordion>
     </>
   );

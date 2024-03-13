@@ -114,6 +114,22 @@ const NavigationComponent: React.FC<NavigationComponentProps> = ({ url }) => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="flex justify-center underline font-medium text-md pt-2 hover:scale-105 hover:text-naivyBlue dark:hover:text-glowGreen">
+              <Link href={`/Aboutus`}>Company</Link>
+            </div>
+            <ul className="grid w-[400px] gap-2 p-4 md:w-[600px] md:grid-cols-2 lg:w-[600px] text-base ">
+              <li className="hover:text-naivyBlue dark:hover:text-glowGreen">
+                <Link href={`/Aboutus`}>About us</Link>
+              </li>
+              <li className="hover:text-naivyBlue dark:hover:text-glowGreen">
+                <Link href={`/contactus`}>Contact us</Link>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
