@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
+  BellAlertIcon,
   CreditCardIcon,
   MinusIcon,
   PlusIcon,
@@ -120,6 +121,34 @@ export default function ProductModal({
       setIsLoadingUpdate(false);
     }
     return;
+  };
+
+  const handleRestockAlert = async (
+    productImage: string,
+    ProductName: string
+  ) => {
+    toast(
+      <div className="flex flex-row justify-between items-center w-full">
+        <div className="flex flex-col">
+          <p className="text-sm font-medium text-red-500 w-3/4">
+            We will notify you when the product will be in stock
+          </p>
+          <div className="flex space-x-2">
+            <p className="text-xs">{ProductName}</p>
+            <BellAlertIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
+          </div>
+        </div>
+        <div>
+          <img
+            src={productImage}
+            alt={ProductName}
+            style={{ width: "50px", height: "auto" }}
+          />
+        </div>
+      </div>,
+      { duration: 2250 }
+    );
+    onClose();
   };
 
   return (
@@ -300,48 +329,73 @@ export default function ProductModal({
                     </>
                   ) : (
                     <>
-                      <Button
-                        variant="outline"
-                        className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
-                        onClick={() => {
-                          isLoading
-                            ? null
-                            : handleAddToCart(
-                                product.id,
-                                product.image ? product.image : "null",
-                                product.name
-                              );
-                        }}
-                      >
-                        {isLoading ? (
-                          <>
-                            <p className="text-naivyBlue dark:text-glowGreen text-xxs">
-                              Adding ..{" "}
-                            </p>
-                            <ClipLoader
-                              color="#FFFFFF dark:#9ffd32"
-                              className="text-naivyBlue dark:text-glowGreen"
-                              size={20}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            Add to Cart
+                      {product.quantity > 0 ? (
+                        <>
+                          <Button
+                            variant="outline"
+                            className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                            onClick={() => {
+                              isLoading
+                                ? null
+                                : handleAddToCart(
+                                    product.id,
+                                    product.image ? product.image : "null",
+                                    product.name
+                                  );
+                            }}
+                          >
+                            {isLoading ? (
+                              <>
+                                <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                                  Adding ..{" "}
+                                </p>
+                                <ClipLoader
+                                  color="#FFFFFF dark:#9ffd32"
+                                  className="text-naivyBlue dark:text-glowGreen"
+                                  size={20}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                Add to Cart
+                                <span>
+                                  <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                                </span>
+                              </>
+                            )}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            className="text-xxs sm:text-xs p-1"
+                          >
+                            Buy it Now
                             <span>
-                              <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                              <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
                             </span>
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="text-xxs sm:text-xs p-1"
-                      >
-                        Buy it Now
-                        <span>
-                          <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
-                        </span>
-                      </Button>
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex flex-col items-center mx-auto text-red-600">
+                            <p className="capitalize text-sm">Out of stock</p>
+                            <Button
+                              variant="outline"
+                              className="capitalize hover:text-red-800 dark:hover:text-red-400 text-xxs sm:text-xs p-1 border border-red-500"
+                              onClick={() =>
+                                handleRestockAlert(
+                                  product.image ? product.image : "null",
+                                  product.name
+                                )
+                              }
+                            >
+                              Restock alert
+                              <span>
+                                <BellAlertIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
+                              </span>
+                            </Button>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

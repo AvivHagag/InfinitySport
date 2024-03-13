@@ -35,7 +35,7 @@ export default function CategoryComponent({
           </Link>
           <p>/</p>
           <Link
-            href={PageUrl}
+            href={`/admin${PageUrl}`}
             className="hover:scale-105 text-gray-800 dark:text-gray-200 font-medium"
           >
             {PageName}

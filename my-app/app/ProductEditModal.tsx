@@ -403,6 +403,11 @@ export default function ProductEditModal({
                         Insert currect quantity
                       </p>
                     ) : null}
+                    {quantity == 0 ? (
+                      <p className="capitalize text-sm text-red-600">
+                        Out of stock
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <Label className="text-base text-naivyBlue dark:text-glowGreen">
