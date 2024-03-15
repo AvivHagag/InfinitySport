@@ -1,8 +1,9 @@
 import { Product } from "@prisma/client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
+  BellAlertIcon,
   CreditCardIcon,
   MinusIcon,
   PlusIcon,
@@ -34,6 +35,7 @@ interface ProductModalProps {
   setNewValue: React.Dispatch<React.SetStateAction<number>>;
   quantityError: boolean;
   setQuantityError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleFlagChange: () => void;
   onClose: () => void;
 }
 
@@ -44,6 +46,7 @@ export default function ProductModal({
   setNewValue,
   quantityError,
   setQuantityError,
+  handleFlagChange,
   onClose,
 }: ProductModalProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -87,7 +90,48 @@ export default function ProductModal({
       setIsLoading(false);
       router.refresh();
     } else {
-      console.log(false);
+      setIsLoading(true);
+      const newCartItem = {
+        productId: ProductID,
+        quantity: 1,
+        productImage,
+        productName: ProductName,
+      };
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const existingItemIndex = cartItems.findIndex(
+        (item: { productId: number }) => item.productId === ProductID
+      );
+      if (existingItemIndex > -1) {
+        return;
+      } else {
+        cartItems.push(newCartItem);
+        setNewValue(1);
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      toast(
+        <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-col">
+            <p className="text-sm font-medium text-naivyBlue dark:text-glowGreen">
+              Added to the cart (locally)!
+            </p>
+            <p className="text-xs text-naivyBlue dark:text-glowGreen">
+              {ProductName}
+            </p>
+          </div>
+          <div>
+            <img
+              src={productImage}
+              alt={ProductName}
+              style={{ width: "50px", height: "auto" }}
+            />
+          </div>
+        </div>,
+        { duration: 1250 }
+      );
+      handleFlagChange();
+      setIsLoading(false);
+      router.refresh();
     }
   };
 
@@ -113,14 +157,72 @@ export default function ProductModal({
   };
 
   const UpdateFunction = async (newQuantity: number) => {
-    if (cartItem?.cartId) {
-      setIsLoadingUpdate(true);
-      await UpdateQuantityItemInCart(newQuantity, product.id, cartItem?.cartId);
-      router.refresh();
-      setIsLoadingUpdate(false);
+    if (await getSession()) {
+      if (cartItem?.cartId) {
+        setIsLoadingUpdate(true);
+        await UpdateQuantityItemInCart(
+          newQuantity,
+          product.id,
+          cartItem?.cartId
+        );
+        setIsLoadingUpdate(false);
+        router.refresh();
+      }
+      return;
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const itemIndex = cartItems.findIndex(
+        (item: CartItemType) => item.productId === product.id
+      );
+
+      if (itemIndex !== -1) {
+        if (newQuantity <= 0) {
+          cartItems.splice(itemIndex, 1);
+        } else {
+          cartItems[itemIndex].quantity = newQuantity;
+        }
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        handleFlagChange();
+        setIsLoadingUpdate(false);
+        router.refresh();
+      }
     }
-    return;
   };
+
+  const handleRestockAlert = async (
+    productImage: string,
+    ProductName: string
+  ) => {
+    toast(
+      <div className="flex flex-row justify-between items-center w-full">
+        <div className="flex flex-col">
+          <p className="text-sm font-medium text-red-500 w-3/4">
+            We will notify you when the product will be in stock
+          </p>
+          <div className="flex space-x-2">
+            <p className="text-xs">{ProductName}</p>
+            <BellAlertIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
+          </div>
+        </div>
+        <div>
+          <img
+            src={productImage}
+            alt={ProductName}
+            style={{ width: "50px", height: "auto" }}
+          />
+        </div>
+      </div>,
+      { duration: 2250 }
+    );
+    onClose();
+  };
+
+  useEffect(() => {
+    if (cartItem?.quantity) {
+      setNewValue(cartItem?.quantity);
+    }
+  }, [cartItem?.quantity]);
 
   return (
     <div
@@ -300,48 +402,73 @@ export default function ProductModal({
                     </>
                   ) : (
                     <>
-                      <Button
-                        variant="outline"
-                        className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
-                        onClick={() => {
-                          isLoading
-                            ? null
-                            : handleAddToCart(
-                                product.id,
-                                product.image ? product.image : "null",
-                                product.name
-                              );
-                        }}
-                      >
-                        {isLoading ? (
-                          <>
-                            <p className="text-naivyBlue dark:text-glowGreen text-xxs">
-                              Adding ..{" "}
-                            </p>
-                            <ClipLoader
-                              color="#FFFFFF dark:#9ffd32"
-                              className="text-naivyBlue dark:text-glowGreen"
-                              size={20}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            Add to Cart
+                      {product.quantity > 0 ? (
+                        <>
+                          <Button
+                            variant="outline"
+                            className="text-naivyBlue dark:text-glowGreen text-xxs sm:text-xs p-1 border border-naivyBlue dark:border-glowGreen"
+                            onClick={() => {
+                              isLoading
+                                ? null
+                                : handleAddToCart(
+                                    product.id,
+                                    product.image ? product.image : "null",
+                                    product.name
+                                  );
+                            }}
+                          >
+                            {isLoading ? (
+                              <>
+                                <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                                  Adding ..{" "}
+                                </p>
+                                <ClipLoader
+                                  color="#FFFFFF dark:#9ffd32"
+                                  className="text-naivyBlue dark:text-glowGreen"
+                                  size={20}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                Add to Cart
+                                <span>
+                                  <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                                </span>
+                              </>
+                            )}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            className="text-xxs sm:text-xs p-1"
+                          >
+                            Buy it Now
                             <span>
-                              <ShoppingCartIcon className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                              <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
                             </span>
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="text-xxs sm:text-xs p-1"
-                      >
-                        Buy it Now
-                        <span>
-                          <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
-                        </span>
-                      </Button>
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex flex-col items-center mx-auto text-red-600">
+                            <p className="capitalize text-sm">Out of stock</p>
+                            <Button
+                              variant="outline"
+                              className="capitalize hover:text-red-800 dark:hover:text-red-400 text-xxs sm:text-xs p-1 border border-red-500"
+                              onClick={() =>
+                                handleRestockAlert(
+                                  product.image ? product.image : "null",
+                                  product.name
+                                )
+                              }
+                            >
+                              Restock alert
+                              <span>
+                                <BellAlertIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
+                              </span>
+                            </Button>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

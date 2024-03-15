@@ -1,9 +1,12 @@
 "use client";
 import { Product } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TruckIcon } from "@heroicons/react/24/outline";
 import ProductEditModal from "../../ProductEditModal";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { UpdateProductQuantity } from "@/app/ServerAction/ServerAction";
 
 type ProductCardProps = {
   product: Product;
@@ -12,9 +15,28 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { id, image, name, price, onSale, salePercent } = product;
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [OrderingStock, setOrderingStock] = useState(false);
+  const [newValue, setNewValue] = useState<number>(0);
+  const [isOrderedID, setIsOrderedID] = useState<number[]>([]);
 
   const handleAdminOpenModal = () => {
     setIsAdminModalOpen(true);
+  };
+
+  const handleQuantityUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewValue(Number(e.target.value));
+  };
+
+  const handleUpdateQuantity = () => {
+    setOrderingStock(true);
+  };
+
+  const handleOrderingStock = async (ProductID: number) => {
+    if (newValue == 0) {
+      return;
+    }
+    await UpdateProductQuantity(ProductID, newValue);
+    setIsOrderedID((prevIDs) => [...prevIDs, ProductID]);
   };
 
   return (
@@ -72,6 +94,49 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </div>
         </div>
+        {isOrderedID.includes(product.id) ? (
+          <div className="flex flex-col items-center mx-auto mb-1 text-green-600">
+            <p className="capitalize text-sm">Ordered!</p>
+          </div>
+        ) : product.quantity == 0 ? (
+          <div className="flex flex-col items-center mx-auto mb-1 text-red-600">
+            <p className="capitalize text-sm">Out of stock</p>
+            {!OrderingStock ? (
+              <Button
+                variant="outline"
+                className="capitalize hover:text-red-800 dark:hover:text-red-400 text-xxs sm:text-xs p-1 border border-red-500"
+                onClick={() => handleUpdateQuantity()}
+              >
+                Update Quantity
+                <span>
+                  <TruckIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
+                </span>
+              </Button>
+            ) : (
+              <div className="flex justify-between px-0.5 sm:px-2 space-x-1 sm:space-x-2">
+                <Button
+                  variant="outline"
+                  className="capitalize hover:text-red-800 dark:hover:text-red-400 text-xxs sm:text-xs p-1 border border-red-500"
+                  onClick={() => handleOrderingStock(product.id)}
+                >
+                  Order
+                  <span>
+                    <TruckIcon className="ml-1 w-3 sm:h-4 sm:w-4" />
+                  </span>
+                </Button>
+                <Input
+                  type="number"
+                  min="1"
+                  value={newValue}
+                  step={1}
+                  onChange={(e) => handleQuantityUpdate(e)}
+                  className="text-red-600 text-xxs sm:text-xs px-2 sm:px-4 sm:py-1 border border-red-500 w-12 sm:w-16"
+                  placeholder={"Choose Quantity"}
+                />
+              </div>
+            )}
+          </div>
+        ) : null}
       </div>
       {isAdminModalOpen && (
         <ProductEditModal

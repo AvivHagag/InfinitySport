@@ -295,3 +295,22 @@ export const getProductsDetails = async (ProductIDs: Array<number>) => {
     console.error("Error fetching Products", error);
   }
 };
+
+export const UpdateProductQuantity = async (
+  ProductID: number,
+  newQuantity: number
+) => {
+  try {
+    const Product = await db.product.update({
+      where: {
+        id: ProductID,
+      },
+      data: {
+        quantity: newQuantity,
+      },
+    });
+    console.log(Product);
+  } catch (error) {
+    console.error("Error fetching Products", error);
+  }
+};
