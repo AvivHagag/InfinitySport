@@ -24,12 +24,6 @@ export default function FilterComponent({
   categories,
 }: FilterComponentProps) {
   const [sortDefault, setSortDefault] = useState<Product[]>(sortedProducts);
-  const [SelectTreadmill, setSelectTreadmill] = useState<boolean>(false);
-  const [SelectRowingMachine, setSelectRowingMachine] =
-    useState<boolean>(false);
-  const [SelectCrossOver, setSelectCrossOver] = useState<boolean>(false);
-  const [SelectExerciseBike, setSelectExerciseBike] = useState<boolean>(false);
-  const [SelectMultiTrainer, setSelectMultiTrainer] = useState<boolean>(false);
   const minPrice = Math.min(...sortedProducts.map((product) => product.price));
   const maxPrice = Math.max(...sortedProducts.map((product) => product.price));
   const [MinPrice, setMinPrice] = useState<number>(minPrice);

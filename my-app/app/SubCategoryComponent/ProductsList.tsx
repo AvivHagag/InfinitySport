@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@prisma/client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -26,6 +26,7 @@ import { Input } from "@/src/components/ui/input";
 type ProductCardProps = {
   product: Product;
   CartItems?: CartItemType[];
+  handleFlagChange: () => void;
 };
 
 interface CartItemType {
@@ -34,7 +35,11 @@ interface CartItemType {
   quantity: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  CartItems,
+  handleFlagChange,
+}) => {
   const { id, image, name, price, onSale, salePercent } = product;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,7 +47,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
   const cartItem = CartItems
     ? CartItems.find((item) => item.productId === product.id)
     : null;
-  const isInCart = cartItem !== undefined;
   const [newValue, setNewValue] = useState<number>(
     cartItem?.quantity ? cartItem?.quantity : 1
   );
@@ -85,7 +89,48 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
       setIsLoading(false);
       router.refresh();
     } else {
-      console.log(false);
+      setIsLoading(true);
+      const newCartItem = {
+        productId: ProductID,
+        quantity: 1,
+        productImage,
+        productName: ProductName,
+      };
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const existingItemIndex = cartItems.findIndex(
+        (item: { productId: number }) => item.productId === ProductID
+      );
+      if (existingItemIndex > -1) {
+        return;
+      } else {
+        cartItems.push(newCartItem);
+        setNewValue(1);
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      toast(
+        <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-col">
+            <p className="text-sm font-medium text-naivyBlue dark:text-glowGreen">
+              Added to the cart (locally)!
+            </p>
+            <p className="text-xs text-naivyBlue dark:text-glowGreen">
+              {ProductName}
+            </p>
+          </div>
+          <div>
+            <img
+              src={productImage}
+              alt={ProductName}
+              style={{ width: "50px", height: "auto" }}
+            />
+          </div>
+        </div>,
+        { duration: 1250 }
+      );
+      handleFlagChange();
+      setIsLoading(false);
+      router.refresh();
     }
   };
 
@@ -111,13 +156,37 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
   };
 
   const UpdateFunction = async (newQuantity: number) => {
-    if (cartItem?.cartId) {
-      setIsLoadingUpdate(true);
-      await UpdateQuantityItemInCart(newQuantity, product.id, cartItem?.cartId);
-      router.refresh();
-      setIsLoadingUpdate(false);
+    if (await getSession()) {
+      if (cartItem?.cartId) {
+        setIsLoadingUpdate(true);
+        await UpdateQuantityItemInCart(
+          newQuantity,
+          product.id,
+          cartItem?.cartId
+        );
+        setIsLoadingUpdate(false);
+        router.refresh();
+      }
+      return;
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const itemIndex = cartItems.findIndex(
+        (item: CartItemType) => item.productId === product.id
+      );
+
+      if (itemIndex !== -1) {
+        if (newQuantity <= 0) {
+          cartItems.splice(itemIndex, 1);
+        } else {
+          cartItems[itemIndex].quantity = newQuantity;
+        }
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        handleFlagChange();
+        setIsLoadingUpdate(false);
+        router.refresh();
+      }
     }
-    return;
   };
 
   const handleRestockAlert = async (
@@ -146,6 +215,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
       { duration: 2250 }
     );
   };
+
+  useEffect(() => {
+    if (cartItem?.quantity) {
+      setNewValue(cartItem?.quantity);
+    }
+  }, [cartItem?.quantity]);
 
   return (
     <>
@@ -216,7 +291,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
         ) : (
           <>
             <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0 justify-between py-2 px-1">
-              {isInCart && cartItem ? (
+              {cartItem ? (
                 <>
                   <div className="flex flex-col mx-auto">
                     <div className="flex space-x-1 justify-center">
@@ -340,6 +415,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
           setNewValue={setNewValue}
           quantityError={quantityError}
           setQuantityError={setQuantityError}
+          handleFlagChange={handleFlagChange}
           onClose={() => setIsModalOpen(false)}
         />
       )}
@@ -350,13 +426,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, CartItems }) => {
 type ProductsListProps = {
   Products: Product[];
   CartItems?: CartItemType[];
+  handleFlagChange: () => void;
 };
 
-const ProductsList: React.FC<ProductsListProps> = ({ Products, CartItems }) => {
+const ProductsList: React.FC<ProductsListProps> = ({
+  Products,
+  CartItems,
+  handleFlagChange,
+}) => {
   return (
     <div className="flex flex-wrap justify-center px-1">
       {Products.map((product) => (
-        <ProductCard key={product.id} product={product} CartItems={CartItems} />
+        <ProductCard
+          key={product.id}
+          product={product}
+          CartItems={CartItems}
+          handleFlagChange={handleFlagChange}
+        />
       ))}
     </div>
   );

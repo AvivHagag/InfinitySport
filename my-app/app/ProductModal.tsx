@@ -1,5 +1,5 @@
 import { Product } from "@prisma/client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -35,6 +35,7 @@ interface ProductModalProps {
   setNewValue: React.Dispatch<React.SetStateAction<number>>;
   quantityError: boolean;
   setQuantityError: React.Dispatch<React.SetStateAction<boolean>>;
+  handleFlagChange: () => void;
   onClose: () => void;
 }
 
@@ -45,6 +46,7 @@ export default function ProductModal({
   setNewValue,
   quantityError,
   setQuantityError,
+  handleFlagChange,
   onClose,
 }: ProductModalProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -88,7 +90,48 @@ export default function ProductModal({
       setIsLoading(false);
       router.refresh();
     } else {
-      console.log(false);
+      setIsLoading(true);
+      const newCartItem = {
+        productId: ProductID,
+        quantity: 1,
+        productImage,
+        productName: ProductName,
+      };
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const existingItemIndex = cartItems.findIndex(
+        (item: { productId: number }) => item.productId === ProductID
+      );
+      if (existingItemIndex > -1) {
+        return;
+      } else {
+        cartItems.push(newCartItem);
+        setNewValue(1);
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      toast(
+        <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-col">
+            <p className="text-sm font-medium text-naivyBlue dark:text-glowGreen">
+              Added to the cart (locally)!
+            </p>
+            <p className="text-xs text-naivyBlue dark:text-glowGreen">
+              {ProductName}
+            </p>
+          </div>
+          <div>
+            <img
+              src={productImage}
+              alt={ProductName}
+              style={{ width: "50px", height: "auto" }}
+            />
+          </div>
+        </div>,
+        { duration: 1250 }
+      );
+      handleFlagChange();
+      setIsLoading(false);
+      router.refresh();
     }
   };
 
@@ -114,13 +157,37 @@ export default function ProductModal({
   };
 
   const UpdateFunction = async (newQuantity: number) => {
-    if (cartItem?.cartId) {
-      setIsLoadingUpdate(true);
-      await UpdateQuantityItemInCart(newQuantity, product.id, cartItem?.cartId);
-      router.refresh();
-      setIsLoadingUpdate(false);
+    if (await getSession()) {
+      if (cartItem?.cartId) {
+        setIsLoadingUpdate(true);
+        await UpdateQuantityItemInCart(
+          newQuantity,
+          product.id,
+          cartItem?.cartId
+        );
+        setIsLoadingUpdate(false);
+        router.refresh();
+      }
+      return;
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const itemIndex = cartItems.findIndex(
+        (item: CartItemType) => item.productId === product.id
+      );
+
+      if (itemIndex !== -1) {
+        if (newQuantity <= 0) {
+          cartItems.splice(itemIndex, 1);
+        } else {
+          cartItems[itemIndex].quantity = newQuantity;
+        }
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        handleFlagChange();
+        setIsLoadingUpdate(false);
+        router.refresh();
+      }
     }
-    return;
   };
 
   const handleRestockAlert = async (
@@ -150,6 +217,12 @@ export default function ProductModal({
     );
     onClose();
   };
+
+  useEffect(() => {
+    if (cartItem?.quantity) {
+      setNewValue(cartItem?.quantity);
+    }
+  }, [cartItem?.quantity]);
 
   return (
     <div

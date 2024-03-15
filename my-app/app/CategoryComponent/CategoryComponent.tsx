@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterComponent from "./FilterComponent";
 import ProductsList from "./ProductsList";
 import Link from "next/link";
@@ -34,6 +34,23 @@ export default function CategoryComponent({
   CartItems,
 }: CategoryComponentProps) {
   const [sortedProducts, setSortedProducts] = useState<Product[]>(Products);
+  const [localCartItems, setLocalCartItems] = useState<CartItemType[]>([]);
+
+  const handleFlagChange = () => {
+    if (!CartItems) {
+      const storedCartItems = localStorage.getItem("cartItems");
+      if (storedCartItems) {
+        setLocalCartItems(JSON.parse(storedCartItems));
+      } else {
+        localStorage.setItem("cartItems", JSON.stringify(localCartItems));
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleFlagChange();
+  }, [CartItems]);
+
   return (
     <>
       <div className="flex flex-col sm:flex-row justify-between">
@@ -66,7 +83,8 @@ export default function CategoryComponent({
           {sortedProducts ? (
             <ProductsList
               Products={sortedProducts}
-              CartItems={CartItems || []}
+              CartItems={CartItems || localCartItems}
+              handleFlagChange={handleFlagChange}
             />
           ) : (
             <div className="text-base text-center">
