@@ -49,6 +49,8 @@ model User {
   createdAt     DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
+  creditCard  CreditCard[]
+  orders   Order[]
 }
 
 model VerificationToken {
@@ -75,6 +77,15 @@ model CartItem {
   
   @@id([cartId, productId])
 }
+model CartItemOrders {
+  orderId    Int
+  productId Int
+  quantity  Int
+  product   Product  @relation(fields: [productId], references: [id])
+  order      Order     @relation(fields: [orderId], references: [id])
+  
+  @@id([orderId, productId])
+}
 
 model Product {
   id        Int       @id @default(autoincrement())
@@ -88,6 +99,7 @@ model Product {
   size String?
   category  Category @relation(fields: [categoryId], references: [id])
   carts     CartItem[]
+  cartOrderds     CartItemOrders[]
   quantity Int
   onSale Boolean  @default(false)
   salePercent Int?
@@ -109,4 +121,23 @@ model Address {
   street String
   homeNumber Int
   apartmentNumber Int
+}
+
+model CreditCard {
+  id        String  @id @default(uuid())
+  cardNumber String @unique
+  cvv       String
+  month   Int
+  year Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Order {
+  id Int       @id @default(autoincrement())
+  user User  @relation(fields: [userId], references: [id])
+  userId String @unique
+  createdAt DateTime @default(now())
+  status    String
+  products  CartItemOrders[]
 }
