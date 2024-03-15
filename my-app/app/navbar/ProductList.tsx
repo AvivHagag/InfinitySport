@@ -9,7 +9,10 @@ import {
   TrashIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { UpdateQuantityItemInCart } from "../ServerAction/ServerAction";
+import {
+  UpdateQuantityItemInCart,
+  getSession,
+} from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Input } from "@/src/components/ui/input";
 import { useRouter } from "next/navigation";
@@ -55,14 +58,38 @@ const ProductList: React.FC<ProductListProps> = ({
   };
 
   const UpdateFunction = async (newQuantity: number) => {
-    if (cartItem?.cartId) {
-      setIsLoadingUpdate(true);
-      await UpdateQuantityItemInCart(newQuantity, product.id, cartItem?.cartId);
-      router.refresh();
-      await fetchCartItems();
-      setIsLoadingUpdate(false);
+    if (await getSession()) {
+      if (cartItem?.cartId) {
+        setIsLoadingUpdate(true);
+        await UpdateQuantityItemInCart(
+          newQuantity,
+          product.id,
+          cartItem?.cartId
+        );
+        router.refresh();
+        await fetchCartItems();
+        setIsLoadingUpdate(false);
+      }
+      return;
+    } else {
+      const storedCartItems = localStorage.getItem("cartItems");
+      let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      const itemIndex = cartItems.findIndex(
+        (item: CartItem) => item.productId === product.id
+      );
+
+      if (itemIndex !== -1) {
+        if (newQuantity <= 0) {
+          cartItems.splice(itemIndex, 1);
+        } else {
+          cartItems[itemIndex].quantity = newQuantity;
+        }
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        router.refresh();
+        await fetchCartItems();
+        setIsLoadingUpdate(false);
+      }
     }
-    return;
   };
   const actualPrice =
     product.onSale && product.salePercent

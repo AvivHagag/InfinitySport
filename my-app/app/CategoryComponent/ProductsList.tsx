@@ -1,5 +1,5 @@
 "use client";
-import { Product } from "@prisma/client";
+import { CartItem, Product } from "@prisma/client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/src/components/ui/button";
@@ -25,15 +25,9 @@ import { useRouter } from "next/navigation";
 
 type ProductCardProps = {
   product: Product;
-  CartItems?: CartItemType[];
+  CartItems?: CartItem[];
   handleFlagChange: () => void;
 };
-
-interface CartItemType {
-  cartId: number;
-  productId: number;
-  quantity: number;
-}
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -173,7 +167,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       const storedCartItems = localStorage.getItem("cartItems");
       let cartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
       const itemIndex = cartItems.findIndex(
-        (item: CartItemType) => item.productId === product.id
+        (item: CartItem) => item.productId === product.id
       );
 
       if (itemIndex !== -1) {
@@ -426,7 +420,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
 type ProductsListProps = {
   Products: Product[];
-  CartItems?: CartItemType[];
+  CartItems?: CartItem[];
   handleFlagChange: () => void;
 };
 
