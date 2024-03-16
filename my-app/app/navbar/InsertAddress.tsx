@@ -5,7 +5,7 @@ import { Label } from "@/src/components/ui/label";
 import StateSelect from "./StateSelect";
 import { US_STATES_WITH_FLAGS } from "@/src/lib/usa";
 import ClipLoader from "react-spinners/ClipLoader";
-import { setAddress } from "../ServerAction/ServerAction";
+import { getSession, setAddress } from "../ServerAction/ServerAction";
 
 interface AddressFormValues {
   city: string;
@@ -65,8 +65,11 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
-      console.log("Submitting form", values);
-      await setAddress(values);
+      if (await getSession()) {
+        await setAddress(values);
+      } else {
+        localStorage.setItem("userAddress", JSON.stringify(values));
+      }
       setFlagEditAddress(false);
       setAddressComponentOpen(false);
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   getAddress,
   getProductsDetails,
+  getSession,
   getUserCart,
 } from "../ServerAction/ServerAction";
 import { CartItem, Product } from "@prisma/client";
@@ -11,7 +12,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/src/components/ui/button";
 import InsertAddress from "./InsertAddress";
 
-const ShoppingCartDetails = () => {
+type ShoppingCartDetailsProps = {
+  handleAuthModal: () => void;
+};
+
+const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>();
   const [ProductDetails, setProductDetails] = useState<Product[]>();
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -19,21 +24,29 @@ const ShoppingCartDetails = () => {
   const [FlagEditAddress, setFlagEditAddress] = useState<boolean>(false);
   const [AddressComponentOpen, setAddressComponentOpen] =
     useState<boolean>(false);
+  const [AuthQuestion, setAuthQuestion] = useState<boolean>(false);
 
   const fetchCartItems = async () => {
-    const items = await getUserCart();
-    if (!items) {
+    let items = await getUserCart();
+    if (items === null) {
       setFlagNoItems(true);
       return;
+    } else if (items === undefined) {
+      const storedCartItems = localStorage.getItem("cartItems");
+      items = storedCartItems ? JSON.parse(storedCartItems) : [];
+      setCartItems(items);
+    } else {
+      setCartItems(items);
     }
-    setCartItems(items);
-    if (items) {
+    if (items && items.length > 0) {
       const cartItemIds = items.map((item) => item.productId);
       const Details = await getProductsDetails(cartItemIds);
       setProductDetails(Details);
+
       const SumPrice = Details
         ? Details.reduce((acc, item) => {
-            const cartItem = items.find((ci) => ci.productId === item.id);
+            const cartItem =
+              items && items.find((ci) => ci.productId === item.id);
             const actualPrice =
               item.onSale && item.salePercent
                 ? (item.price * (100 - item.salePercent)) / 100
@@ -44,12 +57,28 @@ const ShoppingCartDetails = () => {
         : 0;
       setTotalPrice(SumPrice);
     } else {
-      return;
+      setFlagNoItems(true);
     }
   };
 
   const Checkout = async () => {
-    const Address = await getAddress();
+    let Address;
+    if (await getSession()) {
+      Address = await getAddress();
+    } else {
+      if (!AuthQuestion) {
+        setAuthQuestion(true);
+        handleAuthModal();
+        return;
+      } else {
+        const storedAddress = localStorage.getItem("userAddress");
+        if (storedAddress) {
+          Address = storedAddress ? JSON.parse(storedAddress) : null;
+        } else {
+          localStorage.setItem("userAddress", JSON.stringify({}));
+        }
+      }
+    }
     if (Address) {
       console.log(Address);
       console.log(cartItems);

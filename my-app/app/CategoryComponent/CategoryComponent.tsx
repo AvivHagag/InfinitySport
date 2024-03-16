@@ -49,7 +49,7 @@ export default function CategoryComponent({
 
   useEffect(() => {
     handleFlagChange();
-  }, [CartItems]);
+  }, [CartItems, Products]);
 
   return (
     <>

@@ -84,12 +84,12 @@ export default function Footer() {
       </div>
 
       <div className="mx-6 py-6 text-center md:text-left">
-        <div className="grid-1 grid gap-4 sm:gap-12 md:grid-cols-2 lg:grid-cols-3 mx-auto">
+        <div className="grid-1 grid gap-4 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 mx-auto">
           <div className="">
-            <h6 className="mb-1 sm:mb-1 sm:mb-4 text-base sm:text-lg flex justify-center font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 md:mb-2 text-base lg:text-lg flex justify-center font-semibold uppercase md:justify-start">
               Products
             </h6>
-            <p className="mb-1 sm:mb-4">
+            <p className="mb-1 md:mb-2">
               <Link
                 href="/homefitnessequipment/"
                 className="text-slate-200 dark:text-neutral-200"
@@ -97,7 +97,7 @@ export default function Footer() {
                 Home Fitness Equipment
               </Link>
             </p>
-            <p className="mb-1 sm:mb-4">
+            <p className="mb-1 md:mb-2">
               <Link
                 href="/dumbbells&bars/"
                 className="text-slate-200 dark:text-neutral-200"
@@ -105,7 +105,7 @@ export default function Footer() {
                 Dumbbells & Bars
               </Link>
             </p>
-            <p className="mb-1 sm:mb-4">
+            <p className="mb-1 md:mb-2">
               <Link
                 href="/stand&facilities/"
                 className="text-slate-200 dark:text-neutral-200"
@@ -116,13 +116,18 @@ export default function Footer() {
           </div>
 
           <div className="">
-            <h6 className="mb-1 sm:mb-4 flex justify-center text-base sm:text-lg font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 md:mb-2 flex justify-center text-base lg:text-lg font-semibold uppercase md:justify-start">
               Useful links
             </h6>
-            <p className="mb-1 sm:mb-4">
-              <Link href="/Aboutus/" className="text-slate-200 dark:text-neutral-200">About us</Link>
+            <p className="mb-1 md:mb-2">
+              <Link
+                href="/Aboutus/"
+                className="text-slate-200 dark:text-neutral-200"
+              >
+                About us
+              </Link>
             </p>
-            <p className="mb-1 sm:mb-4">
+            <p className="mb-1 md:mb-2">
               <a className="text-slate-200 dark:text-neutral-200">Orders</a>
             </p>
             <p className="mb-4">
@@ -136,10 +141,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h6 className="mb-1 sm:mb-4 flex justify-center text-base sm:text-lg font-semibold uppercase md:justify-start">
+            <h6 className="mb-1 md:mb-2 flex justify-center text-base lg:text-lg font-semibold uppercase md:justify-start">
               Contact
             </h6>
-            <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-1 md:mb-2 flex items-center justify-center md:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -151,7 +156,7 @@ export default function Footer() {
               </svg>
               56 Bialik St., Beer Sheva
             </p>
-            <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-1 md:mb-2 flex items-center justify-center md:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -163,7 +168,7 @@ export default function Footer() {
               </svg>
               InfintySport@gmail.com
             </p>
-            <p className="mb-1 sm:mb-4 flex items-center justify-center md:justify-start">
+            <p className="mb-1 md:mb-2 flex items-center justify-center md:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

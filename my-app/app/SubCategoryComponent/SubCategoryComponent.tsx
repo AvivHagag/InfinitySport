@@ -45,7 +45,7 @@ export default function SubCategoryComponent({
 
   useEffect(() => {
     handleFlagChange();
-  }, [CartItems]);
+  }, [CartItems, Products]);
 
   return (
     <>

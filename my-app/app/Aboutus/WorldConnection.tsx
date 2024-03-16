@@ -4,11 +4,11 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import { useTheme } from "next-themes";
 
 const WorldMap: React.FC = () => {
-  /* Chart code */
-  // Create root element
-  // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+  const { theme, setTheme } = useTheme();
+  const CirlceColor = theme === "dark" ? "#9ffd32" : "#DC2626";
   useEffect(() => {
     let root = am5.Root.new("mapdiv");
 
@@ -56,10 +56,10 @@ const WorldMap: React.FC = () => {
 
     citySeries.bullets.push(function () {
       let circle = am5.Circle.new(root, {
-        radius: 5,
+        radius: 4,
         tooltipText: "{title}",
         tooltipY: 0,
-        fill: am5.color(0xffba00),
+        fill: am5.color(CirlceColor),
         stroke: root.interfaceColors.get("background"),
         strokeWidth: 2,
       });
@@ -341,8 +341,6 @@ const WorldMap: React.FC = () => {
       },
     ];
 
-    // citySeries.data.setAll(cities);
-
     let destinations = [
       "montgomery",
       "juneau",
@@ -400,29 +398,25 @@ const WorldMap: React.FC = () => {
     let originLatitude = 31.0461;
     let israel = { longitude: 34.8516, latitude: 31.0461 };
     citySeries.data.push({
+      title: "Israel",
       geometry: {
         type: "Point",
         coordinates: [israel.longitude, israel.latitude],
       },
     });
 
-    //
-    let delayIncrement = 250; // Delay increment in milliseconds
-    let initialDelay = 0; // Initial delay
+    let delayIncrement = 250;
+    let initialDelay = 0;
 
     am5.array.each(destinations, function (did, index) {
-      // Note the use of index
       let destinationDataItem = citySeries.getDataItemById(did);
       if (destinationDataItem !== undefined) {
         const longitude = destinationDataItem.get("longitude");
         const latitude = destinationDataItem.get("latitude");
-
         if (longitude !== undefined && latitude !== undefined) {
-          // Calculate the delay based on the index
           let delay = initialDelay + index * delayIncrement;
 
           setTimeout(() => {
-            // Set timeout to delay the execution
             let lineDataItem = lineSeries.pushDataItem({
               geometry: {
                 type: "LineString",
@@ -438,34 +432,30 @@ const WorldMap: React.FC = () => {
               positionOnLine: 0.5,
               autoRotate: true,
             });
-          }, delay); // Use the calculated delay here
+          }, delay);
         }
       }
     });
     cities.forEach((city, index) => {
-      // Calculate the delay based on the index
       let delay = initialDelay + index * delayIncrement;
 
       setTimeout(() => {
-        // Add the city dot
-        citySeries.pushDataItem({
+        citySeries.data.push({
+          title: city.title,
           geometry: {
-            type: "Point", // Specify the type as "Point"
-            coordinates: city.geometry.coordinates, // Ensure coordinates are in the correct format
+            type: "Point",
+            coordinates: city.geometry.coordinates,
           },
-          // title: city.title // Assuming your city object has a title property
         });
 
-        // Assuming the origin coordinates are for Israel (you might want to adjust this)
         const origin = { longitude: 34.8516, latitude: 31.0461 };
 
-        // Then create and add the corresponding line (arrow) from Israel to the city
         let lineDataItem = lineSeries.pushDataItem({
           geometry: {
             type: "LineString",
             coordinates: [
-              [origin.longitude, origin.latitude], // Start from Israel
-              [city.geometry.coordinates[0], city.geometry.coordinates[1]], // to the current city
+              [origin.longitude, origin.latitude],
+              [city.geometry.coordinates[0], city.geometry.coordinates[1]],
             ],
           },
         });
