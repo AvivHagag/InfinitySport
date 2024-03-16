@@ -229,7 +229,7 @@ export default function ProductModal({
       className="fixed inset-0 z-50 bg-gray-600 dark:bg-slate-900 bg-opacity-80 dark:bg-opacity-80 w-full overflow-y-auto h-full w-full"
       id="my-modal"
     >
-      <div className="relative top-20 mx-auto p-1 border shadow-lg h-4/5 md:h-[394px] w-4/5 sm:w-3/4 rounded-xl bg-white dark:bg-slate-950">
+      <div className="relative top-20 mx-auto p-1 border shadow-lg h-4/5 md:h-[394px] w-4/5 sm:w-3/4 2xl:w-1/2 rounded-xl bg-white dark:bg-slate-950">
         <div className="absolute right-0 top-0 p-1">
           <XMarkIcon className="h-6 w-6" onClick={onClose} />
         </div>

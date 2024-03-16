@@ -430,7 +430,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
   handleFlagChange,
 }) => {
   return (
-    <div className="flex flex-wrap justify-center px-1">
+    <div className="flex flex-wrap justify-center px-1 2xl:px-16">
       {Products.map((product) => (
         <ProductCard
           key={product.id}
