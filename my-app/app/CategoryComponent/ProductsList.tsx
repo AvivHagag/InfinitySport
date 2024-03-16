@@ -12,7 +12,7 @@ import {
   ShoppingCartIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import ProductModal from "../ProductModal";
+import ProductModal from "../Modals/ProductModal";
 import {
   UpdateQuantityItemInCart,
   addToCartNewProduct,
@@ -107,7 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="flex flex-row justify-between items-center w-full">
           <div className="flex flex-col">
             <p className="text-sm font-medium text-naivyBlue dark:text-glowGreen">
-              Added to the cart (locally)!
+              Added to the cart !
             </p>
             <p className="text-xs text-naivyBlue dark:text-glowGreen">
               {ProductName}

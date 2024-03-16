@@ -12,7 +12,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/src/components/ui/button";
 import InsertAddress from "./InsertAddress";
 
-const ShoppingCartDetails = () => {
+type ShoppingCartDetailsProps = {
+  handleAuthModal: () => void;
+};
+
+const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>();
   const [ProductDetails, setProductDetails] = useState<Product[]>();
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -20,6 +24,7 @@ const ShoppingCartDetails = () => {
   const [FlagEditAddress, setFlagEditAddress] = useState<boolean>(false);
   const [AddressComponentOpen, setAddressComponentOpen] =
     useState<boolean>(false);
+  const [AuthQuestion, setAuthQuestion] = useState<boolean>(false);
 
   const fetchCartItems = async () => {
     let items = await getUserCart();
@@ -61,11 +66,17 @@ const ShoppingCartDetails = () => {
     if (await getSession()) {
       Address = await getAddress();
     } else {
-      const storedAddress = localStorage.getItem("userAddress");
-      if (storedAddress) {
-        Address = storedAddress ? JSON.parse(storedAddress) : null;
+      if (!AuthQuestion) {
+        setAuthQuestion(true);
+        handleAuthModal();
+        return;
       } else {
-        localStorage.setItem("userAddress", JSON.stringify({}));
+        const storedAddress = localStorage.getItem("userAddress");
+        if (storedAddress) {
+          Address = storedAddress ? JSON.parse(storedAddress) : null;
+        } else {
+          localStorage.setItem("userAddress", JSON.stringify({}));
+        }
       }
     }
     if (Address) {

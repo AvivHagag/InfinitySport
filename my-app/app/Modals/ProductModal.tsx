@@ -16,7 +16,7 @@ import { getSession } from "next-auth/react";
 import {
   UpdateQuantityItemInCart,
   addToCartNewProduct,
-} from "./ServerAction/ServerAction";
+} from "../ServerAction/ServerAction";
 import { toast } from "sonner";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useRouter } from "next/navigation";

@@ -3,7 +3,7 @@ import { Product } from "@prisma/client";
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { PencilSquareIcon, TruckIcon } from "@heroicons/react/24/outline";
-import ProductEditModal from "../../ProductEditModal";
+import ProductEditModal from "../../Modals/ProductEditModal";
 import { UpdateProductQuantity } from "@/app/ServerAction/ServerAction";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";

@@ -21,7 +21,7 @@ import { Textarea } from "@/src/components/ui/textarea";
 import {
   GetAllcategories,
   UpdateExistProduct,
-} from "./ServerAction/ServerAction";
+} from "../ServerAction/ServerAction";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { cn } from "@/src/lib/utils";
 import ClipLoader from "react-spinners/ClipLoader";

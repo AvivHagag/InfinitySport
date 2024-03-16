@@ -7,10 +7,15 @@ import {
 } from "@heroicons/react/24/outline";
 import ShoppingCartDetails from "./ShoppingCartDetails";
 import { Fade } from "react-awesome-reveal";
+import AuthModal from "../Modals/AuthModal";
 
 const ShoppingCartDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [AuthModalIsOpen, setAuthModalIsOpen] = useState<boolean>(false);
 
+  const handleAuthModal = () => {
+    setAuthModalIsOpen(!AuthModalIsOpen);
+  };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -46,9 +51,14 @@ const ShoppingCartDropdown = () => {
                 <XMarkIcon className="h-6 w-6" />
               </div>
             </div>
-            <ShoppingCartDetails />
+            <ShoppingCartDetails handleAuthModal={handleAuthModal} />
           </div>
         </Fade>
+      )}
+      {AuthModalIsOpen && (
+        <div className="absolute top-0 left-0 w-full h-full z-50">
+          <AuthModal handleAuthModal={handleAuthModal} />
+        </div>
       )}
     </>
   );
