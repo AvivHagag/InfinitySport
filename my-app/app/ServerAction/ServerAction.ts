@@ -20,6 +20,13 @@ export const getAddress = async () => {
       where: {
         userId: session?.user.id,
       },
+      select: {
+        state: true,
+        city: true,
+        street: true,
+        homeNumber: true,
+        apartmentNumber: true,
+      },
     });
     return Address;
   } catch (error) {
