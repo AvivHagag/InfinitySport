@@ -9,6 +9,7 @@ import {
 } from "../ServerAction/ServerAction";
 import { getSession } from "next-auth/react";
 import YourOrder from "./YourOrder";
+import PaymentDetails from "./PaymentDetails";
 
 type Address = {
   state: String;
@@ -20,7 +21,7 @@ type Address = {
 
 export default function MainPaymentComponent() {
   const [cartItems, setCartItems] = useState<CartItem[]>();
-  const [currentLevel, setCurrentLevel] = useState<number>(0);
+  const [currentLevel, setCurrentLevel] = useState<string>("OrderDetails");
   const [ProductsDetails, setProductsDetails] = useState<Product[]>();
   const [Address, setAddress] = useState<Address>();
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -90,16 +91,24 @@ export default function MainPaymentComponent() {
   return (
     <div className="flex flex-col w-full border rounded-xl">
       <TitleLevel currentLevel={currentLevel} />
-      {currentLevel === 0 && ProductsDetails && totalPrice && cartItems && (
-        <YourOrder
-          ProductsDetails={ProductsDetails}
-          totalPrice={totalPrice}
-          cartItems={cartItems}
-        />
+      {currentLevel === "OrderDetails" &&
+        ProductsDetails &&
+        totalPrice &&
+        cartItems &&
+        Address &&
+        Address.state && (
+          <YourOrder
+            ProductsDetails={ProductsDetails}
+            totalPrice={totalPrice}
+            cartItems={cartItems}
+            Address={Address}
+            setCurrentLevel={setCurrentLevel}
+          />
+        )}
+      {currentLevel === "PaymentDetails" && (
+        <PaymentDetails setCurrentLevel={setCurrentLevel} />
       )}
-      {currentLevel === 1 && "Shipping Details"}
-      {currentLevel === 2 && "Payment Details"}
-      {currentLevel === 3 && "Confirmation"}
+      {currentLevel === "Confirmation" && "Confirmation"}
     </div>
   );
 }

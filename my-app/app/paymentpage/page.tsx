@@ -5,8 +5,8 @@ import MainPaymentComponent from "./MainPaymentComponent";
 
 export default function page() {
   return (
-    <main className="">
-      <div className="fixed inset-0 sm:p-4 bg-gray-100 dark:bg-slate-900 z-50">
+    <main className="h-full">
+      <div className="absolute inset-0 sm:p-4 bg-gray-100 dark:bg-slate-900 z-50">
         <div className="bg-white dark:bg-slate-950 sm:rounded-xl p-2">
           <div className="flex justify-between items-center">
             <div className="flex text-xs sm:text-sm md:text-base text-gray-500 space-x-1">

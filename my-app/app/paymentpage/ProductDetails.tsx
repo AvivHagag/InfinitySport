@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 type ProductDetailsProps = {
-  key: number;
+  productId: number;
   quantity: number;
   product: Product;
 };
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
-  key,
+  productId,
   product,
   quantity,
 }) => {
@@ -59,7 +59,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
   return (
     <>
-      <div key={key} className="flex justify-between items-center">
+      <div key={productId} className="flex justify-between items-center">
         <div className="flex flex-row items-center my-2">
           <div className="relative w-20 h-20 sm:w-32 sm:h-32">
             {product.image && (
