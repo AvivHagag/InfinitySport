@@ -1,30 +1,12 @@
 "use client";
-import { CartItem, Product } from "@prisma/client";
 import React, { SetStateAction } from "react";
-import ProductDetails from "./ProductDetails";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/src/components/ui/button";
-import {
-  ArrowUturnLeftIcon,
-  FlagIcon,
-  GlobeAltIcon,
-  HomeIcon,
-  LifebuoyIcon,
-  MapPinIcon,
-  ShieldCheckIcon,
-  TruckIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import Image from "next/image";
 import PayPalButton from "./PayPalButton";
-
-type Address = {
-  state: String;
-  city: String;
-  street: String;
-  homeNumber: number;
-  apartmentNumber: number;
-};
+import AddCard from "./AddCard";
+import CardDetails from "./CardDetails";
 
 type PaymentDetailsProps = {
   setCurrentLevel: React.Dispatch<SetStateAction<string>>;
@@ -32,17 +14,25 @@ type PaymentDetailsProps = {
 
 const PaymentDetails: React.FC<PaymentDetailsProps> = ({ setCurrentLevel }) => {
   return (
-    <div className="flex justify-center mx-auto px-2 sm:px-4 py-1 sm:py-2 w-full lg:w-3/4">
-      <div className="text-xs sm:text-sm md:text-base w-full sm:w-5/6">
+    <div className="flex justify-center mx-auto p-1 sm:p-4 w-full lg:w-3/4 border rounded-xl">
+      <div className="text-xs sm:text-sm md:text-base w-full">
         <div className="flex flex-col">
-          <div className="flex justify-between h-96">
-            <div className="flex flex-col w-3/5"> a</div>
-            <Separator orientation="vertical" className="mx-2" />
-            <div className="flex justify-center items-center w-2/5">
+          <div className="flex flex-col py-2 sm:py-0 sm:flex-row justify-between">
+            <div className="flex flex-col w-full sm:w-3/5 items-center justify-center mx-auto bg-naivySky dark:bg-slate-950 rounded-2xl">
+              <div className="flex w-4/5">
+                <AddCard />
+              </div>
+              <CardDetails />
+            </div>
+            <Separator
+              orientation="vertical"
+              className="h-auto mx-2 hidden sm:block"
+            />
+            <div className="flex justify-center items-center mx-auto w-2/5 py-2 sm:py-0">
               <PayPalButton />
             </div>
           </div>
-          <div className="flex justify-between py-8">
+          <div className="flex justify-between pt-2 pb-8">
             <Button
               variant={"outline"}
               className="text-sm sm:text-lg md:text-xl hover:scale-105"
