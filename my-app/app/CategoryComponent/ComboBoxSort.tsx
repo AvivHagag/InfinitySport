@@ -44,7 +44,11 @@ export default function ComboBoxSort({
 
     switch (option) {
       case "Most Popular":
-        // sortedProductsCopy.sort((a, b) => a.popularity - b.popularity);
+        sortedProductsCopy.sort((a, b) => {
+          const SoldA = a.soldCount;
+          const SoldB = b.soldCount;
+          return SoldB - SoldA;
+        });
         break;
       case "Cheap To Expensive":
         sortedProductsCopy.sort((a, b) => {

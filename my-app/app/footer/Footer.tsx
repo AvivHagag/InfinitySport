@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import LogoWhite from "../../Logos/LogoWhite.png";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
 export default function Footer() {
   return (
@@ -186,8 +187,8 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      <div className="bg-naivySky dark:bg-slate-800 text-slate-200 p-3 text-center">
+      <Separator />
+      <div className="bg-naivyBlue dark:bg-slate-950 text-slate-200 p-3 text-center">
         <span>© 2024 Copyright </span>
         <Link
           href="/"
