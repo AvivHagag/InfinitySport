@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import TitleLevel from "./TitleLevel";
-import { CartItem, Product } from "@prisma/client";
+import { CartItem, Order, Product } from "@prisma/client";
 import {
   getAddress,
   getProductsDetails,
@@ -22,6 +22,7 @@ type Address = {
 export default function MainPaymentComponent() {
   const [cartItems, setCartItems] = useState<CartItem[]>();
   const [currentLevel, setCurrentLevel] = useState<string>("OrderDetails");
+  const [ConfirmationDetails, setConfirmationDetails] = useState<Order>();
   const [ProductsDetails, setProductsDetails] = useState<Product[]>();
   const [Address, setAddress] = useState<Address>();
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -101,18 +102,25 @@ export default function MainPaymentComponent() {
             setCurrentLevel={setCurrentLevel}
           />
         )}
-      {currentLevel === "PaymentDetails" && (
-        <PaymentDetails
-          setCurrentLevel={setCurrentLevel}
-          cardNumber={cardNumber}
-          Cvv={Cvv}
-          Exp={Exp}
-          setCardNumber={setCardNumber}
-          setCvv={setCvv}
-          setExp={setExp}
-        />
-      )}
-      {currentLevel === "Confirmation" && "Confirmation"}
+      {currentLevel === "PaymentDetails" &&
+        totalPrice &&
+        cartItems &&
+        Address && (
+          <PaymentDetails
+            setCurrentLevel={setCurrentLevel}
+            cardNumber={cardNumber}
+            Cvv={Cvv}
+            Exp={Exp}
+            setCardNumber={setCardNumber}
+            setCvv={setCvv}
+            setExp={setExp}
+            totalPrice={totalPrice}
+            cartItems={cartItems}
+            Address={Address}
+            setConfirmationDetails={setConfirmationDetails}
+          />
+        )}
+      {currentLevel === "Confirmation" && ConfirmationDetails && "Confirmation"}
     </div>
   );
 }

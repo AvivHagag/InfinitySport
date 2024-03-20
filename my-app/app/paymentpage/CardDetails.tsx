@@ -15,6 +15,7 @@ type CardDetailsProps = {
   setCvv: React.Dispatch<SetStateAction<string>>;
   setExp: React.Dispatch<SetStateAction<string>>;
   setCurrentLevel: React.Dispatch<SetStateAction<string>>;
+  handlePayment: (PaymentMethod: string) => void;
 };
 
 const CardDetails: React.FC<CardDetailsProps> = ({
@@ -25,6 +26,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
   setCvv,
   setExp,
   setCurrentLevel,
+  handlePayment,
 }) => {
   const [expDateError, setExpDateError] = useState<boolean>(false);
   const [CvvError, setCvvError] = useState<boolean>(false);
@@ -55,7 +57,6 @@ const CardDetails: React.FC<CardDetailsProps> = ({
 
     const newValue = month + year;
     setExp(newValue);
-
     if (newValue.length === 5) {
       const currentYear = new Date().getFullYear() % 100;
       const currentMonth = new Date().getMonth() + 1;
@@ -78,17 +79,21 @@ const CardDetails: React.FC<CardDetailsProps> = ({
   };
 
   const handleContinue = () => {
-    if (!cardNumberValid) {
+    if (!cardNumberValid || !cardNumber) {
       setcardNumberError(true);
       return;
     }
-    if (!cardNumberValid) {
+    console.log();
+    if (!expValid || !Exp) {
+      setExpDateError(true);
+      return;
+    }
+    if (!cvvValid) {
       setCvvError(true);
       return;
     }
-
     if (cardNumberValid && cvvValid && expValid) {
-      setCurrentLevel("Confirmation");
+      handlePayment("Credit card");
     } else {
       return;
     }
@@ -109,7 +114,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
           onChange={handleCardNumberChange}
           maskChar="*"
           alwaysShowMask={true}
-          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-500 bg-white dark:bg-slate-950 bg-clip-padding border rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-500 bg-white dark:bg-slate-950 bg-clip-padding border rounded transition ease-in-out m-0 focus:text-gray-500 focus:bg-white focus:border-black dark:focus:border-white focus:outline-none"
           placeholder="Enter card number"
         />
         {cardNumberError ? (

@@ -27,6 +27,7 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
     useState<boolean>(false);
   const [AuthQuestion, setAuthQuestion] = useState<boolean>(false);
   const router = useRouter();
+
   const fetchCartItems = async () => {
     let items = await getUserCart();
     if (items === null) {

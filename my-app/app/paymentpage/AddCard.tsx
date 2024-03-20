@@ -26,7 +26,7 @@ const AddCard: React.FC<AddCardProps> = ({ cardNumber, Cvv, Exp }) => {
   };
   return (
     <div
-      className={`p-3 w-96 h-56 bg-[url('https://i.ibb.co/kqbyTdP/glass-Effect.png')] bg-left rounded-xl shadow-2xl shadow-gray-700 flex flex-col justify-between backdrop-blur-lg my-2 mx-auto`}
+      className={`p-3 w-[17rem] sm:w-96 h-50 sm:h-56 bg-[url('https://i.ibb.co/kqbyTdP/glass-Effect.png')] bg-left rounded-xl shadow-2xl shadow-gray-700 flex flex-col justify-between backdrop-blur-lg my-2 mx-auto`}
     >
       <div className="flex justify-between">
         <Image
