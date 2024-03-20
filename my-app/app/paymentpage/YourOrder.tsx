@@ -7,6 +7,7 @@ import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 import {
   ArrowUturnLeftIcon,
+  ClipboardDocumentCheckIcon,
   FlagIcon,
   GlobeAltIcon,
   HomeIcon,
@@ -85,7 +86,7 @@ const YourOrder: React.FC<YourOrderProps> = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center py-4">
           <div className="flex flex-col items-center md:mx-2 lg:mx-4">
             <GlobeAltIcon className="w-16 h-16 xl:w-20 xl:h-20 mt-2" />
             <div className="text-xs sm:text-sm md:text-base w-32 text-center">
@@ -112,6 +113,13 @@ const YourOrder: React.FC<YourOrderProps> = ({
           </div>
         </div>
         <Separator className="bg-black dark:bg-gray-500 my-4" />
+        <div className="flex items-center text-sm sm:text-lg md:text-2xl font-medium text-naivyBlue dark:text-glowGreen mb-2">
+          Order items
+          <span>
+            {" "}
+            <ClipboardDocumentCheckIcon className="h-6 w-6 ml-2" />
+          </span>
+        </div>
         {ProductsDetails.map((product) => {
           const cartItem = cartItems.find(
             (item) => item.productId === product.id

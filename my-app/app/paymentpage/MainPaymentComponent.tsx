@@ -26,6 +26,9 @@ export default function MainPaymentComponent() {
   const [Address, setAddress] = useState<Address>();
   const [totalPrice, setTotalPrice] = useState<number>();
   const [FlagNoItems, setFlagNoItems] = useState<boolean>(false);
+  const [cardNumber, setCardNumber] = useState<string>("");
+  const [Exp, setExp] = useState<string>("");
+  const [Cvv, setCvv] = useState<string>("");
 
   const fetchCartItems = async () => {
     let items = await getUserCart();
@@ -81,13 +84,6 @@ export default function MainPaymentComponent() {
     fetchAddress();
   }, []);
 
-  useEffect(() => {
-    console.log("Address ", Address);
-    console.log("cartItems ", cartItems);
-    console.log("ProductDetails ", ProductsDetails);
-    console.log("totalPrice ", totalPrice);
-  }, [Address, cartItems, ProductsDetails, totalPrice]);
-
   return (
     <div className="flex flex-col w-full border rounded-xl">
       <TitleLevel currentLevel={currentLevel} />
@@ -106,7 +102,15 @@ export default function MainPaymentComponent() {
           />
         )}
       {currentLevel === "PaymentDetails" && (
-        <PaymentDetails setCurrentLevel={setCurrentLevel} />
+        <PaymentDetails
+          setCurrentLevel={setCurrentLevel}
+          cardNumber={cardNumber}
+          Cvv={Cvv}
+          Exp={Exp}
+          setCardNumber={setCardNumber}
+          setCvv={setCvv}
+          setExp={setExp}
+        />
       )}
       {currentLevel === "Confirmation" && "Confirmation"}
     </div>
