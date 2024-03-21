@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import LogoWhite from "../../Logos/LogoWhite.png";
 import Link from "next/link";
+import { encryptAES } from "../../Crypto/Crypto";
+import { Button } from "@/src/components/ui/button";
 
 export default function Footer() {
   return (
@@ -126,9 +129,6 @@ export default function Footer() {
               >
                 About us
               </Link>
-            </p>
-            <p className="mb-1 md:mb-2">
-              <a className="text-slate-200 dark:text-neutral-200">Orders</a>
             </p>
             <p className="mb-4">
               <Link
