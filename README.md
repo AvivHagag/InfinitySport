@@ -1,4 +1,5 @@
 # Infinity Sport - Online Fitness Equipment Store
+<img width="700" alt="main image" src="https://github.com/AvivHagag/InfinitySport/assets/116496118/c03323ea-eed4-493c-a203-51647c5a87a7">
 
 Infinity Sport is an online retail destination that specializes in providing top-quality home fitness equipment and sport facilities.This e-commerce website offers a seamless shopping experience for fitness enthusiasts and home workout aficionados.
 
