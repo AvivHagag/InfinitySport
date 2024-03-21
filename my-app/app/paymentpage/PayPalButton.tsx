@@ -1,9 +1,5 @@
-import Image from "next/image";
-import Paypal from "./PaypalLogos/Paypal.png";
-import PaypalWhite from "./PaypalLogos/PaypalWhite.png";
 import React from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { Button } from "@/src/components/ui/button";
 
 interface PayPalButtonProps {
   totalPrice: number;
