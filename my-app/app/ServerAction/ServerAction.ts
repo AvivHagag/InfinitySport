@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { Address } from "@prisma/client";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);
@@ -406,3 +405,23 @@ export async function createOrderAndClearCart(
     console.error("Failed to create order and clear cart:", error);
   }
 }
+
+export const getOrders = async () => {
+  try {
+    const user = await getSession();
+    if (user) {
+      const orders = await db.order.findMany({
+        where: {
+          userId: user,
+        },
+        include: {
+          products: true,
+        },
+      });
+
+      return orders;
+    }
+  } catch (error) {
+    console.error("Error Fetching orders ", error);
+  }
+};
