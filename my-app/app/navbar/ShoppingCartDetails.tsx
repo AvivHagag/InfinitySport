@@ -38,6 +38,7 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
       items = storedCartItems ? JSON.parse(storedCartItems) : [];
       setCartItems(items);
     } else {
+      localStorage.removeItem("cartItems");
       setCartItems(items);
     }
     if (items && items.length > 0) {

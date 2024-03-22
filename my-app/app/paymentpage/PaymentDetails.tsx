@@ -48,15 +48,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
 
   const handlePayment = async (PaymentMethod: string) => {
     setIsLoading(true);
-    console.log("payment");
-    console.log("totalPrice ", totalPrice);
-    console.log("cartItems ", cartItems);
-    console.log("Address ", Address);
-    console.log("PaymentMethod ", PaymentMethod);
     if (PaymentMethod === "Credit card") {
-      console.log("cardNumber ", cardNumber);
-      console.log("Cvv ", Cvv);
-      console.log("Exp ", Exp);
     }
     if (await getSession()) {
       try {
@@ -65,7 +57,6 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           PaymentMethod
         );
         setConfirmationDetails(NewOrder);
-        console.log(NewOrder);
       } catch (e) {
         console.error(e, "Failed to create order and clear cart");
         return;
