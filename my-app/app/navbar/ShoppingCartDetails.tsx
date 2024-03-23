@@ -85,10 +85,6 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
       }
     }
     if (Address) {
-      console.log(Address);
-      console.log(cartItems);
-      console.log(ProductDetails);
-      console.log(totalPrice);
       router.push("/paymentpage");
     } else {
       setFlagEditAddress(true);

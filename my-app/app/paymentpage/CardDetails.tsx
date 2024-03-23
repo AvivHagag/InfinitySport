@@ -1,13 +1,20 @@
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
 import {
   ArrowRightIcon,
   ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
+import { Session } from "next-auth";
 import React, { SetStateAction, useState } from "react";
 import InputMask from "react-input-mask";
 
 type CardDetailsProps = {
+  Session: boolean;
+  SaveCart: boolean;
+  setSaveCart: React.Dispatch<SetStateAction<boolean>>;
+  GuestName: string;
+  setGuestName: React.Dispatch<SetStateAction<string>>;
   cardNumber: string;
   Cvv: string;
   Exp: string;
@@ -19,6 +26,11 @@ type CardDetailsProps = {
 };
 
 const CardDetails: React.FC<CardDetailsProps> = ({
+  Session,
+  SaveCart,
+  setSaveCart,
+  GuestName,
+  setGuestName,
   cardNumber,
   Cvv,
   Exp,
@@ -34,6 +46,25 @@ const CardDetails: React.FC<CardDetailsProps> = ({
   const [cardNumberValid, setCardNumberValid] = useState<boolean>(false);
   const [cvvValid, setCvvValid] = useState<boolean>(false);
   const [expValid, setExpValid] = useState<boolean>(false);
+  const [ErrorGuestName, setErrorGuestName] = useState<boolean>(false);
+
+  const handleGuestName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGuestName(e.target.value);
+    setErrorGuestName(false);
+  };
+  const checkFullNameInput = (test: string) => {
+    const words = test.split(" ").filter((word) => word.length > 0);
+    if (words.length === 2 && words.every((word) => word.length > 1)) {
+      setGuestName(test);
+      return true;
+    } else {
+      setGuestName(test);
+      return false;
+    }
+  };
+  const handleSaveCart = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSaveCart(e.target.checked);
+  };
 
   const handleCardNumberChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -83,13 +114,16 @@ const CardDetails: React.FC<CardDetailsProps> = ({
       setcardNumberError(true);
       return;
     }
-    console.log();
     if (!expValid || !Exp) {
       setExpDateError(true);
       return;
     }
     if (!cvvValid) {
       setCvvError(true);
+      return;
+    }
+    if (!Session && !checkFullNameInput(GuestName)) {
+      setErrorGuestName(true);
       return;
     }
     if (cardNumberValid && cvvValid && expValid) {
@@ -154,6 +188,39 @@ const CardDetails: React.FC<CardDetailsProps> = ({
         {CvvError ? (
           <p className="text-sm text-red-600">Enter a valid CVV</p>
         ) : null}
+        {Session ? (
+          <div className="flex items-center space-x-2 mt-2">
+            <input
+              id="SaveCart"
+              type="checkbox"
+              name="SaveCart"
+              checked={SaveCart}
+              onChange={handleSaveCart}
+              className="w-4 h-4"
+            />
+            <Label className="text-base text-naivyBlue dark:text-glowGreen">
+              Save this card for future transactions
+            </Label>
+          </div>
+        ) : (
+          <div className="flex flex-col mt-2">
+            <Label className="text-sm sm:text-base md:text-lg text-naivyBlue dark:text-glowGreen mb-1">
+              Insert full name:
+            </Label>
+            <Input
+              id="GuestName"
+              type="text"
+              name="GuestName"
+              value={GuestName || ""}
+              onChange={handleGuestName}
+            />
+            {ErrorGuestName ? (
+              <p className="text-sm text-red-600">
+                Insert currect name and last name
+              </p>
+            ) : null}
+          </div>
+        )}
         <div className="flex justify-between py-8">
           <Button
             variant={"outline"}
