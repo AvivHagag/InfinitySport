@@ -10,6 +10,7 @@ import {
 import { getSession } from "next-auth/react";
 import YourOrder from "./YourOrder";
 import PaymentDetails from "./PaymentDetails";
+import ConfirmationPage from "./ConfirmationPage";
 
 type Address = {
   state: String;
@@ -120,7 +121,9 @@ export default function MainPaymentComponent() {
             setConfirmationDetails={setConfirmationDetails}
           />
         )}
-      {currentLevel === "Confirmation" && ConfirmationDetails && "Confirmation"}
+      {currentLevel === "Confirmation" && (
+        <ConfirmationPage ConfirmationDetails={ConfirmationDetails} />
+      )}
     </div>
   );
 }

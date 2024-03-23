@@ -41,9 +41,11 @@ const PayPalButton: React.FC<PayPalButtonProps> = ({
   };
 
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <PayPalButtons createOrder={createOrder} onApprove={onApproveOrder} />
-    </PayPalScriptProvider>
+    <div className="z-10">
+      <PayPalScriptProvider options={initialOptions}>
+        <PayPalButtons createOrder={createOrder} onApprove={onApproveOrder} />
+      </PayPalScriptProvider>
+    </div>
   );
 };
 
