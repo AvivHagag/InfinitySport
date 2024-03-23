@@ -88,11 +88,18 @@ const CardDetails: React.FC<CardDetailsProps> = ({
 
     const newValue = month + year;
     setExp(newValue);
+    const inputMonth = parseInt(month.slice(0, 2), 10);
+    const inputYear = parseInt(year, 10);
+    if (newValue.length >= 2) {
+      if (inputMonth < 1 || inputMonth > 12) {
+        setExpDateError(true);
+        setExpValid(false);
+        return;
+      }
+    }
     if (newValue.length === 5) {
       const currentYear = new Date().getFullYear() % 100;
       const currentMonth = new Date().getMonth() + 1;
-      const inputMonth = parseInt(month.slice(0, 2), 10);
-      const inputYear = parseInt(year, 10);
       const isValid = !(
         inputYear < currentYear ||
         (inputYear === currentYear && inputMonth < currentMonth)
