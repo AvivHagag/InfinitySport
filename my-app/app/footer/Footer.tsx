@@ -128,9 +128,6 @@ export default function Footer() {
                 About us
               </Link>
             </p>
-            <p className="mb-1 md:mb-2">
-              <a className="text-slate-200 dark:text-neutral-200">Orders</a>
-            </p>
             <p className="mb-4">
               <Link
                 href="/contactus/"
