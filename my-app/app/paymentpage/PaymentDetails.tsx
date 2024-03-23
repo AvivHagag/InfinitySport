@@ -73,20 +73,20 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
     setIsLoading(true);
     if (await getSession()) {
       console.log("SaveCart", SaveCart);
-      // try {
-      //   const NewOrder = await createOrderAndClearCart(
-      //     totalPrice,
-      //     PaymentMethod
-      //   );
-      //   setConfirmationDetails(NewOrder);
-      // } catch (e) {
-      //   console.error(e, "Failed to create order and clear cart");
-      //   return;
-      // }
+      try {
+        const NewOrder = await createOrderAndClearCart(
+          totalPrice,
+          PaymentMethod
+        );
+        setConfirmationDetails(NewOrder);
+      } catch (e) {
+        console.error(e, "Failed to create order and clear cart");
+        return;
+      }
       if (SaveCart) {
         handleCryptoModal();
       }
-      // setCurrentLevel("Confirmation");
+      setCurrentLevel("Confirmation");
     } else {
       console.log("guest");
     }
