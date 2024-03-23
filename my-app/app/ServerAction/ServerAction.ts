@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { Address, CartItem } from "@prisma/client";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);
@@ -449,3 +450,77 @@ export const AddCreditCard = async (
     console.error("Error creating Cart in DB ", error);
   }
 };
+
+type ExtendedAddress = {
+  state: string;
+  city: string;
+  street: string;
+  homeNumber: number;
+  apartmentNumber: number;
+};
+
+export async function createOrderForGuest(
+  TotalPrice: number,
+  Address: ExtendedAddress,
+  cartItems: CartItem[],
+  PaymentMethod: string,
+  GuestName: string
+) {
+  try {
+    const result = await db.$transaction(async (db) => {
+      const userAddress = await db.address.create({
+        data: {
+          state: Address.state,
+          city: Address.city,
+          street: Address.street,
+          homeNumber: Address.homeNumber,
+          apartmentNumber: Address.apartmentNumber,
+        },
+      });
+
+      if (!userAddress) {
+        throw new Error("No address found for this user.");
+      }
+
+      const newOrder = await db.order.create({
+        data: {
+          address: {
+            connect: { id: userAddress.id },
+          },
+          totalPrice: TotalPrice,
+          status: "Shipping",
+          paymentMethod: PaymentMethod,
+          guestName: GuestName ? GuestName + "_Guest" : null,
+        },
+      });
+
+      for (const cartItem of cartItems) {
+        await db.cartItemOrders.create({
+          data: {
+            orderId: newOrder.id,
+            productId: cartItem.productId,
+            quantity: cartItem.quantity,
+          },
+        });
+
+        await db.product.update({
+          where: { id: cartItem.productId },
+          data: {
+            soldCount: {
+              increment: cartItem.quantity,
+            },
+            quantity: {
+              decrement: cartItem.quantity,
+            },
+          },
+        });
+      }
+
+      return newOrder;
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Failed to create order and clear cart:", error);
+  }
+}

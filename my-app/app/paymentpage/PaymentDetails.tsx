@@ -8,15 +8,16 @@ import { CartItem, Order } from "@prisma/client";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
   createOrderAndClearCart,
+  createOrderForGuest,
   getSession,
 } from "../ServerAction/ServerAction";
 import EncryptCard from "../Modals/EncryptCard";
 import { EncryptAndUploadData } from "@/Crypto/Crypto";
 
 type Address = {
-  state: String;
-  city: String;
-  street: String;
+  state: string;
+  city: string;
+  street: string;
   homeNumber: number;
   apartmentNumber: number;
 };
@@ -88,7 +89,22 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
       }
       setCurrentLevel("Confirmation");
     } else {
-      console.log("guest");
+      try {
+        const NewOrder = await createOrderForGuest(
+          totalPrice,
+          Address,
+          cartItems,
+          PaymentMethod,
+          GuestName
+        );
+        setConfirmationDetails(NewOrder);
+        localStorage.removeItem("cartItems");
+        localStorage.removeItem("userAddress");
+      } catch (e) {
+        console.error(e, "Failed to create order and clear cart");
+        return;
+      }
+      setCurrentLevel("Confirmation");
     }
     setIsLoading(false);
   };

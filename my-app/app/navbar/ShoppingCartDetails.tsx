@@ -30,15 +30,17 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
 
   const fetchCartItems = async () => {
     let items = await getUserCart();
-    if (items === null) {
-      setFlagNoItems(true);
-      return;
-    } else if (items === undefined) {
+    if (await getSession()) {
+      if (items === null) {
+        setFlagNoItems(true);
+        return;
+      } else {
+        localStorage.removeItem("cartItems");
+        setCartItems(items);
+      }
+    } else {
       const storedCartItems = localStorage.getItem("cartItems");
       items = storedCartItems ? JSON.parse(storedCartItems) : [];
-      setCartItems(items);
-    } else {
-      localStorage.removeItem("cartItems");
       setCartItems(items);
     }
     if (items && items.length > 0) {
