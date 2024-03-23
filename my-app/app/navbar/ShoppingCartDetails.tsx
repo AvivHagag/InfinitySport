@@ -11,6 +11,7 @@ import ProductList from "./ProductList";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/src/components/ui/button";
 import InsertAddress from "./InsertAddress";
+import { useRouter } from "next/navigation";
 
 type ShoppingCartDetailsProps = {
   handleAuthModal: () => void;
@@ -25,6 +26,7 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
   const [AddressComponentOpen, setAddressComponentOpen] =
     useState<boolean>(false);
   const [AuthQuestion, setAuthQuestion] = useState<boolean>(false);
+  const router = useRouter();
 
   const fetchCartItems = async () => {
     let items = await getUserCart();
@@ -73,7 +75,9 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
       } else {
         const storedAddress = localStorage.getItem("userAddress");
         if (storedAddress) {
-          Address = storedAddress ? JSON.parse(storedAddress) : null;
+          const parsedAddress = JSON.parse(storedAddress);
+          Address =
+            Object.keys(parsedAddress).length === 0 ? null : parsedAddress;
         } else {
           localStorage.setItem("userAddress", JSON.stringify({}));
         }
@@ -84,6 +88,7 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
       console.log(cartItems);
       console.log(ProductDetails);
       console.log(totalPrice);
+      router.push("/paymentpage");
     } else {
       setFlagEditAddress(true);
       setAddressComponentOpen(true);

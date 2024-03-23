@@ -6,6 +6,7 @@ import StateSelect from "./StateSelect";
 import { US_STATES_WITH_FLAGS } from "@/src/lib/usa";
 import ClipLoader from "react-spinners/ClipLoader";
 import { getSession, setAddress } from "../ServerAction/ServerAction";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 
 interface AddressFormValues {
   city: string;
@@ -75,6 +76,11 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     }
   };
 
+  const handleBackToCart = () => {
+    setFlagEditAddress(false);
+    setAddressComponentOpen(false);
+  };
+
   const handleStateChange = (newValue: string) => {
     setValues({ ...values, state: newValue });
   };
@@ -92,6 +98,18 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
         </div>
       ) : (
         <div className="flex flex-col py-2">
+          <Button
+            variant={"outline"}
+            className="w-28 px-1 mx-2 text-naivySky dark:text-glowGreen hover:text-naivySky hover:dark:text-glowGreen"
+            onClick={() => handleBackToCart()}
+          >
+            <div className="flex justify-center">
+              <span>
+                <ArrowUturnLeftIcon className="h-4 w-4 mr-1" />
+              </span>
+              Back to cart
+            </div>
+          </Button>
           <div className="text-center text-lg text-naivyBlue dark:text-glowGreen">
             Add Address
           </div>

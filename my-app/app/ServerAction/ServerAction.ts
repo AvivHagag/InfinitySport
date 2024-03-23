@@ -20,6 +20,13 @@ export const getAddress = async () => {
       where: {
         userId: session?.user.id,
       },
+      select: {
+        state: true,
+        city: true,
+        street: true,
+        homeNumber: true,
+        apartmentNumber: true,
+      },
     });
     return Address;
   } catch (error) {
@@ -312,5 +319,109 @@ export const UpdateProductQuantity = async (
     console.log(Product);
   } catch (error) {
     console.error("Error fetching Products", error);
+  }
+};
+
+export async function createOrderAndClearCart(
+  TotalPrice: number,
+  PaymentMethod: string
+) {
+  try {
+    const result = await db.$transaction(async (db) => {
+      console.log("1");
+      const userID = await getSession();
+      if (userID) {
+        const userCart = await db.cart.findUnique({
+          where: { userId: userID },
+          include: { products: true },
+        });
+        console.log("2");
+        if (!userCart) {
+          throw new Error("No cart found for this user.");
+        }
+
+        const userAddress = await db.address.findUnique({
+          where: { userId: userID },
+        });
+
+        if (!userAddress) {
+          throw new Error("No address found for this user.");
+        }
+        const newOrder = await db.order.create({
+          data: {
+            user: {
+              connect: { id: userID },
+            },
+            address: {
+              connect: { id: userAddress.id },
+            },
+            totalPrice: TotalPrice,
+            status: "Shipping",
+            paymentMethod: PaymentMethod,
+          },
+        });
+        console.log("3");
+        for (const cartItem of userCart.products) {
+          await db.cartItemOrders.create({
+            data: {
+              orderId: newOrder.id,
+              productId: cartItem.productId,
+              quantity: cartItem.quantity,
+            },
+          });
+          console.log("4");
+          await db.product.update({
+            where: { id: cartItem.productId },
+            data: {
+              soldCount: {
+                increment: cartItem.quantity,
+              },
+              quantity: {
+                decrement: cartItem.quantity,
+              },
+            },
+          });
+
+          await db.cartItem.delete({
+            where: {
+              cartId_productId: {
+                cartId: userCart.id,
+                productId: cartItem.productId,
+              },
+            },
+          });
+        }
+        console.log("5");
+        await db.cart.delete({
+          where: { id: userCart.id },
+        });
+
+        return newOrder;
+      }
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Failed to create order and clear cart:", error);
+  }
+}
+
+export const getOrders = async () => {
+  try {
+    const user = await getSession();
+    if (user) {
+      const orders = await db.order.findMany({
+        where: {
+          userId: user,
+        },
+        include: {
+          products: true,
+        },
+      });
+
+      return orders;
+    }
+  } catch (error) {
+    console.error("Error Fetching orders ", error);
   }
 };

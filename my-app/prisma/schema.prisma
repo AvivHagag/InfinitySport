@@ -104,6 +104,7 @@ model Product {
   onSale Boolean  @default(false)
   salePercent Int?
   createdAt     DateTime  @default(now())
+  soldCount      Int          @default(0)
 }
 
 model Category {
@@ -114,13 +115,14 @@ model Category {
 
 model Address {
   id  String    @id @default(uuid())
-  user User     @relation(fields: [userId], references: [id])
-  userId String @unique
+  user User?     @relation(fields: [userId], references: [id])
+  userId String? @unique
   state String
   city String
   street String
   homeNumber Int
   apartmentNumber Int
+  orders Order[]
 }
 
 model CreditCard {
@@ -135,9 +137,13 @@ model CreditCard {
 
 model Order {
   id Int       @id @default(autoincrement())
-  user User  @relation(fields: [userId], references: [id])
-  userId String @unique
+  user       User?            @relation(fields: [userId], references: [id])
+  userId     String?
+  address     Address?      @relation(fields: [addressId], references: [id])
+  addressId   String?
   createdAt DateTime @default(now())
-  status    String
+  status    String  @default("Shipping")
   products  CartItemOrders[]
+  totalPrice Int
+  paymentMethod String?
 }
