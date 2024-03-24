@@ -25,6 +25,12 @@ const config = {
             lineHeight: "1rem",
           },
         ],
+        xxxs: [
+          "0.5rem",
+          {
+            lineHeight: "0.6rem",
+          },
+        ],
       },
       backgroundImage: {
         "contact-us":
