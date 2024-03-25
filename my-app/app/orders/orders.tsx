@@ -36,36 +36,6 @@ interface OrdersPageProps {
   orderDetails: OrdersTypes[];
 }
 export default function OrdersPage({ orderDetails }: OrdersPageProps) {
-  //   return (
-  //     <div>
-  //       <h1 className="text-center">Orders</h1>
-  //       {orderDetails.map((order) => (
-  //         <div key={order.id} className="my-4">
-  //           <p>Order ID: {order.id}</p>
-  //           <p>Status: {order.status}</p>
-  //           <p>Created At: {new Date(order.createdAt).toLocaleString()}</p>
-  //           <p>Total Price: ${order.totalPrice}</p>
-
-  //           <p>
-  //             Address:{" "}
-  //             {order.address
-  //               ? `${order.address.street} ${order.address.homeNumber}, ${order.address.apartmentNumber}, ${order.address.city}, ${order.address.state}`
-  //               : "N/A"}
-  //           </p>
-
-  //           <h4>Products:</h4>
-  //           {order.products.map((orderProduct: CartItemFromOrder) => (
-  //             <li key={orderProduct.orderId}>
-  //               Name: {orderProduct.product.id}, Manufacturer:{" "}
-  //               {orderProduct.product.manufacturer}, Price: $
-  //               {orderProduct.product.price}
-  //             </li>
-  //           ))}
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  // }
   const totalSum = orderDetails.reduce(
     (acc, order) => acc + order.totalPrice,
     0
@@ -138,11 +108,7 @@ export default function OrdersPage({ orderDetails }: OrdersPageProps) {
               </TableRow>
             ))}
           </TableBody>
-          <TableFooter>
-            {/* <TableRow>
-              
-            </TableRow> */}
-          </TableFooter>
+          <TableFooter></TableFooter>
         </Table>
       </div>
     </div>

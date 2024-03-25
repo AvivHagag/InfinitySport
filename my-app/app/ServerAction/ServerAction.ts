@@ -2,7 +2,7 @@
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { Address, CartItem } from "@prisma/client";
+import { CartItem } from "@prisma/client";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);
