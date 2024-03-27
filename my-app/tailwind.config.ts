@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        xxs: "340px",
+        xs: "400px",
+      },
       fontSize: {
         xxs: [
           "0.7rem",
