@@ -44,9 +44,6 @@ const SigninButton = () => {
                     </li>
                   )}
                   <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
-                    <Link href="/profile">My Profile</Link>
-                  </li>
-                  <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
                     <Link href="/settings">Settings</Link>
                   </li>
                   <li className="hover:scale-105">
