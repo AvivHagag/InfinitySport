@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { CartItem } from "@prisma/client";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);
@@ -328,14 +329,12 @@ export async function createOrderAndClearCart(
 ) {
   try {
     const result = await db.$transaction(async (db) => {
-      console.log("1");
       const userID = await getSession();
       if (userID) {
         const userCart = await db.cart.findUnique({
           where: { userId: userID },
           include: { products: true },
         });
-        console.log("2");
         if (!userCart) {
           throw new Error("No cart found for this user.");
         }
@@ -360,7 +359,6 @@ export async function createOrderAndClearCart(
             paymentMethod: PaymentMethod,
           },
         });
-        console.log("3");
         for (const cartItem of userCart.products) {
           await db.cartItemOrders.create({
             data: {
@@ -369,7 +367,6 @@ export async function createOrderAndClearCart(
               quantity: cartItem.quantity,
             },
           });
-          console.log("4");
           await db.product.update({
             where: { id: cartItem.productId },
             data: {
@@ -391,7 +388,6 @@ export async function createOrderAndClearCart(
             },
           });
         }
-        console.log("5");
         await db.cart.delete({
           where: { id: userCart.id },
         });
@@ -415,7 +411,12 @@ export const getOrders = async () => {
           userId: user,
         },
         include: {
-          products: true,
+          products: {
+            include: {
+              product: true,
+            },
+          },
+          address: true,
         },
       });
 
@@ -425,3 +426,106 @@ export const getOrders = async () => {
     console.error("Error Fetching orders ", error);
   }
 };
+
+export const AddCreditCard = async (
+  CardNumber: string,
+  Cvv: string,
+  Exp: string
+) => {
+  const [monthStr, yearStr] = Exp.split("/");
+  const month = parseInt(monthStr, 10);
+  const year = parseInt(yearStr, 10);
+  try {
+    const userID = await getSession();
+    if (userID) {
+      const newCreditCard = await db.creditCard.create({
+        data: {
+          user: {
+            connect: { id: userID },
+          },
+          cardNumber: CardNumber,
+          cvv: Cvv,
+          month: month,
+          year: year,
+        },
+      });
+      console.log("newCreditCard - ", newCreditCard);
+    }
+  } catch (error) {
+    console.error("Error creating Cart in DB ", error);
+  }
+};
+
+type ExtendedAddress = {
+  state: string;
+  city: string;
+  street: string;
+  homeNumber: number;
+  apartmentNumber: number;
+};
+
+export async function createOrderForGuest(
+  TotalPrice: number,
+  Address: ExtendedAddress,
+  cartItems: CartItem[],
+  PaymentMethod: string,
+  GuestName: string
+) {
+  try {
+    const result = await db.$transaction(async (db) => {
+      const userAddress = await db.address.create({
+        data: {
+          state: Address.state,
+          city: Address.city,
+          street: Address.street,
+          homeNumber: Address.homeNumber,
+          apartmentNumber: Address.apartmentNumber,
+        },
+      });
+
+      if (!userAddress) {
+        throw new Error("No address found for this user.");
+      }
+
+      const newOrder = await db.order.create({
+        data: {
+          address: {
+            connect: { id: userAddress.id },
+          },
+          totalPrice: TotalPrice,
+          status: "Shipping",
+          paymentMethod: PaymentMethod,
+          guestName: GuestName ? GuestName + "_Guest" : null,
+        },
+      });
+
+      for (const cartItem of cartItems) {
+        await db.cartItemOrders.create({
+          data: {
+            orderId: newOrder.id,
+            productId: cartItem.productId,
+            quantity: cartItem.quantity,
+          },
+        });
+
+        await db.product.update({
+          where: { id: cartItem.productId },
+          data: {
+            soldCount: {
+              increment: cartItem.quantity,
+            },
+            quantity: {
+              decrement: cartItem.quantity,
+            },
+          },
+        });
+      }
+
+      return newOrder;
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Failed to create order and clear cart:", error);
+  }
+}

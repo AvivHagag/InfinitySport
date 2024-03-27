@@ -3,27 +3,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import EncryptShield from "../paymentpage/CardLogos/EncryptShield.png";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
-type EncryptCardProps = {
-  cardNumber: string;
-  Cvv: string;
-  Exp: string;
-  handleCryptoModal: () => void;
-};
 
-function EncryptCard({
-  cardNumber,
-  Cvv,
-  Exp,
-  handleCryptoModal,
-}: EncryptCardProps) {
-  // const EncryptAndUploadData = () => {
-  //   const Encrypted =
-  // }
-
-  useEffect(() => {
-    // EncryptAndUploadData();
-  }, []);
-
+function EncryptCard() {
   const [dots, setDots] = useState(".");
   useEffect(() => {
     const updateDots = () => {
@@ -41,7 +22,7 @@ function EncryptCard({
   return (
     <>
       <div className="fixed inset-0 bg-gray-600 dark:bg-slate-950 bg-opacity-50 dark:bg-opacity-70">
-        <div className="relative w-[28rem] sm:w-[36rem] my-32 mx-auto border shadow-lg rounded-md bg-white dark:bg-slate-950 z-50">
+        <div className="relative w-[95%] md:w-3/6 lg:w-2/6 my-32 mx-auto border shadow-lg rounded-md bg-white dark:bg-slate-950 z-50">
           <div className="flex flex-col px-2 sm:px-4">
             <div className="flex justify-center p-2">
               <div className="flex items-center text-lg leading-6 font-medium text-naivyBlue dark:text-glowGreen">

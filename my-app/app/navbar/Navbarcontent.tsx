@@ -5,10 +5,7 @@ import NavigationComponent from "./NavigationComponent";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import NavigationAccordion from "./NavigationAccordion";
-
-const LogoChooseNoSSR = dynamic(() => import("./LogoChoose"), {
-  ssr: false,
-});
+import LogoChoose from "./LogoChoose";
 
 interface NavbarcontentProps {
   Rule: string;
@@ -36,7 +33,7 @@ const Navbarcontent: React.FC<NavbarcontentProps> = ({ Rule }) => {
           )}
         </button>
         <div className="hidden md:flex flex-row items-center space-x-1">
-          <LogoChooseNoSSR />
+          <LogoChoose />
           <NavigationComponent url={url} />
         </div>
       </div>
@@ -50,7 +47,7 @@ const Navbarcontent: React.FC<NavbarcontentProps> = ({ Rule }) => {
             className="mx-auto pb-2"
             onClick={() => setImdobileMenuOpen(false)}
           >
-            <LogoChooseNoSSR />
+            <LogoChoose />
           </div>{" "}
           <NavigationAccordion
             setImdobileMenuOpen={setImdobileMenuOpen}

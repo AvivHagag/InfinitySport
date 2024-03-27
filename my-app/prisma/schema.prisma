@@ -146,4 +146,5 @@ model Order {
   products  CartItemOrders[]
   totalPrice Int
   paymentMethod String?
+  guestName String?
 }

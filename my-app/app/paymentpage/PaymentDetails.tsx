@@ -8,14 +8,16 @@ import { CartItem, Order } from "@prisma/client";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
   createOrderAndClearCart,
+  createOrderForGuest,
   getSession,
 } from "../ServerAction/ServerAction";
 import EncryptCard from "../Modals/EncryptCard";
+import { EncryptAndUploadData } from "@/Crypto/Crypto";
 
 type Address = {
-  state: String;
-  city: String;
-  street: String;
+  state: string;
+  city: string;
+  street: string;
   homeNumber: number;
   apartmentNumber: number;
 };
@@ -53,10 +55,6 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   const [GuestName, setGuestName] = useState<string>("");
   const [openCryptoModal, setopenCryptoModal] = useState<boolean>(false);
 
-  const handleCryptoModal = () => {
-    setopenCryptoModal(!openCryptoModal);
-  };
-
   const fetchSession = async () => {
     if (await getSession()) {
       setSession(true);
@@ -72,7 +70,13 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   const handlePayment = async (PaymentMethod: string) => {
     setIsLoading(true);
     if (await getSession()) {
-      console.log("SaveCart", SaveCart);
+      if (SaveCart) {
+        setopenCryptoModal(true);
+        await EncryptAndUploadData(cardNumber, Cvv, Exp);
+        setTimeout(() => {
+          setopenCryptoModal(false);
+        }, 2500);
+      }
       try {
         const NewOrder = await createOrderAndClearCart(
           totalPrice,
@@ -83,15 +87,28 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         console.error(e, "Failed to create order and clear cart");
         return;
       }
-      if (SaveCart) {
-        handleCryptoModal();
-      }
       setCurrentLevel("Confirmation");
     } else {
-      console.log("guest");
+      try {
+        const NewOrder = await createOrderForGuest(
+          totalPrice,
+          Address,
+          cartItems,
+          PaymentMethod,
+          GuestName
+        );
+        setConfirmationDetails(NewOrder);
+        localStorage.removeItem("cartItems");
+        localStorage.removeItem("userAddress");
+      } catch (e) {
+        console.error(e, "Failed to create order and clear cart");
+        return;
+      }
+      setCurrentLevel("Confirmation");
     }
     setIsLoading(false);
   };
+
   return (
     <>
       <div className="flex justify-center mx-auto p-1 sm:p-4 w-full lg:w-3/4 border rounded-xl">
@@ -147,14 +164,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           )}
         </div>
       </div>
-      {openCryptoModal ? (
-        <EncryptCard
-          cardNumber={cardNumber}
-          Cvv={Cvv}
-          Exp={Exp}
-          handleCryptoModal={handleCryptoModal}
-        />
-      ) : null}
+      {openCryptoModal ? <EncryptCard /> : null}
     </>
   );
 };

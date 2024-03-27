@@ -13,9 +13,9 @@ import PaymentDetails from "./PaymentDetails";
 import ConfirmationPage from "./ConfirmationPage";
 
 type Address = {
-  state: String;
-  city: String;
-  street: String;
+  state: string;
+  city: string;
+  street: string;
   homeNumber: number;
   apartmentNumber: number;
 };
@@ -76,7 +76,13 @@ export default function MainPaymentComponent() {
     } else {
       const storedAddress = localStorage.getItem("userAddress");
       if (storedAddress) {
-        setAddress(JSON.parse(storedAddress));
+        const parsedAddress = JSON.parse(storedAddress);
+        const addressWithNumbers = {
+          ...parsedAddress,
+          homeNumber: parseInt(parsedAddress.homeNumber, 10) || 0,
+          apartmentNumber: parseInt(parsedAddress.apartmentNumber, 10) || 0,
+        };
+        setAddress(addressWithNumbers);
       }
     }
   };
