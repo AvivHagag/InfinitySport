@@ -9,6 +9,9 @@ import { useTheme } from "next-themes";
 const WorldMap: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const CirlceColor = theme === "dark" ? "#9ffd32" : "#DC2626";
+  const ArrowColor = theme === "dark" ? "#FFFFFF" : "#000000";
+  const LineColor = theme === "dark" ? "#37FF01" : "#000000";
+
   useEffect(() => {
     let root = am5.Root.new("mapdiv");
 
@@ -48,7 +51,7 @@ const WorldMap: React.FC = () => {
 
     let lineSeries = chart.series.push(am5map.MapLineSeries.new(root, {}));
     lineSeries.mapLines.template.setAll({
-      stroke: root.interfaceColors.get("alternativeBackground"),
+      stroke: am5.color(LineColor),
       strokeOpacity: 0.6,
     });
 
@@ -73,8 +76,8 @@ const WorldMap: React.FC = () => {
 
     arrowSeries.bullets.push(function () {
       let arrow = am5.Graphics.new(root, {
-        fill: am5.color(0x000000),
-        stroke: am5.color(0x000000),
+        fill: am5.color(ArrowColor),
+        stroke: am5.color(ArrowColor),
         draw: function (display) {
           display.moveTo(0, -3);
           display.lineTo(8, 0);

@@ -406,7 +406,9 @@ export const getOrders = async () => {
   try {
     const user = await getSession();
     if (user) {
-      const orders = await db.order.findMany({
+      const currentDate: Date = new Date();
+      let flag = false;
+      let orders = await db.order.findMany({
         where: {
           userId: user,
         },
@@ -419,7 +421,55 @@ export const getOrders = async () => {
           address: true,
         },
       });
-
+      for (const order of orders) {
+        const createdAtDate: Date = new Date(order.createdAt);
+        const differenceInDays: number = Math.floor(
+          (currentDate.getTime() - createdAtDate.getTime()) /
+            (1000 * 60 * 60 * 24)
+        );
+        if (differenceInDays >= 4 && order.status != "Arrived") {
+          try {
+            const updateArrived = await db.order.update({
+              where: { id: order.id },
+              data: { status: "Arrived" },
+            });
+            console.log("Update to Arrived -", updateArrived);
+            flag = true;
+          } catch (updateError) {
+            console.error("Error updating order:", updateError);
+          }
+        } else if (
+          differenceInDays > 1 &&
+          differenceInDays < 4 &&
+          order.status != "On the way"
+        ) {
+          try {
+            const updateOnTheWay = await db.order.update({
+              where: { id: order.id },
+              data: { status: "On the way" },
+            });
+            console.log("Update to On the way -", updateOnTheWay);
+            flag = true;
+          } catch (updateError) {
+            console.error("Error updating order:", updateError);
+          }
+        }
+      }
+      if (flag) {
+        orders = await db.order.findMany({
+          where: {
+            userId: user,
+          },
+          include: {
+            products: {
+              include: {
+                product: true,
+              },
+            },
+            address: true,
+          },
+        });
+      }
       return orders;
     }
   } catch (error) {
@@ -529,3 +579,26 @@ export async function createOrderForGuest(
     console.error("Failed to create order and clear cart:", error);
   }
 }
+
+export const getBestProducts = async () => {
+  try {
+    const BestProducts = await db.product.findMany({
+      orderBy: {
+        soldCount: "desc",
+      },
+      take: 5,
+    });
+    return BestProducts;
+  } catch (error) {
+    console.error("Error fetching Products", error);
+  }
+};
+
+export const getAllTheProducts = async () => {
+  try {
+    const BestProducts = await db.product.findMany({});
+    return BestProducts;
+  } catch (error) {
+    console.error("Error fetching Products", error);
+  }
+};
