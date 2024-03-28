@@ -593,3 +593,12 @@ export const getBestProducts = async () => {
     console.error("Error fetching Products", error);
   }
 };
+
+export const getAllTheProducts = async () => {
+  try {
+    const BestProducts = await db.product.findMany({});
+    return BestProducts;
+  } catch (error) {
+    console.error("Error fetching Products", error);
+  }
+};

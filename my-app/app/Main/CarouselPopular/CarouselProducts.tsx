@@ -83,7 +83,7 @@ const CarouselProducts: React.FC<CarouselProps> = ({ BestProducts }) => {
           onClose={handleModal}
         />
       )}
-      <Fade delay={1900}>
+      <Fade delay={1900} triggerOnce>
         <div className="flex flex-col space-y-2">
           <Carousel
             setApi={setApi}
@@ -112,7 +112,7 @@ const CarouselProducts: React.FC<CarouselProps> = ({ BestProducts }) => {
                         className="border border-naivyBlue dark:border-current rounded-xl w-full h-[20rem] sm:h-[30rem] object-cover cursor-pointer group-hover:brightness-75"
                       />
                     )}
-                    <span className="absolute right-2 top-1 bg-red-600 text-white text-sm sm:text-lg px-2 py-1 rounded-tr-xl">
+                    <span className="absolute right-2 top-1 bg-orange-500 text-white text-sm sm:text-lg px-2 py-1 rounded-tr-xl">
                       <div className="flex items-center">
                         Popular
                         <FireIcon className="h-5 w-5 ml-1" />
