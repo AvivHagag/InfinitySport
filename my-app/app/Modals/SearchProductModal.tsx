@@ -342,11 +342,19 @@ export default function ProductModal({
                 <p className="text-xs pl-1 pr-2">{product.description}</p>
               </ScrollArea>
             </div>
-            <div className="mt-1 text-sm ">
-              <span className="text-sm text-naivyBlue dark:text-glowGreen">
-                Color:
-              </span>{" "}
-              {product.color}
+            <div className="flex justify-between">
+              <div className="mt-1 text-sm ">
+                <span className="text-sm text-naivyBlue dark:text-glowGreen">
+                  Color:
+                </span>{" "}
+                {product.color}
+              </div>
+              <div className="mt-1 text-sm text-right">
+                <span className="text-sm text-naivyBlue dark:text-glowGreen">
+                  Quantity:
+                </span>{" "}
+                {product.quantity}
+              </div>
             </div>
             <div className="mt-1 text-sm ">
               <span className="text-sm text-naivyBlue dark:text-glowGreen">
