@@ -25,7 +25,7 @@ const PaginationPage: React.FC<PaginationProps> = ({
   CartItems,
 }) => {
   const [sortedProducts, setSortedProducts] = useState<Product[]>(AllProducts);
-  const [localCartItems, setLocalCartItems] = useState<CartItem[]>();
+  const [localCartItems, setLocalCartItems] = useState<CartItem[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [productPerPage, setProductPerPage] = useState<number>(12);
   const lastProductIndex = currentPage * productPerPage;
