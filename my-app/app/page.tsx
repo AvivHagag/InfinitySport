@@ -1,10 +1,13 @@
-// import AdsComponent from "./IndexComponents/AdsComponent";
+import AdsComponent from "./Main/IndexComponents/AdsComponent";
+import Carousel from "./Main/CarouselPopular/page";
+import PaginationPage from "./Main/PaginationComponent/page";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      {/* <AdsComponent /> */}
-      <h1>Hello world</h1>
+    <main className="flex flex-col items-center justify-between">
+      <AdsComponent />
+      <Carousel />
+      <PaginationPage />
     </main>
   );
 }

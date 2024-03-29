@@ -32,6 +32,11 @@ const nextConfig = {
         hostname: "komodosports.co.uk",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "**",
+      },
     ],
   },
 };
