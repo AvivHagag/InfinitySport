@@ -5,9 +5,15 @@ import {
   ArrowRightIcon,
   ArrowUturnLeftIcon,
 } from "@heroicons/react/24/outline";
-import { Session } from "next-auth";
 import React, { SetStateAction, useState } from "react";
 import InputMask from "react-input-mask";
+import VisaLogo from "./CardLogos/visa.png";
+import Image from "next/image";
+type CreditCardInfo = {
+  last4Digits: string;
+  year: number;
+  month: number;
+};
 
 type CardDetailsProps = {
   Session: boolean;
@@ -23,6 +29,7 @@ type CardDetailsProps = {
   setExp: React.Dispatch<SetStateAction<string>>;
   setCurrentLevel: React.Dispatch<SetStateAction<string>>;
   handlePayment: (PaymentMethod: string) => void;
+  creditCards: CreditCardInfo[];
 };
 
 const CardDetails: React.FC<CardDetailsProps> = ({
@@ -39,6 +46,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({
   setExp,
   setCurrentLevel,
   handlePayment,
+  creditCards,
 }) => {
   const [expDateError, setExpDateError] = useState<boolean>(false);
   const [CvvError, setCvvError] = useState<boolean>(false);
@@ -144,6 +152,33 @@ const CardDetails: React.FC<CardDetailsProps> = ({
     <div className="w-[95%] mx-4 bg-white dark:bg-slate-950 dark:border rounded-xl -mt-8 mb-4">
       <div className="flex flex-col px-4 pb-8 sm:px-8">
         <div className="text-sm sm:text-base md:text-lg mt-12 mb-1 text-naivySky dark:text-glowGreen">
+          {creditCards ? (
+            <div className="flex flex-wrap items-center space-x-4 mb-2">
+              {creditCards.map((card, index) => (
+                <div key={index}>
+                  <Button
+                    variant={"outline"}
+                    className="flex items-center bg-naivySky dark:bg-glowgreen py-8"
+                  >
+                    <div>
+                      <Image
+                        src={VisaLogo}
+                        alt="VisaLogo"
+                        width={40}
+                        height={40}
+                        className="invert m-1"
+                      />
+                    </div>
+                    <div className="flex flex-col text-xxs sm:text-xs md:text-sm text-black">
+                      4 Digits : {card.last4Digits}
+                      <div className="my-1"></div>
+                      Date : {card.month}/{card.year}
+                    </div>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          ) : null}
           Card Number:
         </div>
         <div className="text-xxs sm:text-xs md:text-sm mb-1">

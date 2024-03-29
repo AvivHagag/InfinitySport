@@ -480,7 +480,8 @@ export const getOrders = async () => {
 export const AddCreditCard = async (
   CardNumber: string,
   Cvv: string,
-  Exp: string
+  Exp: string,
+  lastFourDigits: string
 ) => {
   const [monthStr, yearStr] = Exp.split("/");
   const month = parseInt(monthStr, 10);
@@ -497,12 +498,32 @@ export const AddCreditCard = async (
           cvv: Cvv,
           month: month,
           year: year,
+          last4Digits: lastFourDigits,
         },
       });
       console.log("newCreditCard - ", newCreditCard);
     }
   } catch (error) {
     console.error("Error creating Cart in DB ", error);
+  }
+};
+
+export const getExistCreditCards = async () => {
+  try {
+    const userID = await getSession();
+    if (userID) {
+      const ExistCards = await db.creditCard.findMany({
+        where: { userId: userID },
+        select: {
+          last4Digits: true,
+          year: true,
+          month: true,
+        },
+      });
+      return ExistCards;
+    }
+  } catch (error) {
+    console.error("Error fetching Cart in DB ", error);
   }
 };
 

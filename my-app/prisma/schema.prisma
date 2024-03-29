@@ -129,6 +129,7 @@ model CreditCard {
   id        String  @id @default(uuid())
   cardNumber String @unique
   cvv       String
+  last4Digits   String
   month   Int
   year Int
   user      User     @relation(fields: [userId], references: [id])

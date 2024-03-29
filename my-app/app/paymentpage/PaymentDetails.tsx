@@ -9,6 +9,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import {
   createOrderAndClearCart,
   createOrderForGuest,
+  getExistCreditCards,
   getSession,
 } from "../ServerAction/ServerAction";
 import EncryptCard from "../Modals/EncryptCard";
@@ -20,6 +21,12 @@ type Address = {
   street: string;
   homeNumber: number;
   apartmentNumber: number;
+};
+
+type CreditCardInfo = {
+  last4Digits: string;
+  year: number;
+  month: number;
 };
 
 type PaymentDetailsProps = {
@@ -54,10 +61,15 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   const [SaveCart, setSaveCart] = useState<boolean>(false);
   const [GuestName, setGuestName] = useState<string>("");
   const [openCryptoModal, setopenCryptoModal] = useState<boolean>(false);
+  const [creditCards, setCreditCards] = useState<CreditCardInfo[]>([]);
 
   const fetchSession = async () => {
     if (await getSession()) {
       setSession(true);
+      const existingCards = await getExistCreditCards();
+      if (existingCards) {
+        setCreditCards(existingCards);
+      }
     } else {
       setSession(false);
     }
@@ -146,6 +158,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
                       setExp={setExp}
                       setCurrentLevel={setCurrentLevel}
                       handlePayment={handlePayment}
+                      creditCards={creditCards}
                     />
                   </div>
                   <Separator
