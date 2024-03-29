@@ -73,6 +73,7 @@ const PaginationPage: React.FC<PaginationProps> = ({
           <NumberPerPage
             productPerPage={productPerPage}
             setProductPerPage={setProductPerPage}
+            setCurrentPage={setCurrentPage}
           />
           <ComboBoxSort
             sortedProducts={sortedProducts}

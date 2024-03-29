@@ -19,11 +19,13 @@ const NumbersPerPage = [
 type NumberPerPageProps = {
   productPerPage: number;
   setProductPerPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function NumberPerPage({
   productPerPage,
   setProductPerPage,
+  setCurrentPage,
 }: NumberPerPageProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<number>(productPerPage);
@@ -31,6 +33,7 @@ export default function NumberPerPage({
   const handleSortChange = (option: number) => {
     setValue(option);
     setProductPerPage(option);
+    setCurrentPage(1);
     setOpen(false);
   };
 
