@@ -153,26 +153,25 @@ const CardDetails: React.FC<CardDetailsProps> = ({
       <div className="flex flex-col px-4 pb-8 sm:px-8">
         <div className="text-sm sm:text-base md:text-lg mt-12 mb-1 text-naivySky dark:text-glowGreen">
           {creditCards ? (
-            <div className="flex flex-wrap items-center space-x-4 mb-2">
+            <div className="flex flex-wrap justify-center items-center space-x-4 mb-2">
               {creditCards.map((card, index) => (
                 <div key={index}>
                   <Button
                     variant={"outline"}
-                    className="flex items-center bg-naivySky dark:bg-glowgreen py-8"
+                    className="flex flex-row items-center bg-naivySky dark:bg-glowGreen py-8 space-x-2"
                   >
-                    <div>
-                      <Image
-                        src={VisaLogo}
-                        alt="VisaLogo"
-                        width={40}
-                        height={40}
-                        className="invert m-1"
-                      />
-                    </div>
-                    <div className="flex flex-col text-xxs sm:text-xs md:text-sm text-black">
-                      4 Digits : {card.last4Digits}
-                      <div className="my-1"></div>
-                      Date : {card.month}/{card.year}
+                    <Image
+                      src={VisaLogo}
+                      alt="VisaLogo"
+                      width={40}
+                      height={40}
+                      className="dark:invert mr-1 sm:mr-2 lg:mr-4 sm:scale-125 lg:scale-150"
+                    />
+                    <div className="flex flex-col items-start text-white dark:text-black text-xxs sm:text-xs md:text-sm ">
+                      <div>4 Digits: {card.last4Digits}</div>
+                      <div>
+                        Exp: {card.month}/{card.year}
+                      </div>
                     </div>
                   </Button>
                 </div>
