@@ -51,14 +51,14 @@ const PaginationPage: React.FC<PaginationProps> = ({
     handleFlagChange();
   }, [CartItems, AllProducts]);
 
-  useEffect(() => {
+  const ScrollUp = () => {
     if (topOfComponentRef.current) {
       topOfComponentRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-  }, [currentPage]);
+  };
 
   return (
     <>
@@ -91,6 +91,7 @@ const PaginationPage: React.FC<PaginationProps> = ({
             productPerPage={productPerPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            ScrollUp={ScrollUp}
           />
         </div>
       </div>
@@ -105,11 +106,13 @@ function Pages({
   productPerPage,
   currentPage,
   setCurrentPage,
+  ScrollUp,
 }: {
   totalProducts: any;
   productPerPage: any;
   currentPage: any;
   setCurrentPage: any;
+  ScrollUp: () => void;
 }) {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalProducts / productPerPage); i++) {
@@ -126,12 +129,14 @@ function Pages({
   const handleNextPage = () => {
     if (currentPage < pageNumbers.length) {
       setCurrentPage(currentPage + 1);
+      ScrollUp();
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+      ScrollUp();
     }
   };
 
