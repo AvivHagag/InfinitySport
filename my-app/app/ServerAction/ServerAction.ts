@@ -14,11 +14,6 @@ export const getRule = async () => {
   return session ? session.user.role : "";
 };
 
-export const getUserName = async () => {
-  const session = await getServerSession(authOptions);
-  return session ? session.user.name : "";
-};
-
 export const getAddress = async () => {
   const session = await getServerSession(authOptions);
   try {
