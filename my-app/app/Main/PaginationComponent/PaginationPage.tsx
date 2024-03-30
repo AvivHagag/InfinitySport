@@ -34,7 +34,7 @@ const PaginationPage: React.FC<PaginationProps> = ({
     firstProductIndex,
     lastProductIndex
   );
-  const topOfComponentRef = useRef<HTMLDivElement | null>(null);
+  const topOfComponentRef = useRef<HTMLDivElement>(null);
 
   const handleFlagChange = () => {
     if (!CartItems) {

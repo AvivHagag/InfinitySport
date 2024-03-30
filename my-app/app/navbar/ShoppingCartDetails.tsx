@@ -15,9 +15,13 @@ import { useRouter } from "next/navigation";
 
 type ShoppingCartDetailsProps = {
   handleAuthModal: () => void;
+  toggleDropdown: () => void;
 };
 
-const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
+const ShoppingCartDetails = ({
+  handleAuthModal,
+  toggleDropdown,
+}: ShoppingCartDetailsProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>();
   const [ProductDetails, setProductDetails] = useState<Product[]>();
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -87,6 +91,7 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
       }
     }
     if (Address) {
+      toggleDropdown();
       router.push("/paymentpage");
     } else {
       setFlagEditAddress(true);

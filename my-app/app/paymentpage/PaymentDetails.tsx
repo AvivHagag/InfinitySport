@@ -14,6 +14,7 @@ import {
 } from "../ServerAction/ServerAction";
 import EncryptCard from "../Modals/EncryptCard";
 import { EncryptAndUploadData } from "@/Crypto/Crypto";
+import SavedCreditCards from "./SavedCreditCards";
 
 type Address = {
   state: string;
@@ -158,14 +159,19 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
                       setExp={setExp}
                       setCurrentLevel={setCurrentLevel}
                       handlePayment={handlePayment}
-                      creditCards={creditCards}
                     />
                   </div>
                   <Separator
                     orientation="vertical"
                     className="h-auto mx-2 hidden sm:block"
                   />
-                  <div className="flex justify-center items-center mx-auto w-2/5 py-8 sm:py-0">
+                  <div className="flex flex-col mx-auto items-center w-2/5 space-y-4">
+                    {creditCards ? (
+                      <SavedCreditCards
+                        creditCards={creditCards}
+                        handlePayment={handlePayment}
+                      />
+                    ) : null}
                     <PayPalButton
                       totalPrice={totalPrice}
                       handlePayment={handlePayment}

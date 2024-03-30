@@ -51,7 +51,10 @@ const ShoppingCartDropdown = () => {
                 <XMarkIcon className="h-6 w-6" />
               </div>
             </div>
-            <ShoppingCartDetails handleAuthModal={handleAuthModal} />
+            <ShoppingCartDetails
+              handleAuthModal={handleAuthModal}
+              toggleDropdown={toggleDropdown}
+            />
           </div>
         </Fade>
       )}
