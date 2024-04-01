@@ -2,11 +2,16 @@
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { CartItem } from "@prisma/client";
+import { Address, CartItem } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);
   return session ? session?.user.id : null;
+};
+export const getSessionEmail = async () => {
+  const session = await getServerSession(authOptions);
+  return session ? session?.user.email : null;
 };
 
 export const getRule = async () => {
@@ -31,7 +36,7 @@ export const getAddress = async () => {
     });
     return Address;
   } catch (error) {
-    console.error("Error creating a catgory - ", error);
+    console.error("Error Fetching the address - ", error);
   }
 };
 
@@ -61,7 +66,37 @@ export const setAddress = async (values: AddressFormValues) => {
     });
     console.log(Address);
   } catch (error) {
-    console.error("Error creating a catgory - ", error);
+    console.error("Error creating an Address - ", error);
+  }
+};
+
+interface AddressUpdate {
+  city: string;
+  street: string;
+  homeNumber: number;
+  apartmentNumber: number;
+  state: string;
+}
+
+export const UpdateAddress = async (values: AddressUpdate) => {
+  const userID = await getSession();
+  if (!userID) {
+    throw new Error("Not authenticated");
+  }
+  try {
+    const Address = await db.address.update({
+      where: { userId: userID },
+      data: {
+        city: values.city,
+        street: values.street,
+        homeNumber: values.homeNumber,
+        apartmentNumber: values.apartmentNumber,
+        state: values.state,
+      },
+    });
+    console.log("New Address - ", Address);
+  } catch (error) {
+    console.error("Error updating the Address - ", error);
   }
 };
 
@@ -420,6 +455,9 @@ export const getOrders = async () => {
           },
           address: true,
         },
+        orderBy: {
+          id: "desc",
+        },
       });
       for (const order of orders) {
         const createdAtDate: Date = new Date(order.createdAt);
@@ -467,6 +505,9 @@ export const getOrders = async () => {
               },
             },
             address: true,
+          },
+          orderBy: {
+            id: "desc",
           },
         });
       }
@@ -621,5 +662,82 @@ export const getAllTheProducts = async () => {
     return BestProducts;
   } catch (error) {
     console.error("Error fetching Products", error);
+  }
+};
+
+export const UpdateUserDetails = async (
+  NewName: string | null,
+  NewImage: string | null
+) => {
+  try {
+    const userID = await getSession();
+    if (userID) {
+      if (NewName && !NewImage) {
+        const Update = await db.user.update({
+          where: { id: userID },
+          data: {
+            name: NewName,
+          },
+        });
+        console.log("Update Name - ", Update.name);
+        revalidatePath("/");
+      } else if (NewImage && !NewName) {
+        const Update = await db.user.update({
+          where: { id: userID },
+          data: {
+            image: NewImage,
+          },
+        });
+        console.log("Update Image - ", Update.image);
+        revalidatePath("/");
+      } else {
+        const Update = await db.user.update({
+          where: { id: userID },
+          data: {
+            name: NewName,
+            image: NewImage,
+          },
+        });
+        console.log("Update Name - ", Update.name);
+        console.log("Update Image - ", Update.image);
+        revalidatePath("/");
+      }
+    }
+  } catch (error) {
+    console.error("Error Changing User Name in DB ", error);
+  }
+};
+
+type CreditCardInfo = {
+  last4Digits: string;
+  year: number;
+  month: number;
+};
+
+export const DeleteExistCreditCard = async (Card: CreditCardInfo) => {
+  try {
+    const userID = await getSession();
+    if (userID) {
+      const CuurentCard = await db.creditCard.findFirst({
+        where: {
+          userId: userID,
+          last4Digits: Card.last4Digits,
+          month: Card.month,
+          year: Card.year,
+        },
+      });
+      if (CuurentCard) {
+        const Deleted = await db.creditCard.delete({
+          where: {
+            id: CuurentCard.id,
+          },
+        });
+        console.log("Deleted Credit card - ", Deleted);
+      } else {
+        console.log("No matching credit card found.");
+      }
+    }
+  } catch (error) {
+    console.error("Error Deleting Credit Card ", error);
   }
 };

@@ -4,9 +4,10 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { US_STATES_WITH_FLAGS } from "@/src/lib/usa";
 import ClipLoader from "react-spinners/ClipLoader";
-import { getSession, setAddress } from "../ServerAction/ServerAction";
-import { ArrowUturnLeftIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { UpdateAddress, getSession } from "../ServerAction/ServerAction";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import StateSelect from "../navbar/StateSelect";
+import { useRouter } from "next/navigation";
 
 type Address = {
   state: string;
@@ -39,6 +40,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     apartmentNumber: UserAddress.apartmentNumber,
     state: UserAddress.state,
   });
+  const router = useRouter();
 
   const [errors, setErrors] = useState<AddressFormErrors>();
 
@@ -66,11 +68,9 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
-      if (await getSession()) {
-        // await setAddress(values);
-        // setFlagEditAddress(false);
-        // setAddressComponentOpen(false);
-      }
+      await UpdateAddress(values);
+      router.refresh();
+      handleEditAddress();
     }
   };
 

@@ -166,7 +166,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
                     className="h-auto mx-2 hidden sm:block"
                   />
                   <div className="flex flex-col mx-auto items-center w-2/5 space-y-4">
-                    {creditCards ? (
+                    {creditCards && creditCards.length > 0 ? (
                       <SavedCreditCards
                         creditCards={creditCards}
                         handlePayment={handlePayment}
