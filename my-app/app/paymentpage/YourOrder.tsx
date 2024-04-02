@@ -1,5 +1,5 @@
 "use client";
-import { CartItem, Product } from "@prisma/client";
+import { BuyItNow, CartItem, Product } from "@prisma/client";
 import React, { SetStateAction } from "react";
 import ProductDetails from "./ProductDetails";
 import { Separator } from "@/components/ui/separator";
@@ -29,9 +29,10 @@ type Address = {
 };
 
 type YourOrderProps = {
-  ProductsDetails: Product[];
+  ProductsDetails: Product | Product[];
   totalPrice: number;
-  cartItems: CartItem[];
+  cartItems: CartItem[] | BuyItNow | undefined;
+  FlagBuyItNow: string | null;
   Address: Address;
   setCurrentLevel: React.Dispatch<SetStateAction<string>>;
 };
@@ -40,9 +41,13 @@ const YourOrder: React.FC<YourOrderProps> = ({
   ProductsDetails,
   totalPrice,
   cartItems,
+  FlagBuyItNow,
   Address,
   setCurrentLevel,
 }) => {
+  const productsArray = Array.isArray(ProductsDetails)
+    ? ProductsDetails
+    : [ProductsDetails];
   const stateOption =
     Address &&
     US_STATES_WITH_FLAGS.find((option) => option.value === Address.state);
@@ -120,9 +125,10 @@ const YourOrder: React.FC<YourOrderProps> = ({
             <ClipboardDocumentCheckIcon className="h-6 w-6 ml-2" />
           </span>
         </div>
-        {ProductsDetails.map((product) => {
-          const cartItem = cartItems.find(
-            (item) => item.productId === product.id
+        {productsArray.map((product) => {
+          const itemsArray = Array.isArray(cartItems) ? cartItems : [cartItems];
+          const cartItem = itemsArray.find((item) =>
+            item ? item.productId === product.id : null
           );
           return (
             <div key={product.id}>

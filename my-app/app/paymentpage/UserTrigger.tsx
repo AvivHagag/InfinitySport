@@ -38,10 +38,11 @@ const UserTrigger = () => {
                     <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
                       <Link href="/admin">Admin Panel</Link>
                     </li>
-                  ) : null}
-                  <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
-                    <Link href="/profile">My Profile</Link>
-                  </li>
+                  ) : (
+                    <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
+                      <Link href="/orders">Your Orders</Link>
+                    </li>
+                  )}
                   <li className="hover:text-naivyBlue hover:scale-105 dark:hover:text-glowGreen">
                     <Link href="/settings">Settings</Link>
                   </li>

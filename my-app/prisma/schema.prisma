@@ -51,6 +51,7 @@ model User {
   sessions      Session[]
   creditCard  CreditCard[]
   orders   Order[]
+  buyItNow BuyItNow?
 }
 
 model VerificationToken {
@@ -77,6 +78,16 @@ model CartItem {
   
   @@id([cartId, productId])
 }
+
+model BuyItNow {
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
+  productId Int 
+  quantity  Int      @default(1)
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
 model CartItemOrders {
   orderId    Int
   productId Int
@@ -99,6 +110,7 @@ model Product {
   size String?
   category  Category @relation(fields: [categoryId], references: [id])
   carts     CartItem[]
+  buyItNow BuyItNow[]
   cartOrderds     CartItemOrders[]
   quantity Int
   onSale Boolean  @default(false)

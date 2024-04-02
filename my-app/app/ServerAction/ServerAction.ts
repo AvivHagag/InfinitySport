@@ -2,7 +2,7 @@
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { Address, CartItem } from "@prisma/client";
+import { Address, BuyItNow, CartItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const getSession = async () => {
@@ -271,6 +271,42 @@ export const addToCartNewProduct = async (
   }
 };
 
+export const addToButItNow = async (ProductID: number) => {
+  try {
+    const userID = await getSession();
+    if (userID) {
+      const CurrentBuyItNow = await db.buyItNow.findUnique({
+        where: {
+          userId: userID,
+        },
+      });
+      if (CurrentBuyItNow) {
+        const updatedBuyItNow = await db.buyItNow.update({
+          where: {
+            userId: userID,
+          },
+          data: {
+            productId: ProductID,
+            quantity: 1,
+          },
+        });
+        console.log("BuyItNow updated:", updatedBuyItNow);
+      } else {
+        const newBuyItNow = await db.buyItNow.create({
+          data: {
+            userId: userID,
+            productId: ProductID,
+            quantity: 1,
+          },
+        });
+        console.log("New BuyItNow created:", newBuyItNow);
+      }
+    }
+  } catch (error) {
+    console.error("Error Adding New Product To Buy It Now", error);
+  }
+};
+
 export const UpdateQuantityItemInCart = async (
   newQuantity: number,
   productId: number,
@@ -324,6 +360,20 @@ export const getUserCart = async () => {
   }
 };
 
+export const getBuyItNow = async () => {
+  try {
+    const user = await getSession();
+    if (user) {
+      const buyItNow = await db.buyItNow.findUnique({
+        where: { userId: user },
+      });
+      return buyItNow;
+    }
+  } catch (error) {
+    console.error("Error Fetching Buy It Now", error);
+  }
+};
+
 export const getProductsDetails = async (ProductIDs: Array<number>) => {
   try {
     const Products = await db.product.findMany({
@@ -331,6 +381,19 @@ export const getProductsDetails = async (ProductIDs: Array<number>) => {
         id: {
           in: ProductIDs,
         },
+      },
+    });
+    return Products;
+  } catch (error) {
+    console.error("Error fetching Products", error);
+  }
+};
+
+export const getSingleProductsDetails = async (ProductID: number) => {
+  try {
+    const Products = await db.product.findFirst({
+      where: {
+        id: ProductID,
       },
     });
     return Products;
@@ -426,7 +489,7 @@ export async function createOrderAndClearCart(
         await db.cart.delete({
           where: { id: userCart.id },
         });
-
+        console.log("Bought from cart - ", newOrder);
         return newOrder;
       }
     });
@@ -434,6 +497,75 @@ export async function createOrderAndClearCart(
     return result;
   } catch (error) {
     console.error("Failed to create order and clear cart:", error);
+  }
+}
+
+export async function createOrderAndClearBuyItNow(
+  TotalPrice: number,
+  PaymentMethod: string
+) {
+  try {
+    const result = await db.$transaction(async (db) => {
+      const userID = await getSession();
+      if (userID) {
+        const userBuyItNow = await db.buyItNow.findFirst({
+          where: { userId: userID },
+        });
+        if (!userBuyItNow) {
+          throw new Error("No cart found for this user.");
+        }
+
+        const userAddress = await db.address.findUnique({
+          where: { userId: userID },
+        });
+
+        if (!userAddress) {
+          throw new Error("No address found for this user.");
+        }
+        const newOrder = await db.order.create({
+          data: {
+            user: {
+              connect: { id: userID },
+            },
+            address: {
+              connect: { id: userAddress.id },
+            },
+            totalPrice: TotalPrice,
+            status: "Shipping",
+            paymentMethod: PaymentMethod,
+          },
+        });
+        await db.cartItemOrders.create({
+          data: {
+            orderId: newOrder.id,
+            productId: userBuyItNow.productId,
+            quantity: 1,
+          },
+        });
+        await db.product.update({
+          where: { id: userBuyItNow.productId },
+          data: {
+            soldCount: {
+              increment: 1,
+            },
+            quantity: {
+              decrement: 1,
+            },
+          },
+        });
+
+        await db.buyItNow.delete({
+          where: { userId: userID },
+        });
+
+        console.log("Bought from buy it now - ", newOrder);
+        return newOrder;
+      }
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Failed to create order and clear buy it now:", error);
   }
 }
 
@@ -579,12 +711,13 @@ type ExtendedAddress = {
 export async function createOrderForGuest(
   TotalPrice: number,
   Address: ExtendedAddress,
-  cartItems: CartItem[],
+  cartItems: CartItem[] | BuyItNow,
   PaymentMethod: string,
   GuestName: string
 ) {
   try {
     const result = await db.$transaction(async (db) => {
+      const itemsArray = Array.isArray(cartItems) ? cartItems : [cartItems];
       const userAddress = await db.address.create({
         data: {
           state: Address.state,
@@ -611,23 +744,23 @@ export async function createOrderForGuest(
         },
       });
 
-      for (const cartItem of cartItems) {
+      for (const item of itemsArray) {
         await db.cartItemOrders.create({
           data: {
             orderId: newOrder.id,
-            productId: cartItem.productId,
-            quantity: cartItem.quantity,
+            productId: item.productId,
+            quantity: item.quantity,
           },
         });
 
         await db.product.update({
-          where: { id: cartItem.productId },
+          where: { id: item.productId },
           data: {
             soldCount: {
-              increment: cartItem.quantity,
+              increment: item.quantity,
             },
             quantity: {
-              decrement: cartItem.quantity,
+              decrement: item.quantity,
             },
           },
         });
