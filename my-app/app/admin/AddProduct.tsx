@@ -25,10 +25,10 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Textarea } from "@/src/components/ui/textarea";
 
-interface SidebarProps {
+interface AddProductProps {
   handleClickProduct: () => void;
 }
-const AddProduct: React.FC<SidebarProps> = ({ handleClickProduct }) => {
+const AddProduct: React.FC<AddProductProps> = ({ handleClickProduct }) => {
   const [name, setName] = useState<string>();
   const [manufacturer, setManufacturer] = useState<string>();
   const [price, setPrice] = useState<number>();

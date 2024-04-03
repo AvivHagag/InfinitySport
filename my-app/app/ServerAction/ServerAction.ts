@@ -19,6 +19,27 @@ export const getRule = async () => {
   return session ? session.user.role : "";
 };
 
+export const getAllClients = async () => {
+  try {
+    const Clients = await db.user.findMany({
+      where: {
+        role: "user",
+      },
+      select: {
+        name: true,
+        email: true,
+        image: true,
+        createdAt: true,
+        address: true,
+        orders: true,
+      },
+    });
+    return Clients;
+  } catch (error) {
+    console.error("Error Fetching All Clients - ", error);
+  }
+};
+
 export const getAddress = async () => {
   const session = await getServerSession(authOptions);
   try {

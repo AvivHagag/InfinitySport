@@ -125,7 +125,6 @@ export default function MainPaymentComponent() {
             homeNumber: parseInt(parsedAddress.homeNumber, 10) || 0,
             apartmentNumber: parseInt(parsedAddress.apartmentNumber, 10) || 0,
           };
-          console.log(addressWithNumbers);
           setAddress(addressWithNumbers);
         }
       }
