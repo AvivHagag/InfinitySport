@@ -14,6 +14,7 @@ import YourOrder from "./YourOrder";
 import PaymentDetails from "./PaymentDetails";
 import ConfirmationPage from "./ConfirmationPage";
 import { useSearchParams } from "next/navigation";
+import InsertAddress from "./InsertAddress";
 
 type Address = {
   state: string;
@@ -30,6 +31,7 @@ export default function MainPaymentComponent() {
   const [ConfirmationDetails, setConfirmationDetails] = useState<Order>();
   const [ProductsDetails, setProductsDetails] = useState<Product | Product[]>();
   const [Address, setAddress] = useState<Address>();
+  const [FlagAddressAdded, setFlagAddressAdded] = useState<boolean>(false);
   const [totalPrice, setTotalPrice] = useState<number>();
   const [cardNumber, setCardNumber] = useState<string>("");
   const [Exp, setExp] = useState<string>("");
@@ -117,47 +119,53 @@ export default function MainPaymentComponent() {
       const storedAddress = localStorage.getItem("userAddress");
       if (storedAddress) {
         const parsedAddress = JSON.parse(storedAddress);
-        const addressWithNumbers = {
-          ...parsedAddress,
-          homeNumber: parseInt(parsedAddress.homeNumber, 10) || 0,
-          apartmentNumber: parseInt(parsedAddress.apartmentNumber, 10) || 0,
-        };
-        setAddress(addressWithNumbers);
+        if (parsedAddress.length > 0) {
+          const addressWithNumbers = {
+            ...parsedAddress,
+            homeNumber: parseInt(parsedAddress.homeNumber, 10) || 0,
+            apartmentNumber: parseInt(parsedAddress.apartmentNumber, 10) || 0,
+          };
+          console.log(addressWithNumbers);
+          setAddress(addressWithNumbers);
+        }
       }
     }
   };
 
   useEffect(() => {
     fetchCartItems();
-    fetchAddress();
   }, []);
 
   useEffect(() => {
-    console.log("ProductsDetails - ", ProductsDetails);
-    console.log("totalPrice - ", totalPrice);
-    console.log("cartItems - ", cartItems);
-    console.log("cartItemsBuyItNow - ", cartItemsBuyItNow);
-    console.log("Address - ", Address);
-  }, [ProductsDetails, totalPrice, cartItems, cartItemsBuyItNow]);
+    fetchAddress();
+  }, [FlagAddressAdded]);
 
   return (
     <div className="flex flex-col w-full border rounded-xl">
       <TitleLevel currentLevel={currentLevel} />
-      {currentLevel === "OrderDetails" &&
-        ProductsDetails &&
-        totalPrice &&
-        (cartItems || cartItemsBuyItNow) &&
-        Address &&
-        Address.state && (
-          <YourOrder
-            ProductsDetails={ProductsDetails}
-            totalPrice={totalPrice}
-            cartItems={cartItems ? cartItems : cartItemsBuyItNow}
-            FlagBuyItNow={FlagBuyItNow}
-            Address={Address}
-            setCurrentLevel={setCurrentLevel}
-          />
-        )}
+      {!Address && !FlagAddressAdded ? (
+        <>
+          <InsertAddress setFlagAddressAdded={setFlagAddressAdded} />
+        </>
+      ) : (
+        <>
+          {currentLevel === "OrderDetails" &&
+            ProductsDetails &&
+            totalPrice &&
+            (cartItems || cartItemsBuyItNow) &&
+            Address &&
+            Address.state && (
+              <YourOrder
+                ProductsDetails={ProductsDetails}
+                totalPrice={totalPrice}
+                cartItems={cartItems ? cartItems : cartItemsBuyItNow}
+                FlagBuyItNow={FlagBuyItNow}
+                Address={Address}
+                setCurrentLevel={setCurrentLevel}
+              />
+            )}
+        </>
+      )}
       {currentLevel === "PaymentDetails" &&
         totalPrice &&
         (cartItems || cartItemsBuyItNow) &&
