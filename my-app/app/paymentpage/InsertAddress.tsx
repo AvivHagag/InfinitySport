@@ -68,7 +68,6 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
       setIsLoading(true);
       localStorage.setItem("userAddress", JSON.stringify(values));
       setFlagAddressAdded(true);
-      // router.refresh();
     }
   };
 
