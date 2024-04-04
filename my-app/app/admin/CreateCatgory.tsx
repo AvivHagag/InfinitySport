@@ -7,10 +7,12 @@ import { CreateNewCatgory } from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 
-interface SidebarProps {
+interface CreateCategoryProps {
   handleClickCategory: () => void;
 }
-const CreateCategory: React.FC<SidebarProps> = ({ handleClickCategory }) => {
+const CreateCategory: React.FC<CreateCategoryProps> = ({
+  handleClickCategory,
+}) => {
   const [CatgoryName, setCatgoryName] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

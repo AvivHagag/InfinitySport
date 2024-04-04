@@ -15,9 +15,13 @@ import { useRouter } from "next/navigation";
 
 type ShoppingCartDetailsProps = {
   handleAuthModal: () => void;
+  toggleDropdown: () => void;
 };
 
-const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
+const ShoppingCartDetails = ({
+  handleAuthModal,
+  toggleDropdown,
+}: ShoppingCartDetailsProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>();
   const [ProductDetails, setProductDetails] = useState<Product[]>();
   const [totalPrice, setTotalPrice] = useState<number>();
@@ -81,12 +85,11 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
           const parsedAddress = JSON.parse(storedAddress);
           Address =
             Object.keys(parsedAddress).length === 0 ? null : parsedAddress;
-        } else {
-          localStorage.setItem("userAddress", JSON.stringify({}));
         }
       }
     }
     if (Address) {
+      toggleDropdown();
       router.push("/paymentpage");
     } else {
       setFlagEditAddress(true);
@@ -117,8 +120,8 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
           {totalPrice && <ProgressDemo totalPrice={totalPrice} />}
           {ProductDetails && !AddressComponentOpen && (
             <>
-              <ScrollArea className="h-4/5 sm:h-[400px] w-full border-t pr-1 mb-1">
-                <div className="flex flex-col flex- justify-center px-1">
+              <ScrollArea className="h-4/5 sm:h-[420px] w-full border-t pr-1 mb-1">
+                <div className="flex flex-col justify-center px-1">
                   {ProductDetails.map((product) => (
                     <ProductList
                       key={product.id}
@@ -132,10 +135,12 @@ const ShoppingCartDetails = ({ handleAuthModal }: ShoppingCartDetailsProps) => {
             </>
           )}
           {AddressComponentOpen && (
-            <InsertAddress
-              setAddressComponentOpen={setAddressComponentOpen}
-              setFlagEditAddress={setFlagEditAddress}
-            />
+            <div className="flex flex-col h-5/6 items-center px-1 pb-8">
+              <InsertAddress
+                setAddressComponentOpen={setAddressComponentOpen}
+                setFlagEditAddress={setFlagEditAddress}
+              />
+            </div>
           )}
           <div className="fixed bottom-[-2px] left-1/2 transform -translate-x-1/2 w-[24.5rem] h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
             <div className="flex flex-col space-y-1 mx-8 my-2">

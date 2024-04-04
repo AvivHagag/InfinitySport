@@ -4,15 +4,19 @@ import { Separator } from "@/components/ui/separator";
 import PayPalButton from "./PayPalButton";
 import AddCard from "./AddCard";
 import CardDetails from "./CardDetails";
-import { CartItem, Order } from "@prisma/client";
+import { BuyItNow, CartItem, Order } from "@prisma/client";
 import ClipLoader from "react-spinners/ClipLoader";
 import {
+  createOrderAndClearBuyItNow,
   createOrderAndClearCart,
   createOrderForGuest,
+  getExistCreditCards,
   getSession,
 } from "../ServerAction/ServerAction";
 import EncryptCard from "../Modals/EncryptCard";
 import { EncryptAndUploadData } from "@/Crypto/Crypto";
+import SavedCreditCards from "./SavedCreditCards";
+import { useSearchParams } from "next/navigation";
 
 type Address = {
   state: string;
@@ -20,6 +24,12 @@ type Address = {
   street: string;
   homeNumber: number;
   apartmentNumber: number;
+};
+
+type CreditCardInfo = {
+  last4Digits: string;
+  year: number;
+  month: number;
 };
 
 type PaymentDetailsProps = {
@@ -31,7 +41,8 @@ type PaymentDetailsProps = {
   setCvv: React.Dispatch<SetStateAction<string>>;
   setExp: React.Dispatch<SetStateAction<string>>;
   totalPrice: number;
-  cartItems: CartItem[];
+  cartItems: CartItem[] | BuyItNow | undefined;
+  FlagBuyItNow: string | null;
   Address: Address;
   setConfirmationDetails: React.Dispatch<SetStateAction<Order | undefined>>;
 };
@@ -46,6 +57,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   setExp,
   totalPrice,
   cartItems,
+  FlagBuyItNow,
   Address,
   setConfirmationDetails,
 }) => {
@@ -54,10 +66,15 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   const [SaveCart, setSaveCart] = useState<boolean>(false);
   const [GuestName, setGuestName] = useState<string>("");
   const [openCryptoModal, setopenCryptoModal] = useState<boolean>(false);
+  const [creditCards, setCreditCards] = useState<CreditCardInfo[]>([]);
 
   const fetchSession = async () => {
     if (await getSession()) {
       setSession(true);
+      const existingCards = await getExistCreditCards();
+      if (existingCards) {
+        setCreditCards(existingCards);
+      }
     } else {
       setSession(false);
     }
@@ -78,11 +95,19 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         }, 2500);
       }
       try {
-        const NewOrder = await createOrderAndClearCart(
-          totalPrice,
-          PaymentMethod
-        );
-        setConfirmationDetails(NewOrder);
+        if (FlagBuyItNow) {
+          const NewOrder = await createOrderAndClearBuyItNow(
+            totalPrice,
+            PaymentMethod
+          );
+          setConfirmationDetails(NewOrder);
+        } else {
+          const NewOrder = await createOrderAndClearCart(
+            totalPrice,
+            PaymentMethod
+          );
+          setConfirmationDetails(NewOrder);
+        }
       } catch (e) {
         console.error(e, "Failed to create order and clear cart");
         return;
@@ -90,22 +115,29 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
       setCurrentLevel("Confirmation");
     } else {
       try {
-        const NewOrder = await createOrderForGuest(
-          totalPrice,
-          Address,
-          cartItems,
-          PaymentMethod,
-          GuestName
-        );
-        setConfirmationDetails(NewOrder);
-        localStorage.removeItem("cartItems");
-        localStorage.removeItem("userAddress");
+        if (cartItems) {
+          const NewOrder = await createOrderForGuest(
+            totalPrice,
+            Address,
+            cartItems,
+            PaymentMethod,
+            GuestName
+          );
+          setConfirmationDetails(NewOrder);
+          if (FlagBuyItNow) {
+            localStorage.removeItem("buyItNowItem");
+            localStorage.removeItem("userAddress");
+          } else {
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("userAddress");
+          }
+        }
       } catch (e) {
         console.error(e, "Failed to create order and clear cart");
         return;
       }
-      setCurrentLevel("Confirmation");
     }
+    setCurrentLevel("Confirmation");
     setIsLoading(false);
   };
 
@@ -152,7 +184,13 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
                     orientation="vertical"
                     className="h-auto mx-2 hidden sm:block"
                   />
-                  <div className="flex justify-center items-center mx-auto w-2/5 py-8 sm:py-0">
+                  <div className="flex flex-col mx-auto items-center w-2/5 space-y-4">
+                    {creditCards && creditCards.length > 0 ? (
+                      <SavedCreditCards
+                        creditCards={creditCards}
+                        handlePayment={handlePayment}
+                      />
+                    ) : null}
                     <PayPalButton
                       totalPrice={totalPrice}
                       handlePayment={handlePayment}

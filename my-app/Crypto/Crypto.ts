@@ -32,6 +32,7 @@ export const EncryptAndUploadData = async (
   if (!process.env.Crypto_KEY) {
     throw new Error("Encryption key is undefined");
   }
+  const lastFourDigits = cardNumber.slice(-4);
   const Encrypted = encryptAES(cardNumber);
-  await AddCreditCard(Encrypted, Cvv, Exp);
+  await AddCreditCard(Encrypted, Cvv, Exp, lastFourDigits);
 };

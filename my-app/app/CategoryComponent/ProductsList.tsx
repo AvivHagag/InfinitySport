@@ -15,6 +15,7 @@ import {
 import ProductModal from "../Modals/ProductModal";
 import {
   UpdateQuantityItemInCart,
+  addToButItNow,
   addToCartNewProduct,
   getSession,
 } from "../ServerAction/ServerAction";
@@ -22,6 +23,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "sonner";
 import { Input } from "@/src/components/ui/input";
 import { useRouter } from "next/navigation";
+import AuthModal from "../Modals/AuthModal";
 
 type ProductCardProps = {
   product: Product;
@@ -37,6 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { id, image, name, price, onSale, salePercent } = product;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [IsLoadingBuyItNow, setIsLoadingBuyItNow] = useState<boolean>(false);
   const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(false);
   const cartItem = CartItems
     ? CartItems.find((item) => item.productId === product.id)
@@ -46,6 +49,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
   const [quantityError, setQuantityError] = useState<boolean>(false);
   const router = useRouter();
+  const [AuthModalIsOpen, setAuthModalIsOpen] = useState<boolean>(false);
+  const [AuthQuestion, setAuthQuestion] = useState<boolean>(false);
+
+  const handleAuthModal = () => {
+    setAuthModalIsOpen(!AuthModalIsOpen);
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -126,6 +135,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
       handleFlagChange();
       setIsLoading(false);
       router.refresh();
+    }
+  };
+
+  const handleBuyItNow = async (ProductID: number) => {
+    if (await getSession()) {
+      setIsLoadingBuyItNow(true);
+      await addToButItNow(ProductID);
+      setIsLoadingBuyItNow(false);
+      router.push("/paymentpage?buyitnow=1");
+    } else {
+      if (!AuthQuestion) {
+        setAuthQuestion(true);
+        handleAuthModal();
+        return;
+      } else {
+        setIsLoadingBuyItNow(true);
+        const buyItNowItem = {
+          productId: ProductID,
+          quantity: 1,
+        };
+        localStorage.setItem("buyItNowItem", JSON.stringify(buyItNowItem));
+        setIsLoadingBuyItNow(false);
+        router.push("/paymentpage?buyitnow=1");
+      }
     }
   };
 
@@ -367,11 +400,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       <Button
                         variant="outline"
                         className="text-xxs sm:text-xs p-1"
+                        onClick={() => {
+                          IsLoadingBuyItNow ? null : handleBuyItNow(product.id);
+                        }}
                       >
-                        Buy it Now
-                        <span>
-                          <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
-                        </span>
+                        {IsLoadingBuyItNow ? (
+                          <>
+                            <p className="text-naivyBlue dark:text-glowGreen text-xxs">
+                              Adding ..{" "}
+                            </p>
+                            <ClipLoader
+                              color="#FFFFFF dark:#9ffd32"
+                              className="text-naivyBlue dark:text-glowGreen"
+                              size={20}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            Buy it Now
+                            <span>
+                              <CreditCardIcon className="ml-1 -3 w-3 sm:h-4 sm:w-4" />
+                            </span>
+                          </>
+                        )}
                       </Button>
                     </>
                   ) : (
@@ -413,6 +464,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
           handleFlagChange={handleFlagChange}
           onClose={() => setIsModalOpen(false)}
         />
+      )}
+      {AuthModalIsOpen && (
+        <div className="absolute top-0 left-0 w-full h-full z-50">
+          <AuthModal handleAuthModal={handleAuthModal} />
+        </div>
       )}
     </>
   );

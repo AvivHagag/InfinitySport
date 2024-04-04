@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 import AddProduct from "./AddProduct";
 import CreateCatgory from "./CreateCatgory";
+import AllUsers from "./AllUsers";
 
 const AdminMenu = () => {
   const [MenuComponent, setMenuComponent] = useState<boolean>(true);
@@ -88,6 +89,7 @@ const AdminMenu = () => {
       {AddCategoryComponent && (
         <CreateCatgory handleClickCategory={handleClickCategory} />
       )}
+      {AllUsersComponent && <AllUsers handleClickUsers={handleClickUsers} />}
     </div>
   );
 };

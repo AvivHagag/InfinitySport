@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import StateSelect from "./StateSelect";
 import { US_STATES_WITH_FLAGS } from "@/src/lib/usa";
 import ClipLoader from "react-spinners/ClipLoader";
 import { getSession, setAddress } from "../ServerAction/ServerAction";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
+import StateSelect from "../navbar/StateSelect";
+import { Address } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface AddressFormValues {
   city: string;
@@ -24,12 +26,10 @@ interface AddressFormErrors {
   state?: string;
 }
 type InsertAddressProps = {
-  setAddressComponentOpen: (isOpen: boolean) => void;
-  setFlagEditAddress: (FlagEditAddress: boolean) => void;
+  setFlagAddressAdded: Dispatch<SetStateAction<boolean>>;
 };
 const InsertAddress: React.FC<InsertAddressProps> = ({
-  setAddressComponentOpen,
-  setFlagEditAddress,
+  setFlagAddressAdded,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [values, setValues] = useState<AddressFormValues>({
@@ -39,7 +39,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     apartmentNumber: "",
     state: "",
   });
-
+  const router = useRouter();
   const [errors, setErrors] = useState<AddressFormErrors>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,19 +66,9 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
-      if (await getSession()) {
-        await setAddress(values);
-      } else {
-        localStorage.setItem("userAddress", JSON.stringify(values));
-      }
-      setFlagEditAddress(false);
-      setAddressComponentOpen(false);
+      localStorage.setItem("userAddress", JSON.stringify(values));
+      setFlagAddressAdded(true);
     }
-  };
-
-  const handleBackToCart = () => {
-    setFlagEditAddress(false);
-    setAddressComponentOpen(false);
   };
 
   const handleStateChange = (newValue: string) => {
@@ -88,7 +78,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
   return (
     <>
       {isLoading ? (
-        <div className="flex flex-col py-8 items-center w-full">
+        <div className="flex flex-col py-8 items-center w-full sm:w-3/4">
           <ClipLoader
             size={32}
             color="#FFFFFF dark:#9ffd32"
@@ -97,25 +87,13 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
           <p className="text-lg mt-4 text-gray-600">Adding Address ... </p>
         </div>
       ) : (
-        <div className="flex flex-col py-2">
-          <Button
-            variant={"outline"}
-            className="w-28 px-1 mx-2 text-naivySky dark:text-glowGreen hover:text-naivySky hover:dark:text-glowGreen"
-            onClick={() => handleBackToCart()}
-          >
-            <div className="flex justify-center">
-              <span>
-                <ArrowUturnLeftIcon className="h-4 w-4 mr-1" />
-              </span>
-              Back to cart
-            </div>
-          </Button>
-          <div className="text-center text-lg text-naivyBlue dark:text-glowGreen">
-            Add Address
+        <div className="flex flex-col py-2 w-full lg:w-1/2 mx-auto">
+          <div className="text-center text-base sm:text-xl text-naivyBlue dark:text-glowGreen">
+            Edit Address{" "}
           </div>
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col rounded w-4/5 mx-auto justify-center px-2 space-y-4"
+            className="flex flex-col rounded w-full sm:w-4/5 mx-auto justify-center px-2 space-y-4"
           >
             <div className="flex flex-col sm:justify-between space-y-2">
               <div className="">
@@ -126,15 +104,13 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   onChange={handleStateChange}
                 />
                 {errors && errors.state && (
-                  <p className="text-xs lg:text-sm text-red-600">
-                    {errors.state}
-                  </p>
+                  <p className="text-sm text-red-600">{errors.state}</p>
                 )}
               </div>
               <div className="flex flex-col ">
                 <Label
                   htmlFor="city"
-                  className="text-xs lg:text-sm text-naivySky dark:text-glowGreen"
+                  className="text-sm text-naivySky dark:text-glowGreen"
                 >
                   City
                 </Label>
@@ -146,15 +122,13 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   onChange={handleChange}
                 />
                 {errors && errors.city && (
-                  <p className="text-xs lg:text-sm text-red-600">
-                    {errors.city}
-                  </p>
+                  <p className="text-sm text-red-600">{errors.city}</p>
                 )}
               </div>
               <div className="flex flex-col ">
                 <Label
                   htmlFor="street"
-                  className="text-xs lg:text-sm text-naivySky dark:text-glowGreen"
+                  className="text-sm text-naivySky dark:text-glowGreen"
                 >
                   Street
                 </Label>
@@ -166,9 +140,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   onChange={handleChange}
                 />
                 {errors && errors.street && (
-                  <p className="text-xs lg:text-sm text-red-600">
-                    {errors.street}
-                  </p>
+                  <p className="text-sm text-red-600">{errors.street}</p>
                 )}
               </div>
             </div>
@@ -176,7 +148,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
               <div className="flex flex-col">
                 <Label
                   htmlFor="homeNumber"
-                  className="text-xs lg:text-sm text-naivySky dark:text-glowGreen"
+                  className="text-sm text-naivySky dark:text-glowGreen"
                 >
                   Home Number
                 </Label>
@@ -189,15 +161,13 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   min="0"
                 />
                 {errors && errors.homeNumber && (
-                  <p className="text-xs lg:text-sm text-red-600">
-                    {errors.homeNumber}
-                  </p>
+                  <p className="text-sm text-red-600">{errors.homeNumber}</p>
                 )}
               </div>
               <div className="flex flex-col">
                 <Label
                   htmlFor="apartmentNumber"
-                  className="text-xs lg:text-sm whitespace-nowrap text-naivySky dark:text-glowGreen"
+                  className="text-sm whitespace-nowrap text-naivySky dark:text-glowGreen"
                 >
                   Apartment Number
                 </Label>
@@ -210,7 +180,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   min="0"
                 />
                 {errors && errors.apartmentNumber && (
-                  <p className="text-xs lg:text-sm text-red-600">
+                  <p className="text-sm text-red-600">
                     {errors.apartmentNumber}
                   </p>
                 )}

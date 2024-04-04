@@ -31,7 +31,7 @@ const ShoppingCartDropdown = () => {
       {isOpen && (
         <Fade className="fixed z-40">
           <div
-            className={`fixed top-0 right-0 sm:mt-[2.6rem] sm:mx-2 py-1 w-full sm:w-96 h-full sm:h-3/4 border bg-white dark:bg-slate-950 shadow-xl rounded-lg transition-all ease-out ${
+            className={`fixed top-0 right-0 sm:mt-[2.6rem] sm:mx-2 py-1 w-full sm:w-96 h-full xl:h-3/4 border bg-white dark:bg-slate-950 shadow-xl rounded-lg transition-all ease-out ${
               isOpen
                 ? "duration-300 opacity-100 translate-y-0"
                 : "duration-300 opacity-0 translate-y-0 pointer-events-none"
@@ -51,7 +51,12 @@ const ShoppingCartDropdown = () => {
                 <XMarkIcon className="h-6 w-6" />
               </div>
             </div>
-            <ShoppingCartDetails handleAuthModal={handleAuthModal} />
+            <div>
+              <ShoppingCartDetails
+                handleAuthModal={handleAuthModal}
+                toggleDropdown={toggleDropdown}
+              />
+            </div>
           </div>
         </Fade>
       )}
