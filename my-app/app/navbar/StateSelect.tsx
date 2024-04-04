@@ -20,7 +20,7 @@ const StateSelect: FC<StateSelectProps> = ({
 
   return (
     <div className="relative">
-      <label className="text-base text-naivySky dark:text-glowGreen">
+      <label className="text-xs lg:text-sm text-naivySky dark:text-glowGreen">
         {label}
       </label>
       <Button

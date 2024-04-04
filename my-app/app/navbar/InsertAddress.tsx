@@ -126,13 +126,15 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   onChange={handleStateChange}
                 />
                 {errors && errors.state && (
-                  <p className="text-sm text-red-600">{errors.state}</p>
+                  <p className="text-xs lg:text-sm text-red-600">
+                    {errors.state}
+                  </p>
                 )}
               </div>
               <div className="flex flex-col ">
                 <Label
                   htmlFor="city"
-                  className="text-sm text-naivySky dark:text-glowGreen"
+                  className="text-xs lg:text-sm text-naivySky dark:text-glowGreen"
                 >
                   City
                 </Label>
@@ -144,13 +146,15 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   onChange={handleChange}
                 />
                 {errors && errors.city && (
-                  <p className="text-sm text-red-600">{errors.city}</p>
+                  <p className="text-xs lg:text-sm text-red-600">
+                    {errors.city}
+                  </p>
                 )}
               </div>
               <div className="flex flex-col ">
                 <Label
                   htmlFor="street"
-                  className="text-sm text-naivySky dark:text-glowGreen"
+                  className="text-xs lg:text-sm text-naivySky dark:text-glowGreen"
                 >
                   Street
                 </Label>
@@ -162,7 +166,9 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   onChange={handleChange}
                 />
                 {errors && errors.street && (
-                  <p className="text-sm text-red-600">{errors.street}</p>
+                  <p className="text-xs lg:text-sm text-red-600">
+                    {errors.street}
+                  </p>
                 )}
               </div>
             </div>
@@ -170,7 +176,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
               <div className="flex flex-col">
                 <Label
                   htmlFor="homeNumber"
-                  className="text-sm text-naivySky dark:text-glowGreen"
+                  className="text-xs lg:text-sm text-naivySky dark:text-glowGreen"
                 >
                   Home Number
                 </Label>
@@ -183,13 +189,15 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   min="0"
                 />
                 {errors && errors.homeNumber && (
-                  <p className="text-sm text-red-600">{errors.homeNumber}</p>
+                  <p className="text-xs lg:text-sm text-red-600">
+                    {errors.homeNumber}
+                  </p>
                 )}
               </div>
               <div className="flex flex-col">
                 <Label
                   htmlFor="apartmentNumber"
-                  className="text-sm whitespace-nowrap text-naivySky dark:text-glowGreen"
+                  className="text-xs lg:text-sm whitespace-nowrap text-naivySky dark:text-glowGreen"
                 >
                   Apartment Number
                 </Label>
@@ -202,7 +210,7 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
                   min="0"
                 />
                 {errors && errors.apartmentNumber && (
-                  <p className="text-sm text-red-600">
+                  <p className="text-xs lg:text-sm text-red-600">
                     {errors.apartmentNumber}
                   </p>
                 )}
