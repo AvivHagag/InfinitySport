@@ -53,7 +53,7 @@ export default function MainPaymentComponent() {
             setProductsDetails(Details);
             const SumPrice =
               Details.onSale && Details.salePercent
-                ? Details.price * (100 - Details.salePercent)
+                ? (Details.price * (100 - Details.salePercent)) / 100
                 : Details.price;
             setTotalPrice(SumPrice);
           }
@@ -77,7 +77,7 @@ export default function MainPaymentComponent() {
           setProductsDetails(Details);
           const SumPrice =
             Details.onSale && Details.salePercent
-              ? Details.price * (100 - Details.salePercent)
+              ? (Details.price * (100 - Details.salePercent)) / 100
               : Details.price;
           setTotalPrice(SumPrice);
         }
@@ -87,12 +87,10 @@ export default function MainPaymentComponent() {
         setCartItems(items);
       }
     }
-
     if (items && items.length > 0) {
       const cartItemIds = items.map((item) => item.productId);
       const Details = await getProductsDetails(cartItemIds);
       setProductsDetails(Details);
-
       const SumPrice = Details
         ? Details.reduce((acc, item) => {
             const cartItem =
@@ -105,6 +103,7 @@ export default function MainPaymentComponent() {
             return acc + itemTotal;
           }, 0)
         : 0;
+      console.log(SumPrice);
       setTotalPrice(SumPrice);
     }
   };
@@ -119,7 +118,7 @@ export default function MainPaymentComponent() {
       const storedAddress = localStorage.getItem("userAddress");
       if (storedAddress) {
         const parsedAddress = JSON.parse(storedAddress);
-        if (parsedAddress.length > 0) {
+        if (parsedAddress) {
           const addressWithNumbers = {
             ...parsedAddress,
             homeNumber: parseInt(parsedAddress.homeNumber, 10) || 0,

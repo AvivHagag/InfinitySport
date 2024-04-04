@@ -67,9 +67,8 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     if (validateForm()) {
       setIsLoading(true);
       localStorage.setItem("userAddress", JSON.stringify(values));
-      const storedAddress = localStorage.getItem("userAddress");
-      router.refresh();
       setFlagAddressAdded(true);
+      // router.refresh();
     }
   };
 
