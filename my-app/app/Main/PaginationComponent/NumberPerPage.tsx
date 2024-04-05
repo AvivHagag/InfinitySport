@@ -3,8 +3,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/src/components/ui/popover";
-import { Button } from "@/src/components/ui/button";
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { cn } from "@/src/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";

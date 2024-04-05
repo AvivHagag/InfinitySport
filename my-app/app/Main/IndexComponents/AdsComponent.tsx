@@ -4,7 +4,7 @@ import Image from "next/image";
 import weights from "./weights.png";
 import { Fade, Slide } from "react-awesome-reveal";
 import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 export default function AdsComponent() {
   return (

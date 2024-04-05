@@ -7,7 +7,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/src/components/ui/navigation-menu";
+} from "@/components/ui/navigation-menu";
 
 interface NavigationComponentProps {
   url: string;

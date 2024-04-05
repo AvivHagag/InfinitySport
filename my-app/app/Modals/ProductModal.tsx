@@ -11,7 +11,7 @@ import {
   TrashIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { getSession } from "next-auth/react";
 import {
   UpdateQuantityItemInCart,
@@ -21,7 +21,7 @@ import {
 import { toast } from "sonner";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useRouter } from "next/navigation";
-import { Input } from "@/src/components/ui/input";
+import { Input } from "@/components/ui/input";
 
 interface CartItemType {
   cartId: number;

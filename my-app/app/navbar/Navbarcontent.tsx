@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
 import NavigationComponent from "./NavigationComponent";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";

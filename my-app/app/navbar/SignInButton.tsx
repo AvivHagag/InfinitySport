@@ -2,14 +2,14 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "../../src/components/ui/navigation-menu";
+} from "../../components/ui/navigation-menu";
 import Link from "next/link";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 const SigninButton = () => {

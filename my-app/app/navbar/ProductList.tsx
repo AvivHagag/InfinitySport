@@ -2,7 +2,7 @@
 import { CartItem, Product } from "@prisma/client";
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   MinusIcon,
   PlusIcon,
@@ -14,7 +14,7 @@ import {
   getSession,
 } from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Input } from "@/src/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
 type ProductListProps = {

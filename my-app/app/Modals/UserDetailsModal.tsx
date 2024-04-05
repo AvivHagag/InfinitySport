@@ -5,8 +5,8 @@ import {
   ChatBubbleBottomCenterTextIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "@/src/components/ui/button";
-import { Label } from "@/src/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 type Client = {
   name: string | null;

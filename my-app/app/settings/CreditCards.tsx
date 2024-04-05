@@ -4,8 +4,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/src/components/ui/accordion";
-import { Button } from "@/src/components/ui/button";
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import VisaLogo from "@/app/paymentpage/CardLogos/visa.png";
 import { useState } from "react";

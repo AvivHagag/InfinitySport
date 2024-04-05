@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./navbar/Navbar";
 import Providers from "./Providers";
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
 import { ThemeProvider } from "./theme-provider";
 import Footer from "./footer/Footer";
 import { Toaster } from "@/components/ui/sonner";
@@ -21,7 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body>

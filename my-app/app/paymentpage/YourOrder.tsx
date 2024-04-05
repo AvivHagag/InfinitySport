@@ -3,7 +3,7 @@ import { BuyItNow, CartItem, Product } from "@prisma/client";
 import React, { SetStateAction } from "react";
 import ProductDetails from "./ProductDetails";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
   ArrowUturnLeftIcon,

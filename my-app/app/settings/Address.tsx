@@ -1,7 +1,6 @@
 "use client";
-
-import { Button } from "@/src/components/ui/button";
-import { Label } from "@/src/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import InsertAddress from "./InsertAddress";
 import { Zoom } from "react-awesome-reveal";

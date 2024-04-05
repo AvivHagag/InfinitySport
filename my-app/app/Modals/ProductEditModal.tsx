@@ -5,19 +5,19 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/src/components/ui/command";
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/src/components/ui/popover";
+} from "@/components/ui/popover";
 import { Product } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Button } from "@/src/components/ui/button";
-import { Label } from "@/src/components/ui/label";
-import { Input } from "@/src/components/ui/input";
-import { Textarea } from "@/src/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   GetAllcategories,
   UpdateExistProduct,

@@ -9,7 +9,7 @@ import { CartItem, Product } from "@prisma/client";
 import ProgressDemo from "./ProgressDemo";
 import ProductList from "./ProductList";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import InsertAddress from "./InsertAddress";
 import { useRouter } from "next/navigation";
 

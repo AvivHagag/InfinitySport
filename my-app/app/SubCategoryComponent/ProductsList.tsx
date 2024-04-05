@@ -2,7 +2,7 @@
 import { Product } from "@prisma/client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   BellAlertIcon,
   CreditCardIcon,
@@ -22,7 +22,7 @@ import {
 } from "../ServerAction/ServerAction";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Input } from "@/src/components/ui/input";
+import { Input } from "@/components/ui/input";
 import AuthModal from "../Modals/AuthModal";
 
 type ProductCardProps = {

@@ -1,15 +1,11 @@
 "use client";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-} from "@/src/components/ui/command";
+import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/src/components/ui/popover";
-import { Button } from "@/src/components/ui/button";
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { cn } from "@/src/lib/utils";

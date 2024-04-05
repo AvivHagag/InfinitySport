@@ -1,7 +1,7 @@
 import React from "react";
 import VisaLogo from "./CardLogos/visa.png";
 import Image from "next/image";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 type CreditCardInfo = {
   last4Digits: string;

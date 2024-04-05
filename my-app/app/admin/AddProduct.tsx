@@ -5,15 +5,15 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/src/components/ui/command";
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/src/components/ui/popover";
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import {
   CreateNewProduct,
@@ -23,7 +23,7 @@ import { ArrowUturnLeftIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { cn } from "@/src/lib/utils";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Textarea } from "@/src/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 
 interface AddProductProps {
   handleClickProduct: () => void;

@@ -5,13 +5,12 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { LinkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { CartItem, Category, Product } from "@prisma/client";
 import {
   GetAllcategories,
   getAllProducts,
-  getProductsDetails,
   getSession,
   getUserCart,
 } from "../ServerAction/ServerAction";
@@ -20,7 +19,6 @@ import ProductListSearch from "./ProductListSearch";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Input } from "@/src/components/ui/input";
 
 const SearchButton = () => {
   const [Flag, setFlag] = useState<boolean>(false);

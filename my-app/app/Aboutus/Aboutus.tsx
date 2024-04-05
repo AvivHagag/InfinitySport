@@ -6,7 +6,7 @@ import LogoBlack from "@/Logos/LogoBlack.png";
 import AvivAvatar from "@/avatars/AvivAvatar.png";
 import DanielAvatar from "@/avatars/DanielAvatar.png";
 import WorldMap from "./WorldConnection";
-import { Fade, Slide, Zoom } from "react-awesome-reveal";
+import { Fade, Zoom } from "react-awesome-reveal";
 import infoLogo from "./infoLogo.png";
 export default function Aboutus() {
   const teamMembers = [

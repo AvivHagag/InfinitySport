@@ -4,8 +4,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/src/components/ui/accordion";
-import { Label } from "@/src/components/ui/label";
+} from "@/components/ui/accordion";
+import { Label } from "@/components/ui/label";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useTheme } from "next-themes";

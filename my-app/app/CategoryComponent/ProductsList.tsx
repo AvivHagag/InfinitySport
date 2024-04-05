@@ -2,7 +2,7 @@
 import { CartItem, Product } from "@prisma/client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   BellAlertIcon,
   CreditCardIcon,
@@ -21,7 +21,7 @@ import {
 } from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "sonner";
-import { Input } from "@/src/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import AuthModal from "../Modals/AuthModal";
 

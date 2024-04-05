@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { getAllClients } from "../ServerAction/ServerAction";
 import ClipLoader from "react-spinners/ClipLoader";

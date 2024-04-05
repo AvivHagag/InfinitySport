@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Session } from "next-auth";
 import { useState } from "react";
 import Image from "next/image";
 import { PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Zoom } from "react-awesome-reveal";
 import { UpdateUserDetails } from "../ServerAction/ServerAction";
 import { useRouter } from "next/navigation";

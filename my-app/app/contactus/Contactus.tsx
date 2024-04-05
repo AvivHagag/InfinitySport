@@ -1,7 +1,7 @@
 "use client";
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
-import { Textarea } from "@/src/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import React, { useState } from "react";
 
 interface FormErrors {
@@ -22,30 +22,8 @@ export default function Contactus() {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      // const formData = new FormData();
-      // formData.append("firstname", firstName);
-      // formData.append("lastName", lastName);
-      // formData.append("email", email);
-      // formData.append("message", message);
-      // const response = await fetch("http://localhost:3000/api/send", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     firstName,
-      //     lastName,
-      //     email,
-      //     message,
-      //   }),
-      // });
-      // const result = await response.json();
-      // if (response.ok) {
       setIsMessageSent(true);
       setFormErrors({});
-      // } else {
-      //   console.error("Failed to send message:", result);
-      // }
     } else {
       setFormErrors(errors);
     }

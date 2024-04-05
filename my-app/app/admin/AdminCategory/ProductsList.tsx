@@ -4,8 +4,8 @@ import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { PencilSquareIcon, TruckIcon } from "@heroicons/react/24/outline";
 import ProductEditModal from "../../Modals/ProductEditModal";
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { UpdateProductQuantity } from "@/app/ServerAction/ServerAction";
 
 type ProductCardProps = {

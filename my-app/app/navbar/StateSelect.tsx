@@ -1,7 +1,7 @@
 import React, { useState, FC } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { StateOption } from "@/src/lib/usa";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 interface StateSelectProps {
   label: string;

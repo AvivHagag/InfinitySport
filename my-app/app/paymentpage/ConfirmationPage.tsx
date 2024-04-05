@@ -6,7 +6,7 @@ import { Zoom, Slide } from "react-awesome-reveal";
 import Image from "next/image";
 import Stars from "@/Logos/Stars.png";
 import TruckDriving from "@/app/Gif/TruckDriving.gif";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import PolicyModal from "../Modals/PolicyModal";
 

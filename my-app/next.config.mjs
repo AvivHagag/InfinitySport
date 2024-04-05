@@ -37,6 +37,11 @@ const nextConfig = {
         hostname: "upload.wikimedia.org",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+        pathname: "**",
+      },
     ],
   },
 };

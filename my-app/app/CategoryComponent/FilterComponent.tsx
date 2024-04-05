@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import "rc-slider/assets/index.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import FilterByComponent from "./FilterByComponent";
 
 interface Category {
