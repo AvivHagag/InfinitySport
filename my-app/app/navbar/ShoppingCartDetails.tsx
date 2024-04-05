@@ -143,7 +143,7 @@ const ShoppingCartDetails = ({
             </div>
           )}
           {!FlagEditAddress && (
-            <div className="fixed bottom-[-2px] left-1/2 transform -translate-x-1/2 w-[24.5rem] h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
+            <div className="absolute buttom-0 w-[24.5rem] left-1/2 transform -translate-x-1/2 h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
               <div className="flex flex-col space-y-1 mx-8 my-2">
                 <div className="flex justify-between mx-2">
                   <div className="text-sm">Sub-Total</div>
