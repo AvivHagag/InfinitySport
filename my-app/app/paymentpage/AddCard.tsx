@@ -32,16 +32,16 @@ const AddCard: React.FC<AddCardProps> = ({ cardNumber, Cvv, Exp }) => {
         <Image
           src={MasterCardLogo}
           alt="Master Card Logo"
-          width={48}
-          height={48}
-          className="invert scale-x-105"
+          width={42}
+          height={42}
+          className="invert lg:scale-110"
         />
         <Image
           src={VisaLogo}
           alt="Visa Logo"
-          width={67}
-          height={67}
-          className="scale-y-75"
+          width={50}
+          height={50}
+          className="scale-y-75 lg:scale-125 lg:mt-1 lg:mr-1"
         />
       </div>
       <div className="flex items-center justify-between">

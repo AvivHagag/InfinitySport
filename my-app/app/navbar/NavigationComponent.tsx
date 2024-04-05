@@ -21,9 +21,7 @@ const NavigationComponent: React.FC<NavigationComponentProps> = ({ url }) => {
           <NavigationMenuTrigger>Home Fitness Equipment</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className="flex justify-center underline font-medium text-md pt-2 hover:scale-105 hover:text-naivyBlue dark:hover:text-glowGreen">
-              <Link href={`${url}homefitnessequipment`}>
-                Home Fitness Equipment
-              </Link>
+              <Link href={`${url}homefitnessequipment`}>Home Page</Link>
             </div>
             <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] text-base ">
               <li className="hover:text-naivyBlue dark:hover:text-glowGreen">
@@ -58,7 +56,7 @@ const NavigationComponent: React.FC<NavigationComponentProps> = ({ url }) => {
           <NavigationMenuTrigger>Dumbbells & Bars</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className="flex justify-center underline font-medium text-md pt-2 hover:scale-105 hover:text-naivyBlue dark:hover:text-glowGreen">
-              <Link href={`${url}dumbbells&bars/`}>Dumbbells & bars</Link>
+              <Link href={`${url}dumbbells&bars/`}>Home Page</Link>
             </div>
             <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] text-base ">
               <li className="hover:text-naivyBlue dark:hover:text-glowGreen">
@@ -93,7 +91,7 @@ const NavigationComponent: React.FC<NavigationComponentProps> = ({ url }) => {
           <NavigationMenuTrigger>Stands & Facilities</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className="flex justify-center underline font-medium text-md pt-2 hover:scale-105 hover:text-naivyBlue dark:hover:text-glowGreen">
-              <Link href={`${url}stand&facilities/`}>Stands & Facilities</Link>
+              <Link href={`${url}stand&facilities/`}>Home Page</Link>
             </div>
             <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] text-base ">
               <li className="hover:text-naivyBlue dark:hover:text-glowGreen">
@@ -118,7 +116,7 @@ const NavigationComponent: React.FC<NavigationComponentProps> = ({ url }) => {
           <NavigationMenuTrigger>Company</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className="flex justify-center underline font-medium text-md pt-2 hover:scale-105 hover:text-naivyBlue dark:hover:text-glowGreen">
-              <Link href={`/Aboutus`}>Company</Link>
+              <Link href={`/Aboutus`}>Home Page</Link>
             </div>
             <ul className="grid w-[400px] gap-2 p-4 md:w-[600px] md:grid-cols-2 lg:w-[600px] text-base ">
               <li className="hover:text-naivyBlue dark:hover:text-glowGreen">

@@ -15,6 +15,7 @@ import PaymentDetails from "./PaymentDetails";
 import ConfirmationPage from "./ConfirmationPage";
 import { useSearchParams } from "next/navigation";
 import InsertAddress from "./InsertAddress";
+import ClipLoader from "react-spinners/ClipLoader";
 
 type Address = {
   state: string;
@@ -37,7 +38,8 @@ export default function MainPaymentComponent() {
   const [Exp, setExp] = useState<string>("");
   const [Cvv, setCvv] = useState<string>("");
   const searchParams = useSearchParams();
-  const FlagBuyItNow = searchParams.get("buyitnow");
+  const FlagBuyItNow = searchParams ? searchParams.get("buyitnow") : null;
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState<boolean>(true);
 
   const fetchCartItems = async () => {
     let items: CartItem[] | undefined;
@@ -109,6 +111,7 @@ export default function MainPaymentComponent() {
   };
 
   const fetchAddress = async () => {
+    setIsLoadingUpdate(true);
     if (await getSession()) {
       const AddressDate = await getAddress();
       if (AddressDate) {
@@ -128,6 +131,7 @@ export default function MainPaymentComponent() {
         }
       }
     }
+    setIsLoadingUpdate(false);
   };
 
   useEffect(() => {
@@ -141,50 +145,63 @@ export default function MainPaymentComponent() {
   return (
     <div className="flex flex-col w-full border rounded-xl">
       <TitleLevel currentLevel={currentLevel} />
-      {!Address && !FlagAddressAdded ? (
-        <>
-          <InsertAddress setFlagAddressAdded={setFlagAddressAdded} />
-        </>
+      {isLoadingUpdate ? (
+        <div className="flex flex-col items-center justify-center py-16">
+          <ClipLoader
+            color="#FFFFFF dark:#9ffd32"
+            className="text-naivyBlue dark:text-glowGreen"
+            size={32}
+          />
+          <p className="text-center pt-4 text-base lg:text-lg">Loading ...</p>
+        </div>
       ) : (
         <>
-          {currentLevel === "OrderDetails" &&
-            ProductsDetails &&
+          {!Address && !FlagAddressAdded ? (
+            <>
+              <InsertAddress setFlagAddressAdded={setFlagAddressAdded} />
+            </>
+          ) : (
+            <>
+              {currentLevel === "OrderDetails" &&
+                ProductsDetails &&
+                totalPrice &&
+                (cartItems || cartItemsBuyItNow) &&
+                Address &&
+                Address.state && (
+                  <YourOrder
+                    ProductsDetails={ProductsDetails}
+                    totalPrice={totalPrice}
+                    cartItems={cartItems ? cartItems : cartItemsBuyItNow}
+                    FlagBuyItNow={FlagBuyItNow}
+                    Address={Address}
+                    setCurrentLevel={setCurrentLevel}
+                  />
+                )}
+            </>
+          )}
+          {currentLevel === "PaymentDetails" &&
             totalPrice &&
             (cartItems || cartItemsBuyItNow) &&
-            Address &&
-            Address.state && (
-              <YourOrder
-                ProductsDetails={ProductsDetails}
+            Address && (
+              <PaymentDetails
+                setCurrentLevel={setCurrentLevel}
+                cardNumber={cardNumber}
+                Cvv={Cvv}
+                Exp={Exp}
+                setCardNumber={setCardNumber}
+                setCvv={setCvv}
+                setExp={setExp}
                 totalPrice={totalPrice}
                 cartItems={cartItems ? cartItems : cartItemsBuyItNow}
                 FlagBuyItNow={FlagBuyItNow}
                 Address={Address}
-                setCurrentLevel={setCurrentLevel}
+                setConfirmationDetails={setConfirmationDetails}
               />
             )}
+          {currentLevel === "Confirmation" && (
+            <ConfirmationPage ConfirmationDetails={ConfirmationDetails} />
+          )}
         </>
-      )}
-      {currentLevel === "PaymentDetails" &&
-        totalPrice &&
-        (cartItems || cartItemsBuyItNow) &&
-        Address && (
-          <PaymentDetails
-            setCurrentLevel={setCurrentLevel}
-            cardNumber={cardNumber}
-            Cvv={Cvv}
-            Exp={Exp}
-            setCardNumber={setCardNumber}
-            setCvv={setCvv}
-            setExp={setExp}
-            totalPrice={totalPrice}
-            cartItems={cartItems ? cartItems : cartItemsBuyItNow}
-            FlagBuyItNow={FlagBuyItNow}
-            Address={Address}
-            setConfirmationDetails={setConfirmationDetails}
-          />
-        )}
-      {currentLevel === "Confirmation" && (
-        <ConfirmationPage ConfirmationDetails={ConfirmationDetails} />
       )}
     </div>
   );

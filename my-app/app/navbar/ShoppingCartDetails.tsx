@@ -142,46 +142,46 @@ const ShoppingCartDetails = ({
               />
             </div>
           )}
-          <div className="fixed bottom-[-2px] left-1/2 transform -translate-x-1/2 w-[24.5rem] h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
-            <div className="flex flex-col space-y-1 mx-8 my-2">
-              <div className="flex justify-between mx-2">
-                <div className="text-sm">Sub-Total</div>
-                <div className="text-sm">{totalPrice}$</div>
-              </div>
-              <div className="flex justify-between mx-2">
-                <div className="text-sm">Shipping</div>
-                {totalPrice && totalPrice >= 250 ? (
-                  <div className="text-sm">Free Shipping !</div>
-                ) : (
-                  <div className="text-sm">{15}$</div>
-                )}
-              </div>
-              <div className="h-[0.5px] bg-black dark:bg-current" />
-              <div className="flex justify-between mx-2">
-                <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
-                  Total
+          {!FlagEditAddress && (
+            <div className="fixed bottom-[-2px] left-1/2 transform -translate-x-1/2 w-[24.5rem] h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
+              <div className="flex flex-col space-y-1 mx-8 my-2">
+                <div className="flex justify-between mx-2">
+                  <div className="text-sm">Sub-Total</div>
+                  <div className="text-sm">{totalPrice}$</div>
                 </div>
-                {totalPrice && totalPrice >= 250 ? (
+                <div className="flex justify-between mx-2">
+                  <div className="text-sm">Shipping</div>
+                  {totalPrice && totalPrice >= 250 ? (
+                    <div className="text-sm">Free Shipping !</div>
+                  ) : (
+                    <div className="text-sm">{15}$</div>
+                  )}
+                </div>
+                <div className="h-[0.5px] bg-black dark:bg-current" />
+                <div className="flex justify-between mx-2">
                   <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
-                    {totalPrice}$
+                    Total
                   </div>
-                ) : (
-                  <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
-                    {totalPrice && totalPrice + 15}$
-                  </div>
-                )}
+                  {totalPrice && totalPrice >= 250 ? (
+                    <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                      {totalPrice}$
+                    </div>
+                  ) : (
+                    <div className="text-base font-medium text-naivyBlue dark:text-glowGreen">
+                      {totalPrice && totalPrice + 15}$
+                    </div>
+                  )}
+                </div>
+                <Button
+                  variant="outline"
+                  className="text-naivyBlue dark:text-glowGreen hover:text-naivyBlue hover:dark:text-glowGreen"
+                  onClick={Checkout}
+                >
+                  Checkout
+                </Button>
               </div>
-              <Button
-                variant="outline"
-                className={`text-naivyBlue dark:text-glowGreen hover:text-naivyBlue hover:dark:text-glowGreen ${
-                  FlagEditAddress ? "hidden" : ""
-                }`}
-                onClick={Checkout}
-              >
-                Checkout
-              </Button>
             </div>
-          </div>
+          )}
         </>
       ) : (
         <div className="text-sm text-center">The Cart Is Empty ..</div>

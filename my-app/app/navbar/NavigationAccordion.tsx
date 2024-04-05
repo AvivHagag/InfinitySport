@@ -28,7 +28,7 @@ const NavigationAccordion: React.FC<NavigationAccordionProps> = ({
               href={`${url}homefitnessequipment`}
             >
               <div className="my-1" onClick={() => setImdobileMenuOpen(false)}>
-                Home Fitness Equipment
+                Home Page
               </div>
             </Link>
             <Link href={`${url}homefitnessequipment/treadmill`}>
@@ -81,7 +81,7 @@ const NavigationAccordion: React.FC<NavigationAccordionProps> = ({
               href={`${url}dumbbells&bars`}
             >
               <div className="my-1" onClick={() => setImdobileMenuOpen(false)}>
-                Dumbbells & bars
+                Home Page
               </div>
             </Link>
             <Link href={`${url}dumbbells&bars/handweights`}>
@@ -134,7 +134,7 @@ const NavigationAccordion: React.FC<NavigationAccordionProps> = ({
               href={`${url}stand&facilities`}
             >
               <div className="my-1" onClick={() => setImdobileMenuOpen(false)}>
-                Stands & Facilities
+                Home Page
               </div>
             </Link>
             <Link href={`${url}stand&facilities/dumbbellrack`}>
@@ -168,7 +168,7 @@ const NavigationAccordion: React.FC<NavigationAccordionProps> = ({
           <AccordionContent>
             <Link className="underline font-medium text-md" href={`/Aboutus`}>
               <div className="my-1" onClick={() => setImdobileMenuOpen(false)}>
-                Company
+                Home Page
               </div>
             </Link>
             <Link href={`/Aboutus`}>

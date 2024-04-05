@@ -79,7 +79,7 @@ export default function CategoryComponent({
           sortedProducts={sortedProducts}
           setSortedProducts={setSortedProducts}
         />
-        <div className="flex flex-grow">
+        <div className="flex flex-grow mx-auto">
           {sortedProducts ? (
             <ProductsList
               Products={sortedProducts}

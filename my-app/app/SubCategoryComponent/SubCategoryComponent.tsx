@@ -50,7 +50,7 @@ export default function SubCategoryComponent({
   return (
     <>
       <div className="flex flex-col sm:flex-row justify-between">
-        <div className="p-2 flex text-sm sm:text-base text-gray-500 space-x-1">
+        <div className="p-2 flex text-xs lg:text-base text-gray-500 space-x-1">
           <Link href="/" className="hover:scale-105">
             Home Page
           </Link>
@@ -78,7 +78,7 @@ export default function SubCategoryComponent({
           sortedProducts={sortedProducts}
           setSortedProducts={setSortedProducts}
         />
-        <div className="flex flex-grow">
+        <div className="flex flex-grow mx-auto">
           {sortedProducts ? (
             <ProductsList
               Products={sortedProducts}
