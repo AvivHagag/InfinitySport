@@ -59,10 +59,10 @@ export default function Aboutus() {
                 At Infinity Sport, we prioritize excellence in both product
                 quality and customer satisfaction, aiming to inspire individuals
                 to achieve their health and wellness goals conveniently. Whether
-                you're a seasoned athlete or just starting your fitness journey,
-                Infinity Sport is your go-to destination for superior home
-                fitness solutions. Embrace a healthier lifestyle with Infinity
-                Sport, where your fitness knows no limits.
+                you&apos;re a seasoned athlete or just starting your fitness
+                journey, Infinity Sport is your go-to destination for superior
+                home fitness solutions. Embrace a healthier lifestyle with
+                Infinity Sport, where your fitness knows no limits.
               </p>
               <div className="hidden dark:block mt-10">
                 <Image

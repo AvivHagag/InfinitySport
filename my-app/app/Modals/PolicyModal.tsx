@@ -31,8 +31,8 @@ function PolicyModal({ handlePolicyModal }: PolicyModalProps) {
               <p className="text-xs sm:text-sm md:text-base my-4">
                 <strong>Thank you for shopping at Infinity Sport.</strong>
                 <br />
-                If you are notentirely satisfied with your purchase, we're here
-                to help.
+                If you are notentirely satisfied with your purchase, we&apos;re
+                here to help.
                 <br />
                 Youcan return or exchange your product for up to 30 days from
                 the date you purchased it.

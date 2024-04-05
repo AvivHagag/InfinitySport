@@ -35,7 +35,8 @@ export default function AdsComponent() {
               <Fade delay={1700} triggerOnce>
                 <Slide delay={1700} triggerOnce>
                   <div className="text-xs sm:text-base lg:text-lg text-naivyBlue dark:text-glowGreen w-32 sm:w-64 lg:w-80">
-                    Unleash your home gym's potential with All Weights! <br />
+                    Unleash your home gym&apos;s potential with All Weights!{" "}
+                    <br />
                     Seize our 50% off deal now and bring your fitness goals to
                     life. <br />
                   </div>

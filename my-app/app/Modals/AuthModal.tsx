@@ -17,7 +17,7 @@ function AuthModal({ handleAuthModal }: AuthModalProps) {
           <div className="">
             <div className="flex justify-between p-2">
               <h3 className="text-lg leading-6 font-medium text-naivyBlue dark:text-glowGreen">
-                You're almost there
+                You&apos;re almost there
               </h3>
               <XMarkIcon
                 className="h-6 w-6 cursor-pointer text-naivyBlue dark:text-glowGreen"
@@ -40,7 +40,7 @@ function AuthModal({ handleAuthModal }: AuthModalProps) {
                 </div>
                 <div className="mt-2 px-2 text-center">
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    Sign in to continue to your athlete's profile,
+                    Sign in to continue to your athlete&apos;s profile,
                     <br />
                     track orders, and more.
                   </p>
@@ -58,9 +58,9 @@ function AuthModal({ handleAuthModal }: AuthModalProps) {
               <TabsContent value="SignUpOrGuest">
                 <div className="mt-2 px-2 py-3 text-center">
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    Sign up to join our athlete's community and unlock exclusive
-                    rewards, early access to new releases, and personalized gear
-                    recommendations.
+                    Sign up to join our athlete&apos;s community and unlock
+                    exclusive rewards, early access to new releases, and
+                    personalized gear recommendations.
                   </p>
                 </div>
                 <div className="items-center px-4 py-3 text-center">

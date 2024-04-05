@@ -34,13 +34,14 @@ const ProgressDemo: React.FC<ProgressDemoProps> = ({ totalPrice }) => {
           <Fade>
             {totalPrice >= 250 ? (
               <div className="text-xs text-center my-2">
-                Yayi! You're Qualified For{" "}
+                Yayi! You&apos;re Qualified For{" "}
                 <span className="font-medium">FREE SHIPPING</span> Within The
                 US.
               </div>
             ) : (
               <div className="text-xs text-center my-2">
-                You're {250 - totalPrice}$ Away From Free Standart Shipping!
+                You&apos;re {250 - totalPrice}$ Away From Free Standart
+                Shipping!
               </div>
             )}
           </Fade>
