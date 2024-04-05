@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getAddress, getExistCreditCards } from "../ServerAction/ServerAction";
 import Profile from "./Profile";
 import Address from "./Address";
 import CreditCards from "./CreditCards";
 import Return from "./Return";
+import { authOptions } from "../api/auth/authOptions";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);

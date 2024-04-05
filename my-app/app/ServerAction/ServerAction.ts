@@ -1,9 +1,9 @@
 "use server";
 import { getServerSession } from "next-auth/next";
 import { db } from "../../utils/db/prisma";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { Address, BuyItNow, CartItem } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { authOptions } from "../api/auth/authOptions";
 
 export const getSession = async () => {
   const session = await getServerSession(authOptions);

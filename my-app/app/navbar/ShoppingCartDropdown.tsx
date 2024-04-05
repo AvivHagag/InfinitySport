@@ -31,7 +31,7 @@ const ShoppingCartDropdown = () => {
       {isOpen && (
         <Fade className="fixed z-40">
           <div
-            className={`fixed top-0 right-0 sm:mt-[2.6rem] sm:mx-2 py-1 w-full sm:w-96 h-full md:h-4/5 xl:h-3/5 border bg-white dark:bg-slate-950 shadow-xl rounded-lg transition-all ease-out ${
+            className={`fixed top-0 right-0 sm:mt-[2.6rem] sm:mx-2 py-1 w-full sm:w-96 h-full md:h-4/5 border bg-white dark:bg-slate-950 shadow-xl rounded-lg transition-all ease-out ${
               isOpen
                 ? "duration-300 opacity-100 translate-y-0"
                 : "duration-300 opacity-0 translate-y-0 pointer-events-none"
