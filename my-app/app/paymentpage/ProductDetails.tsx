@@ -45,15 +45,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
       const productColors = extractColor(product.color);
       for (const color of productColors) {
         if (!colors.includes(color)) {
-          if (color != "black" && color != "white") {
-            if (color === "silver") {
-              colors.push("bg-gray-500");
-            } else {
-              colors.push("bg-" + color + "-500");
-            }
-          } else {
-            colors.push("bg-" + color);
-          }
+          colors.push(color);
         }
       }
     }
@@ -97,7 +89,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             <div className="flex flex-row space-x-2">
               {allColors.map((color, index) => (
                 <div key={index} className="p-0.5 rounded-full border bg-white">
-                  <div className={`p-1 rounded-full ${color} w-4 h-4`}></div>
+                  <div
+                    style={{ backgroundColor: color }}
+                    className="p-1 rounded-full w-4 h-4"
+                  ></div>
                 </div>
               ))}
             </div>

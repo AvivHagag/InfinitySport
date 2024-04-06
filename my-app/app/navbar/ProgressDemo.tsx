@@ -11,20 +11,28 @@ const ProgressDemo: React.FC<ProgressDemoProps> = ({ totalPrice }) => {
   const [progress, setProgress] = useState<number>(0);
   const percentage = Math.min((totalPrice / 250) * 100, 100);
   const [ShowTextFlag, setShowTextFlag] = useState<boolean>(false);
+
   useEffect(() => {
-    const step = percentage / 100;
-    const timer = setInterval(() => {
+    let animationFrameId: number;
+
+    const updateProgress = () => {
       setProgress((oldProgress) => {
-        const newProgress = oldProgress + step;
-        if (newProgress >= percentage) {
-          clearInterval(timer);
-          return percentage;
+        const newProgress = Math.min(
+          oldProgress + percentage / 100,
+          percentage
+        );
+        if (newProgress < percentage) {
+          animationFrameId = requestAnimationFrame(updateProgress);
         }
         return newProgress;
       });
-    }, 20);
+    };
+
+    animationFrameId = requestAnimationFrame(updateProgress);
+
     setShowTextFlag(true);
-    return () => clearInterval(timer);
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, [percentage]);
 
   return (
