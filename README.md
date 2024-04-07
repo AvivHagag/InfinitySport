@@ -41,6 +41,9 @@ See how our website adapts to different screen sizes and themes with these GIFs:
 
 <p align="center">
   <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/51bd8a28-0b6b-498b-b4a6-eba191aee313" width="450" alt="Mobile Dark Mode GIF">
+</p>
+
+<p align="center">
   <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/281e95d0-666a-40d2-87d9-3d9eb743bed2" width="450" alt="Mobile Light Mode GIF">
 </p>
 
