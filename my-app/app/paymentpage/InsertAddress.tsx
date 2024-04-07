@@ -6,6 +6,7 @@ import { US_STATES_WITH_FLAGS } from "@/src/lib/usa";
 import ClipLoader from "react-spinners/ClipLoader";
 import StateSelect from "../navbar/StateSelect";
 import { useRouter } from "next/navigation";
+import { getSession, setAddress } from "../ServerAction/ServerAction";
 
 interface AddressFormValues {
   city: string;
@@ -63,7 +64,12 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
     e.preventDefault();
     if (validateForm()) {
       setIsLoading(true);
-      localStorage.setItem("userAddress", JSON.stringify(values));
+      if (await getSession()) {
+        await setAddress(values);
+      } else {
+        localStorage.setItem("userAddress", JSON.stringify(values));
+      }
+      setIsLoading(false);
       setFlagAddressAdded(true);
     }
   };
@@ -75,13 +81,13 @@ const InsertAddress: React.FC<InsertAddressProps> = ({
   return (
     <>
       {isLoading ? (
-        <div className="flex flex-col py-8 items-center w-full sm:w-3/4">
+        <div className="flex flex-col items-center justify-center py-16">
           <ClipLoader
-            size={32}
             color="#FFFFFF dark:#9ffd32"
             className="text-naivyBlue dark:text-glowGreen"
+            size={32}
           />
-          <p className="text-lg mt-4 text-gray-600">Adding Address ... </p>
+          <p className="text-center pt-4 text-base lg:text-lg">Loading ...</p>
         </div>
       ) : (
         <div className="flex flex-col py-2 w-full lg:w-1/2 mx-auto">
