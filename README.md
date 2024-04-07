@@ -13,7 +13,9 @@ Infinity Sport is deployed and available online. You can visit the website at [D
 ### Main Page Video
 Watch a short video showcasing the main page of the Infinity Sport website:
 
-[![Video Title](https://img.youtube.com/vi/avU1q6InrJw/maxresdefault.jpg)](https://www.youtube.com/watch?v=avU1q6InrJw "Video Title")
+<a href="https://www.youtube.com/watch?v=avU1q6InrJw" title="Video Title">
+  <img width="1333" alt="image" src="https://github.com/AvivHagag/InfinitySport/assets/114755882/eba0654f-0b55-4e48-8d66-b76f70dd4332">
+</a>
 
 ## Features
 
