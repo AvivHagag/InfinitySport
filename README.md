@@ -14,8 +14,7 @@ Infinity Sport is deployed and available online. You can visit the website at [D
 Watch a short video showcasing the main page of the Infinity Sport website:
 
 <p align="center">
-  <a href="https://github.com/AvivHagag/InfinitySport/assets/114755882/aa25fbb3-2f45-4732-bc02-2f187852a5e4">
-  </a>
+  https://github.com/AvivHagag/InfinitySport/assets/114755882/5fc8e7c6-87cc-4f98-81dc-6ec1ccd39cd5
 </p>
 
 ## Features
@@ -41,8 +40,8 @@ Watch a short video showcasing the main page of the Infinity Sport website:
 See how our website adapts to different screen sizes and themes with these GIFs:
 
 <p align="center">
-  <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/51bd8a28-0b6b-498b-b4a6-eba191aee313" width="250" alt="Mobile Dark Mode GIF">
-  <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/281e95d0-666a-40d2-87d9-3d9eb743bed2" width="250" alt="Mobile Light Mode GIF">
+  <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/51bd8a28-0b6b-498b-b4a6-eba191aee313" width="450" alt="Mobile Dark Mode GIF">
+  <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/281e95d0-666a-40d2-87d9-3d9eb743bed2" width="450" alt="Mobile Light Mode GIF">
 </p>
 
 ## Installation and Setup
