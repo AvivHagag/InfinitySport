@@ -41,23 +41,39 @@ export const getAllClients = async () => {
 };
 
 export const getAddress = async () => {
-  const session = await getServerSession(authOptions);
-  try {
-    const Address = await db.address.findUnique({
-      where: {
-        userId: session?.user.id,
-      },
-      select: {
-        state: true,
-        city: true,
-        street: true,
-        homeNumber: true,
-        apartmentNumber: true,
-      },
-    });
-    return Address;
-  } catch (error) {
-    console.error("Error Fetching the address - ", error);
+  const userId = await getSession();
+  if (userId) {
+    try {
+      const Address = await db.address.findUnique({
+        where: {
+          userId: userId,
+        },
+        select: {
+          state: true,
+          city: true,
+          street: true,
+          homeNumber: true,
+          apartmentNumber: true,
+        },
+      });
+      return Address;
+    } catch (error) {
+      console.error("Error Fetching the address - ", error);
+    }
+  }
+};
+
+export const deleteAddress = async () => {
+  const userId = await getSession();
+  if (userId) {
+    try {
+      const DeletedAddress = await db.address.delete({
+        where: { userId: userId },
+      });
+      return DeletedAddress;
+    } catch (error) {
+      console.error("Error Fetching the address - ", error);
+    }
   }
 };
 

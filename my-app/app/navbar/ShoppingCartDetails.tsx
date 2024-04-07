@@ -118,9 +118,9 @@ const ShoppingCartDetails = ({
       {cartItems.length > 0 ? (
         <>
           {totalPrice && <ProgressDemo totalPrice={totalPrice} />}
-          {ProductDetails && !AddressComponentOpen && (
-            <>
-              <ScrollArea className="h-4/5 sm:h-[420px] w-full border-t pr-1 mb-1">
+          <>
+            {ProductDetails && !AddressComponentOpen && (
+              <ScrollArea className="h-[500px] md:h-[420px] w-full border-t pr-1 mb-1">
                 <div className="flex flex-col justify-center px-1">
                   {ProductDetails.map((product) => (
                     <ProductList
@@ -132,8 +132,8 @@ const ShoppingCartDetails = ({
                   ))}
                 </div>
               </ScrollArea>
-            </>
-          )}
+            )}
+          </>
           {AddressComponentOpen && (
             <div className="flex flex-col h-5/6 items-center px-1 pb-8">
               <InsertAddress
@@ -143,7 +143,7 @@ const ShoppingCartDetails = ({
             </div>
           )}
           {!FlagEditAddress && (
-            <div className="absolute buttom-0 w-[24.5rem] left-1/2 transform -translate-x-1/2 h-36 py-2 border bg-white dark:bg-slate-950 rounded-2xl">
+            <div className="h-36 py-2 border bg-white dark:bg-slate-950 rounded-xl translate-y-[3%]">
               <div className="flex flex-col space-y-1 mx-8 my-2">
                 <div className="flex justify-between mx-2">
                   <div className="text-sm">Sub-Total</div>
