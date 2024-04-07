@@ -6,7 +6,7 @@ Infinity Sport is an online retail destination that specializes in providing top
 
 ## Deployment
 
-Infinity Sport is deployed and available online. You can visit the website at [Deployed Project URL](#).
+Infinity Sport is deployed and available online. You can visit the website at [Deployed Project URL](#https://infinitysport.vercel.app/).
 
 ## Media
 
@@ -14,7 +14,7 @@ Infinity Sport is deployed and available online. You can visit the website at [D
 Watch a short video showcasing the main page of the Infinity Sport website:
 
 <p align="center">
-  https://github.com/AvivHagag/InfinitySport/assets/114755882/5fc8e7c6-87cc-4f98-81dc-6ec1ccd39cd5
+  ![Main Page](https://img.youtube.com/vi/avU1q6InrJw/maxresdefault.jpg)
 </p>
 
 ## Features
