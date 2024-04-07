@@ -4,6 +4,20 @@
 </p>
 Infinity Sport is an online retail destination that specializes in providing top-quality home fitness equipment and sport facilities.This e-commerce website offers a seamless shopping experience for fitness enthusiasts and home workout aficionados.
 
+## Deployment
+
+Infinity Sport is deployed and available online. You can visit the website at [Deployed Project URL](#).
+
+## Media
+
+### Main Page Video
+Watch a short video showcasing the main page of the Infinity Sport website:
+
+<p align="center">
+  <a href="https://github.com/AvivHagag/InfinitySport/assets/114755882/aa25fbb3-2f45-4732-bc02-2f187852a5e4">
+  </a>
+</p>
+
 ## Features
 
 - **Browse and Purchase Fitness Equipment**: Customers can explore a wide range of fitness equipment, including dumbbells, kettlebells, resistance bands, and more. Products are categorized and can be filtered based on various criteria, such as color, price range, and on-sale items.
@@ -22,6 +36,14 @@ Infinity Sport is an online retail destination that specializes in providing top
 - **Next.js 14**: The latest version of the React framework for server-side rendering, static site generation, and more.
 - **Prisma ORM**: A modern database toolkit that provides an Object-Relational Mapping (ORM) layer for efficient data management.
 - **CSS/Tailwind CSS**: Styling the website's user interface components.
+
+### Mobile Responsiveness GIFs
+See how our website adapts to different screen sizes and themes with these GIFs:
+
+<p align="center">
+  <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/51bd8a28-0b6b-498b-b4a6-eba191aee313" width="250" alt="Mobile Dark Mode GIF">
+  <img src="https://github.com/AvivHagag/InfinitySport/assets/114755882/281e95d0-666a-40d2-87d9-3d9eb743bed2" width="250" alt="Mobile Light Mode GIF">
+</p>
 
 ## Installation and Setup
 
